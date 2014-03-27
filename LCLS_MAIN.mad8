@@ -46,6 +46,8 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 27-MAR-2014, G. White
+!    Reenabled creation of SPEC and GSPEC survey files, required for device maps
 ! 24-OCT-2013, M. Woodley
 !    Remove QSM1 per K. Luchini and H. Loos; add YAGPSI per H. Loos
 ! 01-OCT-2013, M. Woodley
@@ -5239,7 +5241,7 @@
   BEAM, ENERGY=E00
   USE, (GUNBXG,GSPEC)
   PRINT, FULL
-  SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi !, TAPE="GSPEC_survey.tape"
+  SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="GSPEC_survey.tape"
   TWISS, BETA0=TWSSC, SAVE !, TAPE="GSPEC_twiss.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="GSPEC", &
@@ -5255,7 +5257,7 @@
   BEAM, ENERGY=E00
   USE, (GUNL0a,L0b,DL1A,SPECBL)
   PRINT, FULL
-  SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi !, TAPE="SPEC_survey.tape"
+  SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="SPEC_survey.tape"
   TWISS, BETA0=TWSSC, SAVE !, TAPE="SPEC_twiss.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="SPEC", &

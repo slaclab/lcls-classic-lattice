@@ -1,0 +1,38 @@
+========================================================================
+README of LCLS optics files
+
+Auth: Greg White
+Mod:  
+========================================================================
+
+
+1. To acquire the LCLS lattice files by CVS
+     
+   cvs checkout the lattice files (other otherwise acquire them). e.g.:
+
+      cvs co optics/etc/lattice/lcls
+
+
+2. To compute optics using MAD8
+
+   cd to the directory containing your mad8 input files, these are probably
+   named *.mad8 and *.xsif. Then execute the mad8 command on the mad8 file, e.g.:
+
+      cd optics/etc/lattice/lcls
+      mad8 LCLS_MAIN.mad8
+
+3. Using "make" for running lattice, making maps, and installing products
+ 
+      make                   - Run mad8 on LCLS_MAIN.mad8 
+      make maps              - Make the device lists and maps
+      make install           - Copies the lattice files output from mad8, 
+                               to /afs/slac/www/grp/ad/model/output/<today>/
+   also (rarely used)                          
+      make icons             - Make the icons for the web site
+      make installicons      - Copies web icons to the web site
+
+
+
+
+
+
