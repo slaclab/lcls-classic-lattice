@@ -28,27 +28,33 @@
 #
 # -------------------------------------------------------------------------
 # Auth: Greg White, SLAC, 26-mar-2014.
-# Mod:  
+# Mod:  Greg White, 27-Mar-2014
+#       Install line files also. Redirect font config warnings to dev null.  
 # =========================================================================
 
+# To make a PDF from a .dot file, use dot. On my mac this works but gets a 
+# fontconfig warning, so the pipe of the stderr to grep to dev/null is just 
+# to swallow fontconfig warnings so they never get to the screen.
 %.pdf : %.dot
-	(dot -O -Tpdf $<; mv $<.pdf $@) 
+	dot -Tpdf $< -o $@ 2>&1 | grep Fontconfig >/dev/null 
 
-LCLSLAT=LCLS.ps LCLS.print LCLS24OCT13.print LCLS_survey.tape LCLS_rmat.tape LCLS_twiss.tape LCLS.echo LCLSI.print
-BSYLAT=BSY-52LINE.print BSY-52LINE.ps BSY-LCLS.print BSY-LCLS_survey.tape BSY-SFTDMP.print BSY-SFTDMP.ps
-GSPECLAT=GSPEC.ps GSPEC.print GSPEC_survey.tape
-SPECLAT=SPEC.ps SPEC.print SPEC_survey.tape
-MODELLAT=$(LCLSLAT) $(BSYLAT) $(GSPECLAT) $(SPECLAT)
-MAPFILES=LCLS.pdf SPEC.pdf GSPEC.pdf
-ICONFILES=lclsmapicon.gif gspecmapicon.gif specmapicon.gif
+LCLSLATS=LCLS.ps LCLS.print LCLS24OCT13.print LCLS_survey.tape LCLS_rmat.tape LCLS_twiss.tape LCLS.echo LCLSI.print
+BSYLATS=BSY-52LINE.print BSY-52LINE.ps BSY-LCLS.print BSY-LCLS_survey.tape BSY-SFTDMP.print BSY-SFTDMP.ps
+GSPECLATS=GSPEC.ps GSPEC.print GSPEC_survey.tape
+SPECLATS=SPEC.ps SPEC.print SPEC_survey.tape
+MODELLATS=$(LCLSLATS) $(BSYLATS) $(GSPECLATS) $(SPECLATS)
+MAPS=LCLS.pdf SPEC.pdf GSPEC.pdf
+LINES=lcls_lines.dat spec_lines.dat gspec_lines.dat
+ICONS=lclsmapicon.gif gspecmapicon.gif specmapicon.gif
 
 
 # Rules
 #
-lattice : $(MODELLAT)
-maps : $(MAPFILES)
-icons : $(ICONFILES)
-all : lattice maps icons
+lattice : $(MODELLATS)
+lines : $(LINES)
+maps : $(MAPS)
+icons : $(ICONS)
+all : lattice lines maps icons
 
 # LCLS Lattice output
 #
@@ -80,20 +86,20 @@ GSPEC.pdf : GSPEC.dot
 # Icon files for maps on web site (rarely updated)
 #
 gspecmapicon.gif : GSPEC.dot
-	dot -Tgif -Gsize="0.3,0.6" -o $@ $?
+	dot -Tgif -Gsize="0.3,0.6" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
 
 specmapicon.gif : SPEC.dot
-	dot -Tgif -Gsize="0.8,1.0" -o $@ $?
+	dot -Tgif -Gsize="0.8,1.0" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
 
 lclsmapicon.gif : LCLS.dot
-	dot -Tgif -Gsize="8,1.5" -o $@ $?
+	dot -Tgif -Gsize="8,1.5" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
 
 # Install output lattice files, beam path device lists and maps in common area
 #
 install : 
-	rsync -e ssh -v $(MODELLAT) $(MAPFILES) /afs/slac/www/grp/ad/model/output/`date  +"%Y%m%d"`
+	rsync -e ssh -v $(MODELLATS) $(MAPS) $(LINES) /afs/slac/www/grp/ad/model/output/`date  +"%Y%m%d"`
 
 # Install icons in web image directory
 #
 installicons : 
-	rsync -e ssh -v $(ICONFILES) /afs/slac/www/grp/ad/model/images/
+	rsync -e ssh -v $(ICONS) /afs/slac/www/grp/ad/model/images/
