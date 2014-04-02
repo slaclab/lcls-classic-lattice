@@ -19,8 +19,7 @@ Mod:
    Then you can cvs checkout the lattice files, e.g.:
 
       cvs co optics/etc/lattice/lcls
-
-
+ 
 2. To compute optics using MAD8
 
    Having acquired the lattice files, such as with CVS above, then
@@ -35,10 +34,33 @@ Mod:
       make                   - Run mad8 on LCLS_MAIN.mad8 
       make maps              - Make the device lists and maps
       make install           - Copies the lattice files output from mad8, 
-                               to /afs/slac/www/grp/ad/model/output/<today>/
+                               to /afs/slac/www/grp/ad/model/output/<today>/.
+                               Make sure you have done a cvs commit before installing.
    also (rarely used)                          
       make icons             - Make the icons for the web site
       make installicons      - Copies web icons to the web site
+
+4. To put your changed files back in CVS.
+
+   The process of putting your edited files back in CVS, so they become the latest,
+   is called "cvs check in", or sometimes "cvs commit" after the command that does it.
+
+   First, change directory back up to the directory *containing* the optics/ directory.
+   Then issue the cvs commit command from there:
+
+      cd optics/etc/lattice/lcls
+      cvs commit -m "comment" optics       
+
+   This will check in all the changed files. Of course, one can commit only single 
+   files at a time to.
+
+   You can keep working on your checked out directory, and re-checkin when you want to.
+   But in that case, use cvs update periodically to check noone has done a commit
+   on files while yours is in development. These workflow matters are best handled 
+   by the many guides to CVS on the web. A good one is:
+   http://www.cs.rit.edu/~csci142/Misc/cvscheat.pdf
+
+
 
 
 
