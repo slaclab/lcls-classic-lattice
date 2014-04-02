@@ -1,21 +1,30 @@
-========================================================================
+=======================================================================================
 README of LCLS optics files
 
 Auth: Greg White
 Mod:  
-========================================================================
+=======================================================================================
 
 
 1. To acquire the LCLS lattice files by CVS
-     
-   cvs checkout the lattice files (other otherwise acquire them). e.g.:
+
+   Set the location of the CVS repository that your CVS client will use.
+   In unix that may be done by setting the CVSROOT environment variable, for
+   instance if using a bourne shell variabnt like bash:
+
+      export CVSROOT=":ext:<YOURUSERNAME>@noric.slac.stanford.edu:/afs/slac/g/lcls/cvs"   
+
+   where <YOURUSERNAME> is your login id on the remote computer.
+    
+   Then you can cvs checkout the lattice files, e.g.:
 
       cvs co optics/etc/lattice/lcls
 
 
 2. To compute optics using MAD8
 
-   cd to the directory containing your mad8 input files, these are probably
+   Having acquired the lattice files, such as with CVS above, then
+   cd to the directory containing your mad8 input files. These are probably
    named *.mad8 and *.xsif. Then execute the mad8 command on the mad8 file, e.g.:
 
       cd optics/etc/lattice/lcls
