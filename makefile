@@ -97,7 +97,7 @@ lclsmapicon.gif : LCLS.dot
 # Install output lattice files, beam path device lists and maps in common area
 #
 install : 
-	rsync -e ssh -v $(MODELLATS) $(MAPS) $(LINES) /afs/slac/www/grp/ad/model/output/`date  +"%Y%m%d"`
+	rsync -e ssh -v $(MODELLATS) $(MAPS) $(LINES) /afs/slac/www/grp/ad/model/output/lcls/mad/`date  +"%Y%m%d"`
 
 # Install icons in web image directory
 #
