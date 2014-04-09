@@ -28,78 +28,119 @@
 #
 # -------------------------------------------------------------------------
 # Auth: Greg White, SLAC, 26-mar-2014.
-# Mod:  Greg White, 27-Mar-2014
+# Mod:  Greg White, 3-Apr-2014
+#       Fixed main target name 
+#       Greg White, 27-Mar-2014
 #       Install line files also. Redirect font config warnings to dev null.  
 # =========================================================================
+
+# You can override this from the command line if you want a different 
+# executable.
+# 
+MAD8=mad8
+
+# Convert Postcript to PDF (of twiss plots), accomplished by ps2pdf, 
+# produces nicer results than convert, at least on a mac. Both should
+# be available in any unix distribution. 
+%.pdf : %.ps
+	ps2pdf $< 
+#	convert -antialias -rotate 90 $< $@
 
 # To make a PDF from a .dot file, use dot. On my mac this works but gets a 
 # fontconfig warning, so the pipe of the stderr to grep to dev/null is just 
 # to swallow fontconfig warnings so they never get to the screen.
-%.pdf : %.dot
-	dot -Tpdf $< -o $@ 2>&1 | grep Fontconfig >/dev/null 
+%_map.pdf : %.dot
+	dot -Tpdf $< -o $@ 
 
-LCLSLATS=LCLS.ps LCLS.print LCLS24OCT13.print LCLS_survey.tape LCLS_rmat.tape LCLS_twiss.tape LCLS.echo LCLSI.print
-BSYLATS=BSY-52LINE.print BSY-52LINE.ps BSY-LCLS.print BSY-LCLS_survey.tape BSY-SFTDMP.print BSY-SFTDMP.ps
-GSPECLATS=GSPEC.ps GSPEC.print GSPEC_survey.tape
-SPECLATS=SPEC.ps SPEC.print SPEC_survey.tape
-MODELLATS=$(LCLSLATS) $(BSYLATS) $(GSPECLATS) $(SPECLATS)
-MAPS=LCLS.pdf SPEC.pdf GSPEC.pdf
-LINES=lcls_lines.dat spec_lines.dat gspec_lines.dat
-ICONS=lclsmapicon.gif gspecmapicon.gif specmapicon.gif
-
-
-# Rules
+# Where do we install the mad outputs, all associated files.
 #
-lattice : $(MODELLATS)
+INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
+
+# Define macros that evaluate to lists of files, mainly for help installing
+#
+MODELLATS=*.ps *.print *.tape *.echo 
+OPTICSPDFS:=$(patsubst %.ps, %.pdf, $(wildcard *.ps)) 
+DOTS=LCLS.dot GSPEC.dot SPEC.dot
+MAPS:=$(patsubst %.dot, %_map.pdf, $(DOTS))
+MAPICONS:=$(patsubst %.dot, %_mapicon.gif, $(DOTS))
+LINES:=$(patsubst %.dot, %_lines.dat, $(DOTS))
+OPTS=$(DOTS) $(MAPS) $(MAPICONS) $(LINES) 
+WEB=.htaccess 
+
+# Rules. lattice is the first target in the makefile, and therefore 
+# the default. To make other things, give argument. To make all, issue "make all".
+#
+lattice : print
+opticspdfs : $(OPTICSPDFS)
 lines : $(LINES)
+dots : $(DOTS)
 maps : $(MAPS)
-icons : $(ICONS)
-all : lattice lines maps icons
+mapicons : $(MAPICONS)
+all : lattice opticspdfs dots maps mapicons
 
 # LCLS Lattice output
 #
-$(MODELOUTPUT) : LCLS_MAIN.mad8 LCLS_L1.xsif LCLS_L2.xsif LCLS_L3.xsif
-	mad8 $<
+print : LCLS_MAIN.mad8 *.xsif
+	$(MAD8) $<
+
 
 # Beam line device lists and maps
 #
 # There rules assume you have checked out optics/script, as well as 
 # optics/etc/lattice/lcls/, since they use mad2dot from the script directory.
-lcls_lines.dat LCLS.dot : LCLS.print LCLS_survey.tape 
+LCLS_lines.dat LCLS.dot : LCLS.print LCLS_survey.tape 
 	awk -v width=38 -v height=4  -f ../../../script/mad2dot.awk LCLS_survey.tape \
          ../../../script/elementdevices.dat LCLS.print > LCLS.dot
 
-spec_lines.dat SPEC.dot : SPEC.print SPEC_survey.tape 
+SPEC_lines.dat SPEC.dot : SPEC.print SPEC_survey.tape 
 	awk -v width=20 -v height=10 -f ../../../script/mad2dot.awk SPEC_survey.tape \
          ../../../script/elementdevices.dat SPEC.print > SPEC.dot
 
-gspec_lines.dat GSPEC.dot : GSPEC.print GSPEC_survey.tape 
+GSPEC_lines.dat GSPEC.dot : GSPEC.print GSPEC_survey.tape 
 	awk -v height=10 -f ../../../script/mad2dot.awk GSPEC_survey.tape \
          ../../../script/elementdevices.dat GSPEC.print > GSPEC.dot
 
-LCLS.pdf : LCLS.dot
+LCLS_map.pdf : LCLS.dot
 
-SPEC.pdf : SPEC.dot
+SPEC_map.pdf : SPEC.dot
 
-GSPEC.pdf : GSPEC.dot
+GSPEC_map.pdf : GSPEC.dot
 
 # Icon files for maps on web site (rarely updated)
 #
-gspecmapicon.gif : GSPEC.dot
-	dot -Tgif -Gsize="0.3,0.6" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
+LCLS_mapicon.gif : LCLS.dot
+	dot -Tgif -Gsize="8,1.5" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
 
-specmapicon.gif : SPEC.dot
+SPEC_mapicon.gif : SPEC.dot
 	dot -Tgif -Gsize="0.8,1.0" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
 
-lclsmapicon.gif : LCLS.dot
-	dot -Tgif -Gsize="8,1.5" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
+GSPEC_mapicon.gif : GSPEC.dot
+	dot -Tgif -Gsize="0.3,0.6" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
+
 
 # Install output lattice files, beam path device lists and maps in common area
 #
+ifdef INSTALLDIR
 install : 
-	rsync -e ssh -v $(MODELLATS) $(MAPS) $(LINES) /afs/slac/www/grp/ad/model/output/lcls/mad/`date  +"%Y%m%d"`
+	rsync -e ssh -v $(MODELLATS) $(OPTICSPDFS) $(WEB) $(INSTALLROOT)/$(INSTALLDIR)
+	rsync -e ssh -v $(OPTS) $(WEB) $(INSTALLROOT)/$(INSTALLDIR)/opt
+	rsync -e ssh -v  LCLS_MAIN.mad8 *.xsif $(INSTALLROOT)/$(INSTALLDIR)/src
+else
+install : all
+	rsync -e ssh -v $(MODELLATS) $(OPTICSPDFS) $(WEB) $(INSTALLROOT)/`date  +"%d%b%y"`
+	rsync -e ssh -v $(OPTS) $(WEB)$(INSTALLROOT)/`date  +"%d%b%y"`/opt
+	rsync -e ssh -v  LCLS_MAIN.mad8  *.xsif $(INSTALLROOT)/`date +"%d%b%y"`/src
+	make installlatest
+endif
 
-# Install icons in web image directory
+
+# Install latest
 #
-installicons : 
-	rsync -e ssh -v $(ICONS) /afs/slac/www/grp/ad/model/images/
+installlatest : 
+	rsync -e ssh -v $(MODELLATS) $(WEB) $(OPTICSPDFS) $(INSTALLROOT)/latest
+	rsync -e ssh -v $(OPTS) $(WEB) $(INSTALLROOT)/latest/opt
+	rsync -e ssh -v LCLS_MAIN.mad8 *.xsif $(INSTALLROOT)/latest/src
+
+# Make a convenience target you cna use to delete all outout files.
+clean :
+	rm -f $(MODELLATS) *.pdf *.gif *.dot print
