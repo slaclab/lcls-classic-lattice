@@ -46,6 +46,10 @@ MAD8=mad8
 	ps2pdf $< 
 #	convert -antialias -rotate 90 $< $@
 
+%_opticsicon.png : %.ps
+	convert -rotate 90 -scale 200x140 $< $@
+
+
 # To make a PDF from a .dot file, use dot. On my mac this works but gets a 
 # fontconfig warning, so the pipe of the stderr to grep to dev/null is just 
 # to swallow fontconfig warnings so they never get to the screen.
@@ -60,11 +64,12 @@ INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
 #
 MODELLATS=*.ps *.print *.tape *.echo 
 OPTICSPDFS:=$(patsubst %.ps, %.pdf, $(wildcard *.ps)) 
+OPTICSICONS:=$(patsubst %.ps, %_opticsicon.png, $(wildcard *.ps)) 
 DOTS=LCLS.dot GSPEC.dot SPEC.dot
 MAPS:=$(patsubst %.dot, %_map.pdf, $(DOTS))
 MAPICONS:=$(patsubst %.dot, %_mapicon.gif, $(DOTS))
 LINES:=$(patsubst %.dot, %_lines.dat, $(DOTS))
-OPTS=$(DOTS) $(MAPS) $(MAPICONS) $(LINES) 
+OPTS=$(DOTS) $(MAPS) $(MAPICONS) $(OPTICSICONS) $(LINES) 
 WEB=.htaccess 
 
 # Rules. lattice is the first target in the makefile, and therefore 
@@ -72,11 +77,12 @@ WEB=.htaccess
 #
 lattice : print
 opticspdfs : $(OPTICSPDFS)
+opticsicons : $(OPTICSICONS)
 lines : $(LINES)
 dots : $(DOTS)
 maps : $(MAPS)
 mapicons : $(MAPICONS)
-all : lattice opticspdfs dots maps mapicons
+all : lattice opticspdfs opticsicons dots maps mapicons
 
 # LCLS Lattice output
 #
@@ -106,6 +112,7 @@ SPEC_map.pdf : SPEC.dot
 
 GSPEC_map.pdf : GSPEC.dot
 
+
 # Icon files for maps on web site (rarely updated)
 #
 LCLS_mapicon.gif : LCLS.dot
@@ -117,6 +124,14 @@ SPEC_mapicon.gif : SPEC.dot
 GSPEC_mapicon.gif : GSPEC.dot
 	dot -Tgif -Gsize="0.3,0.6" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
 
+# Create these two optics plot icons by hand because conversion to png creates one
+# file per plot, and the ps files have many, but we only wnat the first one.
+LCLS_opticsicon.png : LCLS.ps
+	convert -rotate 90 -scale 200x140 $< $@
+	(mv LCLS_opticsicon-0.png LCLS_opticsicon.png; rm LCLS_opticsicon-*.png)
+SPEC_opticsicon.png : SPEC.ps
+	convert -rotate 90 -scale 200x140 $< $@
+	(mv SPEC_opticsicon-0.png SPEC_opticsicon.png; rm SPEC_opticsicon-*.png)
 
 # Install output lattice files, beam path device lists and maps in common area
 #
