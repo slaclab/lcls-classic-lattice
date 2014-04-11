@@ -57,7 +57,7 @@ MAD8=mad8
 # fontconfig warning, so the pipe of the stderr to grep to dev/null is just 
 # to swallow fontconfig warnings so they never get to the screen.
 %_map.pdf : %.dot
-	dot -Tpdf $< -o $@ 
+	dot -Tpdf $< -o $@
 
 # Where do we install the mad outputs, all associated files.
 #
@@ -66,6 +66,7 @@ INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
 # Define macros that evaluate to lists of files, mainly for help installing
 #
 MODELLATS=*.ps *.print *.tape *.echo 
+ELEMENTDEVICES=../../../script/elementdevices.dat
 OPTICSPDFS:=$(patsubst %.ps, %.pdf, $(wildcard *.ps)) 
 OPTICSICONS:=$(patsubst %.ps, %_opticsicon.png, $(wildcard *.ps)) 
 DOTS=LCLS.dot GSPEC.dot SPEC.dot
@@ -96,17 +97,15 @@ print : LCLS_MAIN.mad8 *.xsif
 #
 # There rules assume you have checked out optics/script, as well as 
 # optics/etc/lattice/lcls/, since they use mad2dot from the script directory.
-LCLS_lines.dat LCLS.dot : LCLS.print LCLS_survey.tape 
-	awk -v width=38 -v height=4  -f ../../../script/mad2dot.awk LCLS_survey.tape \
-         ../../../script/elementdevices.dat LCLS.print > LCLS.dot
+#
+LCLS_lines.dat LCLS.dot : LCLS_survey.tape $(ELEMENTDEVICES) LCLS.print  
+	awk -v width=38 -v height=4  -f ../../../script/mad2dot.awk $+ > LCLS.dot
 
-SPEC_lines.dat SPEC.dot : SPEC.print SPEC_survey.tape 
-	awk -v width=20 -v height=10 -f ../../../script/mad2dot.awk SPEC_survey.tape \
-         ../../../script/elementdevices.dat SPEC.print > SPEC.dot
+SPEC_lines.dat SPEC.dot : SPEC_survey.tape $(ELEMENTDEVICES) SPEC.print 
+	awk -v width=20 -v height=10 -f ../../../script/mad2dot.awk $+ > SPEC.dot
 
-GSPEC_lines.dat GSPEC.dot : GSPEC.print GSPEC_survey.tape 
-	awk -v height=10 -f ../../../script/mad2dot.awk GSPEC_survey.tape \
-         ../../../script/elementdevices.dat GSPEC.print > GSPEC.dot
+GSPEC_lines.dat GSPEC.dot : GSPEC_survey.tape $(ELEMENTDEVICES) GSPEC.print
+	awk -v height=10 -f ../../../script/mad2dot.awk $+ > GSPEC.dot
 
 LCLS_map.pdf : LCLS.dot
 
@@ -141,12 +140,12 @@ SPEC_opticsicon.png : SPEC.ps
 ifdef INSTALLDIR
 install : 
 	rsync -e ssh -v $(MODELLATS) $(OPTICSPDFS) $(WEB) $(INSTALLROOT)/$(INSTALLDIR)
-	rsync -e ssh -v $(OPTS) $(WEB) $(INSTALLROOT)/$(INSTALLDIR)/opt
+	rsync -e ssh -v $(OPTS) $(WEB) $(ELEMENTDEVICES) $(INSTALLROOT)/$(INSTALLDIR)/opt
 	rsync -e ssh -v  LCLS_MAIN.mad8 *.xsif $(INSTALLROOT)/$(INSTALLDIR)/src
 else
 install : all
 	rsync -e ssh -v $(MODELLATS) $(OPTICSPDFS) $(WEB) $(INSTALLROOT)/`date  +"%d%b%y"`
-	rsync -e ssh -v $(OPTS) $(WEB)$(INSTALLROOT)/`date  +"%d%b%y"`/opt
+	rsync -e ssh -v $(OPTS) $(WEB) $(ELEMENTDEVICES) $(INSTALLROOT)/`date  +"%d%b%y"`/opt
 	rsync -e ssh -v  LCLS_MAIN.mad8  *.xsif $(INSTALLROOT)/`date +"%d%b%y"`/src
 	make installlatest
 endif
@@ -156,7 +155,7 @@ endif
 #
 installlatest : 
 	rsync -e ssh -v $(MODELLATS) $(WEB) $(OPTICSPDFS) $(INSTALLROOT)/latest
-	rsync -e ssh -v $(OPTS) $(WEB) $(INSTALLROOT)/latest/opt
+	rsync -e ssh -v $(OPTS) $(WEB) $(ELEMENTDEVICES) $(INSTALLROOT)/latest/opt
 	rsync -e ssh -v LCLS_MAIN.mad8 *.xsif $(INSTALLROOT)/latest/src
 
 # Make a convenience target you cna use to delete all outout files.
