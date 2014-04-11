@@ -28,7 +28,10 @@
 #
 # -------------------------------------------------------------------------
 # Auth: Greg White, SLAC, 26-mar-2014.
-# Mod:  Greg White, 3-Apr-2014
+# Mod:  Greg White, 10-Apr-2014
+#       Improve map icons. Some windows browsers showed just whitespace, so
+#       converted to using convert and producing pngs.
+#       Greg White, 3-Apr-2014
 #       Fixed main target name 
 #       Greg White, 27-Mar-2014
 #       Install line files also. Redirect font config warnings to dev null.  
@@ -67,7 +70,7 @@ OPTICSPDFS:=$(patsubst %.ps, %.pdf, $(wildcard *.ps))
 OPTICSICONS:=$(patsubst %.ps, %_opticsicon.png, $(wildcard *.ps)) 
 DOTS=LCLS.dot GSPEC.dot SPEC.dot
 MAPS:=$(patsubst %.dot, %_map.pdf, $(DOTS))
-MAPICONS:=$(patsubst %.dot, %_mapicon.gif, $(DOTS))
+MAPICONS:=$(patsubst %.dot, %_mapicon.png, $(DOTS))
 LINES:=$(patsubst %.dot, %_lines.dat, $(DOTS))
 OPTS=$(DOTS) $(MAPS) $(MAPICONS) $(OPTICSICONS) $(LINES) 
 WEB=.htaccess 
@@ -88,7 +91,6 @@ all : lattice opticspdfs opticsicons dots maps mapicons
 #
 print : LCLS_MAIN.mad8 *.xsif
 	$(MAD8) $<
-
 
 # Beam line device lists and maps
 #
@@ -115,14 +117,15 @@ GSPEC_map.pdf : GSPEC.dot
 
 # Icon files for maps on web site (rarely updated)
 #
-LCLS_mapicon.gif : LCLS.dot
-	dot -Tgif -Gsize="8,1.5" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
+LCLS_mapicon.png : LCLS_map.pdf
+	convert -scale 800 $? $@ 
 
-SPEC_mapicon.gif : SPEC.dot
-	dot -Tgif -Gsize="0.8,1.0" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
+SPEC_mapicon.png : SPEC_map.pdf
+	convert -scale 60 $? $@ 
 
-GSPEC_mapicon.gif : GSPEC.dot
-	dot -Tgif -Gsize="0.3,0.6" -o $@ $? 2>&1 | grep Fontconfig >/dev/null 
+GSPEC_mapicon.png : GSPEC_map.pdf
+	convert -scale 40 $? $@ 
+
 
 # Create these two optics plot icons by hand because conversion to png creates one
 # file per plot, and the ps files have many, but we only wnat the first one.
@@ -158,4 +161,4 @@ installlatest :
 
 # Make a convenience target you cna use to delete all outout files.
 clean :
-	rm -f $(MODELLATS) *.pdf *.gif *.dot print
+	rm -f $(MODELLATS) *.pdf *.png *.dot print
