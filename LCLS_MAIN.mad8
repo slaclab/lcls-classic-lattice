@@ -1,6 +1,6 @@
-  TITLE, "LCLS: LCLS24OCT13 design"
+  TITLE, "LCLS: LCLS28MAY14 design"
 
-! *** OPTICS=LCLS24OCT13 ***
+! *** OPTICS=LCLS28MAY14 ***
 
   OPTION, -INTER, -ECHO, WARN
   ASSIGN, ECHO="LCLS.echo"
@@ -45,6 +45,9 @@
 
 ! ==============================================================================
 ! Modification History
+! ------------------------------------------------------------------------------
+! 28-MAY-2014, M. Woodley
+!    Restore QSM1 (1.259Q3.5) per R. Iverson; exact location TBD
 ! ------------------------------------------------------------------------------
 ! 27-MAR-2014, G. White
 !    Reenabled creation of SPEC and GSPEC survey files, required for device maps
@@ -2026,6 +2029,7 @@
   KQ50Q1 := -K50Q
   KQ50Q2 :=  K50Q
   KQ50Q3 := -K50Q
+  KQSM1  :=  0              !skew quad
   KQ5    := -0.159291446684
   KQ6    :=  0.234194141524
   KQA0   := -0.201473658651
@@ -2033,6 +2037,7 @@
   Q50Q1 : QUAD, TYPE="50Q1",       L=0.093671, K1=KQ50Q1, APER=0.010325
   Q50Q2 : QUAD, TYPE="50Q2",       L=0.162151, K1=KQ50Q2, APER=0.010325
   Q50Q3 : QUAD, TYPE="50Q3",       L=0.143254, K1=KQ50Q3, APER=0.010325
+  QSM1  : QUAD, TYPE="ETA",        L=LQx/2,    K1=KQSM1,  APER=rQx     , TILT
   Q5    : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQ5,    APER=rQF
   Q6    : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQ6,    APER=rQF
   QA0   : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQA0,   APER=rQF
@@ -2957,8 +2962,8 @@
   DM05     : DRIF, L=0.660502
   DM08     : DRIF, L=0.686013
   DM09     : DRIF, L=0.550794
-  DM10B    : DRIF, L=0.423278
-  DQSM1    : DRIF, L=0.43938
+  DM10B    : DRIF, L=0.470278 !0.423278
+  DQSM1    : DRIF, L=0.28438  !0.43938
   DYC5     : DRIF, L=0.307342
   I4A      : DRIF, L=0.32385-0.205742
   I4B      : DRIF, L=0.32385
@@ -3861,7 +3866,7 @@
       DBSY40,&
     D9502001,D9502002,DBSY41,D10J,DBSY42,D19A,DBSY43,D10H,DBSY44,FLNG,ROLL2,&
       DMB01,PC90,DMB02,H1DL,XCBSY81,H1DL,DM03,V1DL,YCBSY82,V1DL,DM04,I3,DM05,&
-      P950020T,DM08,IV4,DM09,BPMBSY83,DM10B,DQSM1,&
+      P950020T,DM08,IV4,DM09,BPMBSY83,DM10B,QSM1,QSM1,DQSM1,&
     Q5,BPMBSY85,Q5,DYC5,I4A,I4B,I5,I5,DM12A,I6,I6,DM12B,YC5,DM12C,XC6,DXC6,&
     Q6,BPMBSY88,Q6,DM2,D2L,D2,D2L,DM3,ST60L,ST60,ST60L,DM4,XCA0,DXCA0,YCA0,&
       DYCA0,ST61L,ST61,ST61L,DM5,&
@@ -5151,7 +5156,7 @@
 ! Twiss plots, etc. (Full Machine)
 ! ------------------------------------------------------------------------------
 
-  ASSIGN, PRINT="LCLS24OCT13.print"
+  ASSIGN, PRINT="LCLS28MAY14.print"
 
  !COMMENT
     BEAM, ENERGY=E00
