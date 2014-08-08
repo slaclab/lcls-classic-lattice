@@ -27,22 +27,23 @@ Mod:
    You must tell your CVS the location of the CVS repository (where our lattice files
    are). You can do that in 2 ways. First, by using -d on every cvs command. Eg
 
-      cvs -d :ext:YOURUSERNAME@noric.slac.stanford.edu:/afs/slac/g/lcls/cvs co optics/etc
+      cvs -d :ext:YOURUSERNAME@rhel6-64.slac.stanford.edu:/afs/slac/g/lcls/cvs co optics/etc
+
+      where <YOURUSERNAME> is your login id on the remote computer.
 
    Alternatively, set the CVSROOT environment variable. For
    instance if using a bourne shell variant like bash this would be:
 
    Using bourne or bash shell:
-      $ export CVSROOT=":ext:<YOURUSERNAME>@noric.slac.stanford.edu:/afs/slac/g/lcls/cvs"   
+      $ export CVSROOT=":ext:<YOURUSERNAME>@rhel6-64.slac.stanford.edu:/afs/slac/g/lcls/cvs"   
    Using csh or tcsh shell:
-      $ setenv CVSROOT ":ext:<YOURUSERNAME>@noric.slac.stanford.edu:/afs/slac/g/lcls/cvs"
-
-      where <YOURUSERNAME> is your login id on the remote computer.
+      $ setenv CVSROOT ":ext:<YOURUSERNAME>@rhel6-64.slac.stanford.edu:/afs/slac/g/lcls/cvs"
     
    Then you can cvs checkout the lattice files, and the necessary scripts. e.g.:
 
       $ cvs co optics/etc/lattice/lcls2
       $ cvs co optics/etc/script
+
  
 2. To compute optics using MAD8
 
@@ -53,15 +54,17 @@ Mod:
       $ cd optics/etc/lattice/lcls
       $ mad8 LCLS2sc_main.mad8
 
+
 3. Alternatively you can use "make" for running lattice. 
  
       $ make                   - Run mad8 on LCLS_MAIN.mad8 
 
    This produces all the print, tape and ps files as you'd expect.
 
+
 4. The makefile also knows how to create a number of associated files:
        
-      $ make maps              - Make the device lists and map files, as below:
+      $ make maps                - Make the device lists and map files, as below:
 
         a. <beampath>.pdf        - PDF equivalent of the .ps optics plots
 	b. <beampath>_lines.dat  - list for each element the "display groups" 
@@ -74,6 +77,7 @@ Mod:
  
         NOTE 1. If no elementdevice.dat file is in the directory, then no 
        <beampath>_lines.dat file is produced. 
+
 
 5. To publish the new set of decks, plus the MAD outputs and associated files, 
    to the web site http://www.slac.stanford.edu/grp/ad/model/output/lcls
