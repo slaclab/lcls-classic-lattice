@@ -1225,10 +1225,13 @@
 
   rQGx   := 0.020                  ! QG quadrupole pole-tip radius [m]
   LQGx   := 0.076                  ! QG quadrupole effective length [m]
+  KQG02  := -35.48540
+  KQG03  := 80.16051
+
   CQ01    : QUAD,L=1E-9/2,K1=0,TYPE="QSOL"                   !correction quad in 1st solenoid at gun (nominally set to 0) (set to ~zero length, with longitudinal position as the actual quad's center)
   SQ01    : QUAD,L=1E-9/2,K1=0,TILT,TYPE="QSOL"              !correction skew-quad in 1st solenoid at gun (nominally set to 0) (set to ~zero length, with longitudinal position as the actual quad's center)
-  QG02    : QUAD,L=LQGx/2,K1=-35.48540,APER=rQGx,TYPE="QG"
-  QG03    : QUAD,L=LQGx/2,K1= 80.16051,APER=rQGx,TYPE="QG"
+  QG02    : QUAD,L=LQGx/2,K1=KQG02,APER=rQGx,TYPE="QG"
+  QG03    : QUAD,L=LQGx/2,K1=KQG03,APER=rQGx,TYPE="QG"
 
   XCG1    : HKIC,TYPE="class-G"
   XCG2    : HKIC,TYPE="class-G"
@@ -5052,6 +5055,15 @@
  !CALL, FILENAME="misc/makeSymbols.mad8"
 
 ! ------------------------------------------------------------------------------
+! Online Modelling Support. 
+! ** The lines below are selectively commented in by LCLS online model. **
+! ** Please do not edit. ** 
+! ------------------------------------------------------------------------------
+! CALL, FILENAME="patch.mad8"
+! ------------------------------------------------------------------------------
+
+
+! ------------------------------------------------------------------------------
 ! matching
 ! ------------------------------------------------------------------------------
 
@@ -5247,7 +5259,7 @@
   USE, (GUNBXG,GSPEC)
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="GSPEC_survey.tape"
-  TWISS, BETA0=TWSSC, SAVE !, TAPE="GSPEC_twiss.tape"
+  TWISS, BETA0=TWSSC, SAVE, TAPE="GSPEC_twiss.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="GSPEC", &
     RANGE=#S/#E, TITLE="Cathode through 6-MeV Gun Spectrometer"
