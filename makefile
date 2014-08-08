@@ -12,11 +12,18 @@
 # 
 # Usage examples:
 # 
-#    make                   - Run mad8 on LCLS_MAIN.mad8 
-#    make maps              - Make the device lists and maps
-#    make install           - Copies the lattice files output from mad8, 
-#                             to /afs/slac/www/grp/ad/model/output/<today>/
-# also (rarely used)                          
+#    make                    - Run mad8 on LCLS_MAIN.mad8
+#    make OUTPUTDIR=<dirname> 
+#                            - As "make" but leave outputs in dirname 
+#    make maps               - Make the device lists and maps
+#    make install            - Copies the lattice files output from mad8, 
+#                              to /afs/slac/www/grp/ad/model/output/<today>/
+#    make INSTALLDIR=<dirname> install 
+#                            - As "make install" but leaves files in
+#                              /afs/slac/www/grp/ad/model/output/<dirname>
+#    make installlatest      - As "make install" but leaves files in
+#                              /afs/slac/www/grp/ad/model/output/lattest
+# Also (rarely used)                          
 #    make icons             - Make the icons for the web site
 #    make installicons      - Copies web icons to the web site
 #
@@ -37,10 +44,18 @@
 #       Install line files also. Redirect font config warnings to dev null.  
 # =========================================================================
 
+# 
+# MACROS
+#
+
 # You can override this from the command line if you want a different 
 # executable.
 # 
-MAD8=mad8
+MAD8=/usr/local/bin/mad8
+
+# Default dir in which to install the mad outputs, and all associated files.
+#
+INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
 
 # Convert Postcript to PDF (of twiss plots), accomplished by ps2pdf, 
 # produces nicer results than convert, at least on a mac. Both should
@@ -52,16 +67,11 @@ MAD8=mad8
 %_opticsicon.png : %.ps
 	convert -rotate 90 -scale 200x140 $< $@
 
-
 # To make a PDF from a .dot file, use dot. On my mac this works but gets a 
 # fontconfig warning, so the pipe of the stderr to grep to dev/null is just 
 # to swallow fontconfig warnings so they never get to the screen.
 %_map.pdf : %.dot
 	dot -Tpdf $< -o $@
-
-# Where do we install the mad outputs, all associated files.
-#
-INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
 
 # Define macros that evaluate to lists of files, mainly for help installing
 #
@@ -76,8 +86,13 @@ LINES:=$(patsubst %.dot, %_lines.dat, $(DOTS))
 OPTS=$(DOTS) $(MAPS) $(MAPICONS) $(OPTICSICONS) $(LINES) 
 WEB=.htaccess 
 
-# Rules. lattice is the first target in the makefile, and therefore 
-# the default. To make other things, give argument. To make all, issue "make all".
+#
+# RULES
+#
+
+# Lattice is the first target in the makefile, and therefore 
+# the default. To make other things, give argument. To make all, 
+# issue "make all".
 #
 lattice : print
 opticspdfs : $(OPTICSPDFS)
@@ -92,6 +107,9 @@ all : lattice opticspdfs opticsicons dots maps mapicons
 #
 print : LCLS_MAIN.mad8 *.xsif
 	$(MAD8) $<
+ifdef OUTPUTDIR
+	rsync $(MODELLATS) $(OUTPUTDIR)
+endif
 
 # Beam line device lists and maps
 #
