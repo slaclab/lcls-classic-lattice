@@ -46,8 +46,24 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 20-AUG-2014, M. Woodley
+!  * add beam phase cavities PH31 and PH32 per J. Turner
+!  * move ST1 in the safety dump line d/s per M. Carrasco
+!  * add MPS spoiler SP0 u/s of ST1 per M. Carrasco
+!  * move BPMUE1 u/s of QUE1 per A. Cedillos
+!  * move YCUE2 u/s per A. Cedillos
+!  * add new wire scanner WS24 d/s of Q24701B per D. Kharakh
+!  * manually merge in "forked" changes from latest checked-in CVS version
+! 31-JUL-2014, M. Woodley
+!  * add new wire scanner WSVM1 between QVM1 and QVM2 per A. Cedillos
+!  * remove WS35 per H. Loos
+! 29-MAY-2014, M. Woodley
+!  * correct BFW-quad separation per H. Loos
+!  * add Beam Overlap Diagnostic devices BOD10 and BOD13 per H. Loos
+!  * add wire scanners WS35 and WS36 per H. Loos (exact location TBD)
+! ------------------------------------------------------------------------------
 ! 28-MAY-2014, M. Woodley
-!    Restore QSM1 (1.259Q3.5) per R. Iverson; exact location TBD
+!    Restore QSM1 (1.259Q3.5) per R. Iverson (exact location TBD)
 ! ------------------------------------------------------------------------------
 ! 27-MAR-2014, G. White
 !    Reenabled creation of SPEC and GSPEC survey files, required for device maps
@@ -1602,7 +1618,7 @@
                  E1=+AB4, FINT=0.5, FINTX=0
   BXHS4b : SBEN, TYPE="1.25D14-C", L=LB4S, HGAP=GB4/2, ANGLE=+AB4S, &
                  FINT=0, E2=0, FINTX=0.5
-  
+
   D1      : DRIF, L=0.5828/COS(AB4) !0.582802
   DCH     : DRIF, L=0.58/2
   DMONO   : DRIF, L=0.1
@@ -2336,6 +2352,8 @@
   YCU32  : VKICK     ! undulator Y-steering coil in quad
   YCU33  : VKICK     ! undulator Y-steering coil in quad
 
+  dLbfw := 3.6016-3.63815 !BFW location adjustment per H. Loos
+
   DF0    : DRIFT, L=LQu-0.04241                      ! No quad + correction to maintain symmetry
   DB0    : DRIFT, L=0.5653-Lbr1-LQu-Lbr3-2*LRFBu     ! sets UNDTERM to Jim Welch's Z' value
   DB0a   : DRIFT, L=0.184708-LRFBu                   ! RFBU33 exit to RFBU34 entrance
@@ -2343,19 +2361,28 @@
   DB1    : DRIFT, L=Lbr1                             ! drift from segment to quad
   DB3    : DRIFT, L=Lbr3                             ! drift from quad to BPM
   DB4    : DRIFT, L=Lbr4                             ! Radiation monitor to segment drift
-  DBWM   : DRIFT, L=Lbrwm                            ! BFW to radiation monitor drift
-  DBRS   : DRIFT, L=Lbrs                             ! standard short undulator drift from BPM to segment
-  DBRL   : DRIFT, L=Lbrl                             ! standard long undulator drift from BPM to segment
+  DBWM   : DRIFT, L=Lbrwm+dLbfw                      ! BFW to radiation monitor drift
+  DBRS   : DRIFT, L=Lbrs-dLbfw                       ! standard short undulator drift from BPM to segment
+  DBRL   : DRIFT, L=Lbrl-dLbfw                       ! standard long undulator drift from BPM to segment
   DT     : DRIFT, L=Lue                              ! undulator segment small terminations modeled as drift
   MUQ    : MARK                                      ! undulator quad center marker for beta matching in all quads
 
-  DBUVV1 : DRIFT, L=LBUVV1                           ! drift before inline vaccum valve
-  DBUVV2 : DRIFT, L=LBUVV2                           ! drift after inline vaccum valve
-  VVU10  : MARK                                      ! inline vacuum valve in undulator chamber before girder 10
-  VVU25  : MARK                                      ! inline vacuum valve in undulator chamber before girder 25
-  DBRL10 : LINE=(DBUVV1,VVU10,DBUVV2)                ! long undulator drift from BPM to segment with inline value
-  DBRL25 : LINE=(DBUVV1,VVU25,DBUVV2)                ! long undulator drift from BPM to segment with inline value
+  DBUVV1  : DRIFT, L=LBUVV1                          ! drift before inline vaccum valve
+  DBUVV2  : DRIFT, L=LBUVV2-dLbfw                    ! drift after inline vaccum valve
+  VVU10   : MARK                                     ! inline vacuum valve in undulator chamber before girder 10
+  VVU25   : MARK                                     ! inline vacuum valve in undulator chamber before girder 25
+  DBRL25  : LINE=(DBUVV1,VVU25,DBUVV2)               ! long undulator drift from BPM to segment with inline value
 
+  DBUVV1b : DRIFT, L=0.02075                         ! BOD10 drift
+  DBUVV1a : DRIFT, L=DBUVV1[L]-DBUVV1b[L]            ! BOD10 drift
+  DBRLb   : DRIFT, L=0.2573                          ! BOD13 drift
+  DBRLa   : DRIFT, L=DBRL[L]-DBRLb[L]                ! BOD13 drift
+
+  BOD10 : INST ! Beam Overlap Diagnostic
+  BOD13 : INST ! Beam Overlap Diagnostic
+
+  DBRL10 : LINE=(DBUVV1a,BOD10,DBUVV1b,VVU10,DBUVV2) ! long undulator drift from BPM to segment with BOD and inline value
+  DBRL13 : LINE=(DBRLa,BOD13,DBRLb)                  ! standard long undulator drift from BPM to segment with BOD
 
 ! undulator segment modeled as R-matrix to include vertical natural focusing over all but its edge terminations:
   USEGH  : MATRIX, L=Lundh,                               &
@@ -2515,7 +2542,7 @@
                   DBRL,  GIRD04,DBRS,GIRD05,DBRS,GIRD06, &
                   DBRL,  GIRD07,DBRS,GIRD08,DBRS,GIRD09, &
                   DBRL10,GIRD10,DBRS,GIRD11,DBRS,GIRD12, &
-                  DBRL,  GIRD13,DBRS,GIRD14,DBRS,GIRD15, &
+                  DBRL13,GIRD13,DBRS,GIRD14,DBRS,GIRD15, &
                   DBRL,  GIRD16,DBRS,GIRD17,DBRS,GIRD18, &
                   DBRL,  GIRD19,DBRS,GIRD20,DBRS,GIRD21, &
                   DBRL,  GIRD22,DBRS,GIRD23,DBRS,GIRD24, &
@@ -2541,11 +2568,13 @@
   DUE1b  : DRIF, L=9.34167
   DUE1c  : DRIF, L=0.818826
   DUE2a  : DRIF, L=1.0
-  DUE2b  : DRIF, L=10.43092
-  DUE2c  : DRIF, L=0.555
-  DUE3a  : DRIF, L=0.315504
-  DUE3b  : DRIF, L=5.2630495
-  DUE3c  : DRIF, L=1.7968755
+  DUE2b  : DRIF, L=5.885373
+  DUE2c  : DRIF, L=0.1935
+  DUE2d  : DRIF, L=3.937447
+  DUE2e  : DRIF, L=0.4699
+  DUE2f  : DRIF, L=0.4997
+  DUE3a  : DRIF, L=5.5785535
+  DUE3b  : DRIF, L=1.7968755
   DPCVV  : DRIF, L=0.397
   DVVXTC : DRIF, L=0.32
   DXTC12 : DRIF, L=0.373/2
@@ -2599,9 +2628,10 @@
   DPM1a  : DRIFT, L=6.851618-0.694995
   DPM1b  : DRIFT, L=1.820699-LSTPR/2+0.163401-0.1174
   DST0   : DRIFT, L=0.1112
-  DMUSPL : DRIFT, L=3*0.3048+2.893089-LSTPR-3.288089+0.1174-0.1112-0.1174
+  DMUSPL : DRIFT, L=5.1031
+  DSP0   : DRIFT, L=0.3667
   DST1   : DRIFT, L=0.1112
-  DPM1c  : DRIFT, L=4.7074-LSTPR/2+3.4214+0.1174-0.1112
+  DPM1c  : DRIFT, L=2.6165
   DPM1d  : DRIFT, L=0.50+0.112-0.296712+0.008013
   DPM1   : DRIFT, L=0.30/cos(ABpm)
   DPM2   : DRIFT, L=0.30/cos(2*ABpm)
@@ -2875,8 +2905,8 @@
 ! BC2
 
   DM21Z : DRIF, L=0.0828006-0.027
-  DM21A : DRIF, L=0.3199994
-  DM21H : DRIF, L=0.193
+  DM21A : DRIF, L=0.3238194-0.022319
+  DM21H : DRIF, L=0.18918+0.022319
   DM21B : DRIF, L=0.6340002
   DM21C : DRIF, L=0.3202404
   DM21D : DRIF, L=0.139536
@@ -3008,7 +3038,7 @@
   D40cm  : DRIF, L=0.40
   D40cma : DRIF, L=0.40+1.407939
   D40cmb : DRIF, L=0.40+0.090013
-  D40cmC : DRIF, L=0.40, TYPE="CSR"
+  D40cmc : DRIF, L=0.40, TYPE="CSR"
   D40cmd : DRIF, L=0.40+0.090013-0.000473
   D40cme : DRIF, L=0.40+0.090013+0.010447
   D40cmf : DRIF, L=0.40+0.090013-0.065013
@@ -3040,6 +3070,8 @@
   DVB25cm: DRIF, L=0.5-0.25
   DVB25cmc: DRIF, L=0.5-0.25
   DQVM2  : DRIF, L=0.5
+  DQVM2a : DRIF, L=0.25
+  DQVM2b : DRIF, L=DQVM2[L]-DQVM2a[L]
   DXCVM2 : DRIF, L=0.25
   DVB1   : DRIF, L=8.0-2*0.3125, TYPE="CSR"
   DVB1m40cm: DRIF, L=8.0-0.4-2*0.3125, TYPE="CSR"
@@ -3111,6 +3143,8 @@
   DMM4m90cm: DRIF, L=3.6-0.30-LQx-(0.402839)-0.02954
   DMM5     : DRIF, L= 2.0+dLQA2
   DU1m80cm : DRIF, L= 4.550
+  DU1m80cma: DRIF, L= 0.16515
+  DU1m80cmb: DRIF, L= DU1m80cm[L]-DU1m80cma[L]
   DU2m120cm: DRIF, L= 4.730
   DU3m80cm : DRIF, L= 8.0-0.4-0.4-0.125+0.21546
   DU4m120cm: DRIF, L= 2.800-1.407939-0.0254-0.00414
@@ -3140,7 +3174,7 @@
 !  WS21 : WIRE !LI24 emittance
 !  WS22 : WIRE !LI24 emittance
 !  WS23 : WIRE !LI24 emittance
-!  WS24 : WIRE !BC2- emittance
+  WS24 : WIRE !BC2- emittance
   DWS21 : MARK !someday will be a wire-scanner again?
   DWS22 : MARK !someday will be a wire-scanner again?
   DWS23 : MARK !someday will be a wire-scanner again?
@@ -3149,10 +3183,12 @@
   WS28144: WIRE !LI28 emittance
   WS28444: WIRE !LI28 emittance
   WS28744: WIRE !LI28 emittance (existing; moved)
-  WS31 : WIRE !LTU  emittance
-  WS32 : WIRE !LTU  emittance
-  WS33 : WIRE !LTU  emittance
-  WS34 : WIRE !LTU  emittance
+  WSVM1 : WIRE !LTU emittance
+  WS31 : WIRE !LTU emittance
+  WS32 : WIRE !LTU emittance
+  WS33 : WIRE !LTU emittance
+  WS34 : WIRE !LTU emittance
+  WS36 : WIRE !LTU emittance
   WSDL31 : WIRE
   WSDUMP : WIRE
 
@@ -3213,6 +3249,8 @@
   IM36   : IMON !LTU: dnstr. of BX36 (comparator with IM31)
   IMUNDI : IMON !FEL-undulator input toroid (comparator with IMUNDO)
   IMUNDO : IMON !FEL-undulator output toroid (comparator with IMUNDI)
+  PH31   : INST !post-undulator phase measurement RF cavity
+  PH32   : INST !post-undulator phase measurement RF cavity
   IMDUMP : IMON !in dump line after Y-bends and quad (comparator with IMUNDO)
 
 ! BCS toroids (from Saleski request)
@@ -3716,6 +3754,7 @@
   LSTPR  : = 0.3046
   ST0    : DRIFT,L=LSTPR !Empty can of uninstalled X-ray insertable stopper (was "ST1" in ~2007)
   BTMST0 : DRIFT ! Non-existent Burn-Through-Monitor behind empty ST0 can
+  SP0    : INST  ! MPS spoiler upstream of ST1
   ST1    : INST, L=LSTPR !X-ray insertable stopper (was "ST2" in ~2007)
   BTMST1 : INST  ! Burn-Through-Monitor behind ST1
 
@@ -3835,7 +3874,7 @@
                 BX24A,BX24B,CNT2,BC2END)
   BC2   : LINE=(BC2mrk,&
                 DM20,Q24701A,ZLIN08,Q24701A,D10cma,Q24701B,BPM24701,Q24701B,&
-                DM21Z,DM21A,DWS24,DM21H,IMBC2I,DM21B,VV21,DM21C,&
+                DM21Z,DM21A,WS24,DM21H,IMBC2I,DM21B,VV21,DM21C,&
                 QM21,QM21,DM21D,DM21E,BC2C1,D21w,D21x,BL21,D21y,DM23B,&
                 QM22,QM22,DM24A,VV22,DM24B,DM24D,Q24901A,BPM24901,Q24901A,&
                 DM24C,Q24901B,Q24901B,DM25,BC2fin)
@@ -3888,12 +3927,12 @@
 
   ECELL : LINE=(QE31,DQEC,DQEC,QE32,QE32,DQEC,DQEC,QE31)
   VBEND : LINE=(VBin,&
-                BY1A,BY1B,DVB1,QVB1,BPMVB1,QVB1,D40cmC,YCVB1, &
-                DVB2m80cm,D40cmC,QVB2,BPMVB2,QVB2,DVB2, &
-                QVB3,BPMVB3,QVB3,D40cmC,YCVB3,DVB1m40cm,BY2A,BY2B,CNTV, &
+                BY1A,BY1B,DVB1,QVB1,BPMVB1,QVB1,D40cmc,YCVB1, &
+                DVB2m80cm,D40cmc,QVB2,BPMVB2,QVB2,DVB2, &
+                QVB3,BPMVB3,QVB3,D40cmc,YCVB3,DVB1m40cm,BY2A,BY2B,CNTV, &
                 VBout)
   VBSYS : LINE=(DYCVM1,&
-                YCVM1,DQVM1,QVM1,BPMVM1,QVM1,DQVM2,&
+                YCVM1,DQVM1,QVM1,BPMVM1,QVM1,DQVM2a,WSVM1,DQVM2b,&
                 QVM2,BPMVM2,QVM2,DXCVM2,XCVM2,DVB25cm,&
                 VBEND,DVB25cmc,&
                 XCVM3,D25cm,QVM3,BPMVM3,QVM3,DVBem25cm,&
@@ -3940,7 +3979,8 @@
                 DQEAc,QE35,BPME35,QE35,DQEBx,CX35,DQEBx2,DE3, &
                 YCE36,DQEA,QE36,BPME36,QE36,DQEBy,CY36,DQEBy2, &
                 WS34,D40cm)
-  UNMCH : LINE=(DU1m80cm,DCX37,D32cmc,XCUM1,DUM1A,QUM1,BPMUM1,QUM1,DUM1B, &
+  UNMCH : LINE=(DU1m80cma,WS36,DU1m80cmb,DCX37,D32cmc,XCUM1,DUM1A,&
+                QUM1,BPMUM1,QUM1,DUM1B, &
                 D32cm,DU2m120cm,DCY38,D32cma,YCUM2,DUM2A,QUM2, &
                 BPMUM2,QUM2,DUM2B,DU3m80cm,YCUM3,DUM3A, &
                 QUM3,BPMUM3,QUM3,DUM3B,D40cma,EOBLM,DU4m120cm, &
@@ -3952,8 +3992,8 @@
 ! Undulator exit and Dumps:
 ! ========================
   UNDEXIT : LINE=(UEbeg,DUE1a,VV36,DUE1b,IMUNDO,DUE1c,&
-                  DUE2a,XCUE1,DUE2b,YCUE2,DUE2c,QUE1,QUE1,&
-                  DUE3a,BPMUE1,DUE3b,TRUE1,DUE3c,&
+                  DUE2a,XCUE1,DUE2b,PH31,DUE2c,PH32,DUE2d,YCUE2,DUE2e,&
+                  BPMUE1,DUE2f,QUE1,QUE1,DUE3a,TRUE1,DUE3b,&
                   PCXTC,DPCVV,VVXTC,DVVXTC,XTC01,XTC01,DXTC12,MXTC,DXTC12,&
                   XTC02,XTC02,DXTCSP,SPXTC,DUE4,QUE2,QUE2,&
                   DUE5a,BPMUE2,DUE5b,BTM0,DUE5c,YCD3,DUE5d,XCD3,&
@@ -3970,9 +4010,10 @@
                   DBMARK38)
 
   PERMDUMP: LINE=(SFTBEG,DYD1,DSS1,DYD2,DSS2,DYD3,DScS1,VV38,DScS2,&
-                  PCPM1,BTM1,DPM1b,ST0,DST0,BTMST0,DMUSPL,ST1,DST1,BTMST1,&
-                  DPM1c,PCPM2,BTM2,DPM1d,BXPM1A,BXPM1B,DPM1,BXPM2A,BXPM2B,&
-                  DPM2,BXPM3A,BXPM3B,DSFT,SFTDMP,DPM2e,BTMSFT,DMPend)
+                  PCPM1,BTM1,DPM1b,ST0,DST0,BTMST0,DMUSPL,SP0,DSP0,&
+                  ST1,DST1,BTMST1,DPM1c,PCPM2,BTM2,DPM1d,BXPM1A,BXPM1B,&
+                  DPM1,BXPM2A,BXPM2B,DPM2,BXPM3A,BXPM3B,DSFT,SFTDMP,&
+                  DPM2e,BTMSFT,DMPend)
 
   LTU     : LINE=(MM1,DOGLG2A,DOGLG2B,MM2,EDMCH,EDSYS,UNMCH)
   BSYLTU  : LINE=(RWWAKEss,BSY,B12WAL,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
@@ -5055,9 +5096,9 @@
  !CALL, FILENAME="misc/makeSymbols.mad8"
 
 ! ------------------------------------------------------------------------------
-! Online Modelling Support. 
+! Online Modelling Support.
 ! ** The lines below are selectively commented in by LCLS online model. **
-! ** Please do not edit. ** 
+! ** Please do not edit. **
 ! ------------------------------------------------------------------------------
 ! CALL, FILENAME="patch.mad8"
 ! ------------------------------------------------------------------------------
@@ -5259,7 +5300,7 @@
   USE, (GUNBXG,GSPEC)
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="GSPEC_survey.tape"
-  TWISS, BETA0=TWSSC, SAVE, TAPE="GSPEC_twiss.tape"
+  TWISS, BETA0=TWSSC, SAVE !, TAPE="GSPEC_twiss.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="GSPEC", &
     RANGE=#S/#E, TITLE="Cathode through 6-MeV Gun Spectrometer"
@@ -5317,8 +5358,8 @@
   BEAM, ENERGY=Ef
   USE, (BSY,B52LIN)
   PRINT, FULL
-  SURVEY, X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf !, &
- !  TAPE="BSY-52LINE_survey.tape"
+  SURVEY, X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf, &
+    TAPE="BSY-52LINE_survey.tape"
   TWISS, BETA0=TBSY, SAVE !, TAPE="BSY-52LINE_twiss.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="BSY-52LINE", &
@@ -5330,8 +5371,8 @@
   BEAM, ENERGY=Ef
   USE, (BSY,B12WAL,VBSYS,LTU,UND,UNDEXIT,PERMDUMP)
   PRINT, FULL
-  SURVEY, X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf !, &
- !  TAPE="BSY-SFTDMP_survey.tape"
+  SURVEY, X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf, &
+    TAPE="BSY-SFTDMP_survey.tape"
   TWISS, BETA0=TBSY, SAVE !, TAPE="BSY-SFTDMP_twiss.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="BSY-SFTDMP", &
@@ -5365,7 +5406,7 @@
     SAVEBETA, TWS21, DWS21
     SAVEBETA, TWS22, DWS22
     SAVEBETA, TWS23, DWS23
-    SAVEBETA, TWS24, DWS24
+    SAVEBETA, TWS24, WS24
     TWISS, BETA0=TWSS0
 
     VALUE, 360*(TWS22[MUX]-TWS21[MUX])
