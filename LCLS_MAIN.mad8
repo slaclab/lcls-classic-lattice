@@ -46,7 +46,12 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
-! 20-AUG-2014, M. Woodley
+! 21-AUG-2014, M. Woodley
+!  * remove ST0/BTMST0 per K. Fox
+!  * add XDC chamber and YAGXRAY per J. Turner and A. Cedillos
+!  * add (3) Undulator Hall walls per D. Bruch
+!    - UHWALL1 and UHWALL2 are also known as the "thermal barriers"
+!    - RWWAKEAl moves ~8 mm u/s (to u/s face of UHWALL1)
 !  * add beam phase cavities PH31 and PH32 per J. Turner
 !  * move ST1 in the safety dump line d/s per M. Carrasco
 !  * add MPS spoiler SP0 u/s of ST1 per M. Carrasco
@@ -56,7 +61,6 @@
 !  * manually merge in "forked" changes from latest checked-in CVS version
 ! 31-JUL-2014, M. Woodley
 !  * add new wire scanner WSVM1 between QVM1 and QVM2 per A. Cedillos
-!  * remove WS35 per H. Loos
 ! 29-MAY-2014, M. Woodley
 !  * correct BFW-quad separation per H. Loos
 !  * add Beam Overlap Diagnostic devices BOD10 and BOD13 per H. Loos
@@ -2140,7 +2144,7 @@
   PCTDKIK2: ECOL,L=LPCTDKIK,XSIZE=11.1125E-3,YSIZE=11.1125E-3  ! muon collimator after SBD TDKIK in-line dump
   PCTDKIK3: ECOL,L=LPCTDKIK,XSIZE=11.1125E-3,YSIZE=11.1125E-3  ! muon collimator after SBD TDKIK in-line dump
   PCTDKIK4: ECOL,L=LPCTDKIK,XSIZE=11.1125E-3,YSIZE=11.1125E-3  ! muon collimator after SBD TDKIK in-line dump
-  DTDUND1 : DRIFT, L=0.5+0.127+1.087896-0.003189               ! drift before pre-undulator tune-up dump
+  DTDUND1 : DRIFT, L=1.057391 !0.5+0.127+1.087896-0.003189     ! drift before pre-undulator tune-up dump
   DTDUND2 : DRIFT, L=0.37935                                   ! drift after pre-undulator tune-up dump
   PCMUON  : ECOL,L=1.1684,XSIZE=8.64E-03/2,YSIZE=4.32E-03/2    ! muon scattering collimator after pre-undulator tune-up dump (ID from Rago: 7/18/08)
   DVV35   : DRIFT, L=1.780-0.254-1.087896+0.003189             ! drift after pre-undulator vacuum valve
@@ -2568,11 +2572,11 @@
   DUE1b  : DRIF, L=9.34167
   DUE1c  : DRIF, L=0.818826
   DUE2a  : DRIF, L=1.0
-  DUE2b  : DRIF, L=5.885373
-  DUE2c  : DRIF, L=0.1935
-  DUE2d  : DRIF, L=3.937447
-  DUE2e  : DRIF, L=0.4699
-  DUE2f  : DRIF, L=0.4997
+  DUE2b  : DRIF, L=5.899673 !5.885373
+  DUE2c  : DRIF, L=0.188    !0.1935
+  DUE2d  : DRIF, L=3.9436   !3.937447
+  DUE2e  : DRIF, L=0.4946   !0.4699
+  DUE2f  : DRIF, L=0.460047 !0.4997
   DUE3a  : DRIF, L=5.5785535
   DUE3b  : DRIF, L=1.7968755
   DPCVV  : DRIF, L=0.397
@@ -2582,7 +2586,7 @@
   DUE4   : DRIF, L=0.394
   DUE5a  : DRIF, L=0.367
   DUE5b  : DRIF, L=0.514
-  DUE5c  : DRIF, L=0.846
+  DUE5c  : DRIF, L=0.198151 !0.846
   DUE5d  : DRIF, L=0.471
   DUE5e  : DRIF, L=0.137
   DSB0a  : DRIF, L=0.0
@@ -2626,9 +2630,17 @@
   DD3d   : DRIFT, L=0.2441932
   DD3e   : DRIFT, L=0.2857474-0.2441932
   DPM1a  : DRIFT, L=6.851618-0.694995
-  DPM1b  : DRIFT, L=1.820699-LSTPR/2+0.163401-0.1174
-  DST0   : DRIFT, L=0.1112
-  DMUSPL : DRIFT, L=5.1031
+
+ !DPM1b  : DRIFT, L=1.820699-LSTPR/2+0.163401-0.1174
+ !DST0   : DRIFT, L=0.1112
+ !DMUSPL : DRIFT, L=5.1031
+
+  DXDCu  : DRIFT, L=1.106223
+  XDCa   : DRIFT, L=1.005777
+  XDCb   : DRIFT, L=0.542
+  XDCc   : DRIFT, L=0.255376
+  DXDCd  : DRIFT, L=4.323924
+
   DSP0   : DRIFT, L=0.3667
   DST1   : DRIFT, L=0.1112
   DPM1c  : DRIFT, L=2.6165
@@ -3042,6 +3054,8 @@
   D40cmd : DRIF, L=0.40+0.090013-0.000473
   D40cme : DRIF, L=0.40+0.090013+0.010447
   D40cmf : DRIF, L=0.40+0.090013-0.065013
+  D40cmh : DRIF, L=0.0317
+  D40cmg : DRIF, L=D40cm[L]-D40cmh[L]
   D50cm  : DRIF, L=0.50
   D31A   : DRIF, L=0.40+dLQA2+0.090005
   D31B   : DRIF, L=0.40+dLQA2+0.4900025-0.4000244
@@ -3149,7 +3163,7 @@
   DU3m80cm : DRIF, L= 8.0-0.4-0.4-0.125+0.21546
   DU4m120cm: DRIF, L= 2.800-1.407939-0.0254-0.00414
   DU5m80cm : DRIF, L= 0.5
-  DMUON2   : DRIFT, L=1.406800
+  DMUON2   : DRIFT, L=1.164391 !1.406800
   DMUON1   : DRIFT, L=0.154859
   DMUON3   : DRIFT, L=0.310592
 
@@ -3157,6 +3171,13 @@
   DWSDL31b : DRIFT, L=0.153763 !0.153221+0.000542
   DWSDUMPa : DRIFT, L=0.44156 !0.5-0.058217-0.000222-0.000001
   DWSDUMPb : DRIFT, L=2.038949 !1.980509+0.058217+0.000222+0.000001
+
+  DUHW1   : DRIFT, L=0.391584
+  UHWALL1 : DRIFT, L=9.875*in2m
+  DUHW2   : DRIFT, L=0.403491
+  UHWALL2 : DRIFT, L=9.875*in2m
+  DUHW3   : DRIFT, L=0.397024
+  UHWALL3 : DRIFT, L=9.875*in2m
 
 ! ==============================================================================
 ! MARKERs
@@ -3188,6 +3209,7 @@
   WS32 : WIRE !LTU emittance
   WS33 : WIRE !LTU emittance
   WS34 : WIRE !LTU emittance
+  WS35 : WIRE !LTU emittance
   WS36 : WIRE !LTU emittance
   WSDL31 : WIRE
   WSDUMP : WIRE
@@ -3228,6 +3250,7 @@
   OTR30    : PROF, TYPE="OTR"      !LTU slice energy spread (90 deg from TCAV3)
   YAGPSI   : PROF, TYPE="YAG"
   OTR33    : PROF, TYPE="OTR"      !LTU slice emittance (~90 deg from TCAV3)
+  YAGXRAY  : PROF, TYPE="YAG"      !safety dump line Xray screen
 
 ! bunch length monitors
 
@@ -3752,8 +3775,6 @@
 
   TDUND  : INST !LTU insertable block at und. extension entrance (w/ screen)
   LSTPR  : = 0.3046
-  ST0    : DRIFT,L=LSTPR !Empty can of uninstalled X-ray insertable stopper (was "ST1" in ~2007)
-  BTMST0 : DRIFT ! Non-existent Burn-Through-Monitor behind empty ST0 can
   SP0    : INST  ! MPS spoiler upstream of ST1
   ST1    : INST, L=LSTPR !X-ray insertable stopper (was "ST2" in ~2007)
   BTMST1 : INST  ! Burn-Through-Monitor behind ST1
@@ -3978,14 +3999,15 @@
                 BPME34,QE34,DQEC,WS33,D40cm,DE3m80cm,XCE35, &
                 DQEAc,QE35,BPME35,QE35,DQEBx,CX35,DQEBx2,DE3, &
                 YCE36,DQEA,QE36,BPME36,QE36,DQEBy,CY36,DQEBy2, &
-                WS34,D40cm)
+                WS34,D40cmg,WS35,D40cmh)
   UNMCH : LINE=(DU1m80cma,WS36,DU1m80cmb,DCX37,D32cmc,XCUM1,DUM1A,&
                 QUM1,BPMUM1,QUM1,DUM1B, &
                 D32cm,DU2m120cm,DCY38,D32cma,YCUM2,DUM2A,QUM2, &
                 BPMUM2,QUM2,DUM2B,DU3m80cm,YCUM3,DUM3A, &
                 QUM3,BPMUM3,QUM3,DUM3B,D40cma,EOBLM,DU4m120cm, &
                 XCUM4,DUM4A,QUM4,BPMUM4,QUM4,DUM4B,RFB07,DU5m80cm, &
-                IMUNDI,D40cm,RWWAKEAl,DMUON2,DVV35,RFB08,DTDUND1,&
+                IMUNDI,DUHW1,RWWAKEAl,UHWALL1,DMUON2,DVV35,RFB08,&
+                DUHW2,UHWALL2,DTDUND1,&
                 TDUND,DTDUND2,PCMUON,DMUON1,VV999,DMUON3,MM3,PFILT1,&
                 DBMARK37)
 
@@ -3996,8 +4018,8 @@
                   BPMUE1,DUE2f,QUE1,QUE1,DUE3a,TRUE1,DUE3b,&
                   PCXTC,DPCVV,VVXTC,DVVXTC,XTC01,XTC01,DXTC12,MXTC,DXTC12,&
                   XTC02,XTC02,DXTCSP,SPXTC,DUE4,QUE2,QUE2,&
-                  DUE5a,BPMUE2,DUE5b,BTM0,DUE5c,YCD3,DUE5d,XCD3,&
-                  DUE5e,UEend,&
+                  DUE5a,BPMUE2,DUE5b,BTM0,DUHW3,UHWALL3,DUE5c,YCD3,DUE5d,&
+                  XCD3,DUE5e,UEend,&
                   DLstart,DSB0a,PCPM0,DSB0b,IMBCS3,DSB0c,VV37,&
                   DSB0d,BPMUE3,DSB0e)
 
@@ -4010,7 +4032,7 @@
                   DBMARK38)
 
   PERMDUMP: LINE=(SFTBEG,DYD1,DSS1,DYD2,DSS2,DYD3,DScS1,VV38,DScS2,&
-                  PCPM1,BTM1,DPM1b,ST0,DST0,BTMST0,DMUSPL,SP0,DSP0,&
+                  PCPM1,BTM1,DXDCu,XDCa,XDCb,YAGXRAY,XDCc,DXDCd,SP0,DSP0,&
                   ST1,DST1,BTMST1,DPM1c,PCPM2,BTM2,DPM1d,BXPM1A,BXPM1B,&
                   DPM1,BXPM2A,BXPM2B,DPM2,BXPM3A,BXPM3B,DSFT,SFTDMP,&
                   DPM2e,BTMSFT,DMPend)
@@ -5300,7 +5322,8 @@
   USE, (GUNBXG,GSPEC)
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="GSPEC_survey.tape"
-  TWISS, BETA0=TWSSC, SAVE !, TAPE="GSPEC_twiss.tape"
+  TWISS, BETA0=TWSSC, SAVE, &
+    TAPE="GSPEC_twiss.tape", RTAPE="GSPEC_rmat.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="GSPEC", &
     RANGE=#S/#E, TITLE="Cathode through 6-MeV Gun Spectrometer"
@@ -5316,7 +5339,8 @@
   USE, (GUNL0a,L0b,DL1A,SPECBL)
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="SPEC_survey.tape"
-  TWISS, BETA0=TWSSC, SAVE !, TAPE="SPEC_twiss.tape"
+  TWISS, BETA0=TWSSC, SAVE, &
+    TAPE="SPEC_twiss.tape", RTAPE="SPEC_rmat.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="SPEC", &
     RANGE=DL1beg/#E, TITLE="Cathode through 135-MeV Spectrometer"
