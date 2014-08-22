@@ -5,7 +5,9 @@ This README describes how to deal with the source file management of the LCLS MA
 decks through CVS, how to release changes, and how to update the relevant wb pages.
 
 Auth: Greg White, 8-Apr-2014.
-Mod:  
+Mod:  Greg White, 22-Aug-2014,
+      Remove option to make install without giving directory name. User must
+      give a directory name, which SHOULD be based on the CVS tag. 
 =======================================================================================
 
 0. Prerequisites. 
@@ -82,20 +84,20 @@ Mod:
 5. To publish the new set of decks, plus the MAD outputs and associated files, 
    to the web site http://www.slac.stanford.edu/grp/ad/model/output/lcls
     
-   There are 3 forms of "makes install" one can use:
-
-       $ make install        - Copies the lattice files output from mad8, to a directory
-                               named after today's date; e.g. to 
-                                  /afs/slac/www/grp/ad/model/output/lcls/<today>/ 
        $ make INSTALLDIR=v31MAR14 install
                              - Copies the lattice files output from mad8, to the
                                named directory inder INSTALLROOT (see defintion
                                below; e.g. to :
-                                  /afs/slac/www/grp/ad/model/output/lcls/v31MAR14/ 
+                                  /afs/slac/www/grp/ad/model/output/lcls/v31MAR14/
+
        $ make installlatest  - Copies the lattice files output from mad8, 
                                to /afs/slac/www/grp/ad/model/output/lcls2/latest/ 
 
- 
+
+    When making a first publication of a new version, do BOTH of the above.
+    Subsequently, when making updates to a previous release, our practice is to 
+    only do the make installlatest.
+
 6. To put your changed files back in CVS.
 
    The process of putting your edited files back in CVS, so they become the latest,
