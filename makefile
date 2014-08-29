@@ -22,7 +22,7 @@
 #                              /afs/slac/www/grp/ad/model/output/<dirname>
 #    make installlatest      - Releases files and updates to the web
 #                              /afs/slac/www/grp/ad/model/output/lattest
-# Also (rarely used)                          
+# Also (rarely used):                          
 #    make icons             - Make the icons for the web site
 #    make installicons      - Copies web icons to the web site
 #
@@ -32,12 +32,12 @@
 #    cd optics/etc/lattice/lcls
 #    make
 #    make all
-#    cvs commit -m "my changes" optics/etc/lattice/lcls 
-#    Install: for a "release" (that is, Oracle will be updated):
-#      make INSTALLDIR=19AUG2014 install
-#      make installlatest
+#    make installlatest
+#
+#    To release optics files:
+#      cvs commit -m "my changes" optics/etc/lattice/lcls 
 #      cvs rtag v19AUG2014 
-#    Alternatively, only update the 'latest' directory:
+#      make INSTALLDIR=19AUG2014 install
 #      make installlatest
 # 
 # Prerequisites:
@@ -186,10 +186,10 @@ install : stage
 
 # Install latest
 #
-# Note use of / at end of direcory names in rsync, which has the desired effect
-# of synchronizing the contents of the directories, and deleting any files
-# in latest/ that are not also found in .installstage/, thus pruning out files
-# we no longer wish to publish. 
+# Note use of / at end of direcory names in rsync, which with --delete 
+# has the desired effect of synchronizing the contents of the directories,
+# and deleting any files in latest/ that are not also found in .installstage/,
+# thus pruning out files we no longer wish to publish. 
 #
 installlatest : stage
 	rsync -e ssh -r --delete -v .installstage/ $(INSTALLROOT)/latest/
