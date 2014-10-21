@@ -1,6 +1,6 @@
-  TITLE, "LCLS: LCLS28MAY14 design"
+  TITLE, "LCLS: LCLS22OCT14 design"
 
-! *** OPTICS=LCLS28MAY14 ***
+! *** OPTICS=LCLS22OCT14 ***
 
   OPTION, -INTER, -ECHO, WARN
   ASSIGN, ECHO="LCLS.echo"
@@ -46,6 +46,9 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 21-OCT-2014, M. Woodley
+!  * replace undulator segment US33 with "delta" undulator and phase shifter
+!    per A. Cedillos, H-D. Nuhn, and G. Gassner
 ! 21-AUG-2014, M. Woodley
 !  * remove ST0/BTMST0 per K. Fox
 !  * add XDC chamber and YAGXRAY per J. Turner and A. Cedillos
@@ -2431,13 +2434,25 @@
   US30    : USEGH
   US31    : USEGH
   US32    : USEGH
-  US33    : USEGH
 
   VALUE, USEGH[RM(1,2)],Lundh
   VALUE, USEGH[RM(3,3)],cos(Lundh*sqrt(kqund))
   VALUE, USEGH[RM(3,4)],sin(Lundh*sqrt(kqund))/sqrt(kqund)
   VALUE, USEGH[RM(4,3)],-sin(Lundh*sqrt(kqund))*sqrt(kqund)
   VALUE, USEGH[RM(4,4)],cos(Lundh*sqrt(kqund))
+
+! "delta" undulator (modeled as R-matrix with no focusing)
+  US33  : MATRIX, TYPE="delta", L=3.184/2, &
+          RM(1,1) = 1.0,     RM(1,2) = 3.184/2, &
+          RM(2,1) = 0.0,     RM(2,2) = 1.0,     &
+          RM(3,3) = 1.0,     RM(3,4) = 3.184/2, &
+          RM(4,3) = 0.0,     RM(4,4) = 1.0     
+
+  DUS33b : DRIF, L=1.682-US33[L]
+  DUS33c : DRIF, L=0.012891527481
+  DUS33a : DRIF, L=Lseg-DUS33b[L]-2*US33[L]-DUS33c[L]
+
+  PS33 : MARK, TYPE="phase shifter"
 
   USTBK01 : LINE=(DT,US01,US01,DT)
   USTBK02 : LINE=(DT,US02,US02,DT)
@@ -2473,7 +2488,7 @@
   USTBK30 : LINE=(DT,US30,US30,DT)
   USTBK31 : LINE=(DT,US31,US31,DT)
   USTBK32 : LINE=(DT,US32,US32,DT)
-  USTBK33 : LINE=(DT,US33,US33,DT)
+  USTBK33 : LINE=(DUS33a,PS33,DUS33b,US33,US33,DUS33c)  !delta undulator + phase shifter
   QBLK01  : LINE=(QU01,XCU01,MUQ,YCU01,QU01)
   QBLK02  : LINE=(QU02,XCU02,MUQ,YCU02,QU02)
   QBLK03  : LINE=(QU03,XCU03,MUQ,YCU03,QU03)
@@ -5231,7 +5246,7 @@
 ! Twiss plots, etc. (Full Machine)
 ! ------------------------------------------------------------------------------
 
-  ASSIGN, PRINT="LCLS28MAY14.print"
+  ASSIGN, PRINT="LCLS22OCT14.print"
 
  !COMMENT
     BEAM, ENERGY=E00
