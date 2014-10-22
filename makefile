@@ -22,13 +22,15 @@
 #                              /afs/slac/www/grp/ad/model/output/lcls/<dirname>
 #    make installlatest      - Releases files and updates to the web
 #                              /afs/slac/www/grp/ad/model/output/lcls/latest
-# Also (rarely used):                          
+# Also (rarely used):
+#                          
 #    make icons              - Make the icons for the web site
 #    make installicons       - Copies web icons to the web site
 #
 # Typical usage cycle:
 #
 #    cvs co optics/etc/lattice/lcls
+#    cvs co optics/script
 #    cd optics/etc/lattice/lcls
 #    make
 #    make all
@@ -68,7 +70,8 @@
 # You can override this from the command line if you want a different 
 # executable.
 # 
-MAD8=/usr/local/bin/mad8
+#MAD8=/usr/local/bin/mad8
+MAD8=/afs/slac/u/ad/mdw/mad8.52/mad
 
 # Default dir in which to install the mad outputs, and all associated files.
 #
