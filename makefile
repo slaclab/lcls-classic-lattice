@@ -61,6 +61,8 @@
 #       Fixed main target name 
 #       Greg White, 27-Mar-2014
 #       Install line files also. Redirect font config warnings to dev null.  
+# Mod:  Mark Woodley, SLAC, 22-oct-2014.
+#       Point MAD8 to standard SLAC codes area
 # =========================================================================
 
 # 
@@ -70,8 +72,7 @@
 # You can override this from the command line if you want a different 
 # executable.
 # 
-#MAD8=/usr/local/bin/mad8
-MAD8=/afs/slac/u/ad/mdw/mad8.52/mad
+MAD8=/afs/slac/g/ilc/codes/mad8.52/mad
 
 # Default dir in which to install the mad outputs, and all associated files.
 #
