@@ -19,12 +19,12 @@
 #    make INSTALLDIR=<dirname> install 
 #                            - Releases files to the web, in a dir that matches
 #                              the CVS tag.
-#                              /afs/slac/www/grp/ad/model/output/<dirname>
+#                              /afs/slac/www/grp/ad/model/output/lcls/<dirname>
 #    make installlatest      - Releases files and updates to the web
-#                              /afs/slac/www/grp/ad/model/output/lattest
+#                              /afs/slac/www/grp/ad/model/output/lcls/latest
 # Also (rarely used):                          
-#    make icons             - Make the icons for the web site
-#    make installicons      - Copies web icons to the web site
+#    make icons              - Make the icons for the web site
+#    make installicons       - Copies web icons to the web site
 #
 # Typical usage cycle:
 #
@@ -34,11 +34,12 @@
 #    make all
 #    make installlatest
 #
-#    To release optics files:
-#      cvs commit -m "my changes" optics/etc/lattice/lcls 
-#      cvs rtag v19AUG2014 
-#      make INSTALLDIR=19AUG2014 install
-#      make installlatest
+# To release optics files:
+#
+#    cvs commit -m "my changes" optics/etc/lattice/lcls 
+#    cvs rtag v19AUG2014 
+#    make INSTALLDIR=19AUG2014 install
+#    make installlatest
 # 
 # Prerequisites:
 #
