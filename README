@@ -33,14 +33,15 @@ Mod:  Greg White, 22-Aug-2014,
 
       where <YOURUSERNAME> is your login id on the remote computer.
 
-   Alternatively, set the CVSROOT environment variable. For
-   instance if using a bourne shell variant like bash this would be:
-
+   Alternatively, set the CVSROOT environment variable:
    Using bourne or bash shell:
       $ export CVSROOT=":ext:<YOURUSERNAME>@rhel6-64.slac.stanford.edu:/afs/slac/g/lcls/cvs"   
    Using csh or tcsh shell:
       $ setenv CVSROOT ":ext:<YOURUSERNAME>@rhel6-64.slac.stanford.edu:/afs/slac/g/lcls/cvs"
-    
+
+   Depending on how you access CVS and the type of server, you may need also to set CSS_RSH.
+   At SLAC using AFS in csh, setenv CVS_RSH "ssh".   
+ 
    Then you can cvs checkout the lattice files, and the necessary scripts. e.g.:
 
       $ cvs co optics/etc/lattice/lcls2
@@ -66,7 +67,7 @@ Mod:  Greg White, 22-Aug-2014,
 
 4. The makefile also knows how to create a number of associated files:
        
-      $ make maps                - Make the device lists and map files, as below:
+      $ make all                 - run MAD, and also make the following files:
 
         a. <beampath>.pdf        - PDF equivalent of the .ps optics plots
 	b. <beampath>_lines.dat  - list for each element the "display groups" 

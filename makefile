@@ -10,6 +10,9 @@
 # NOTE: by default, if no files have changed, and all files are up to date,
 # then executing make will not do anything - since there is nothing to be done!
 # To force make to build when no inputs have changed, use make -B <target>.
+#
+# NOTE2: This makefile should be run by GNU make. On Solaris, use gmake 
+# commands rather than make.
 # 
 # Usage examples:
 # 
@@ -135,13 +138,13 @@ endif
 # optics/etc/lattice/lcls/, since they use mad2dot from the script directory.
 #
 LCLS_lines.dat LCLS.dot : LCLS_survey.tape $(ELEMENTDEVICES) LCLS.print  
-	awk -v width=38 -v height=4  -f ../../../script/mad2dot.awk $+ > LCLS.dot
+	gawk -v width=38 -v height=4  -f ../../../script/mad2dot.awk $+ > LCLS.dot
 
 SPEC_lines.dat SPEC.dot : SPEC_survey.tape $(ELEMENTDEVICES) SPEC.print 
-	awk -v width=20 -v height=10 -f ../../../script/mad2dot.awk $+ > SPEC.dot
+	gawk -v width=20 -v height=10 -f ../../../script/mad2dot.awk $+ > SPEC.dot
 
 GSPEC_lines.dat GSPEC.dot : GSPEC_survey.tape $(ELEMENTDEVICES) GSPEC.print
-	awk -v height=10 -f ../../../script/mad2dot.awk $+ > GSPEC.dot
+	gawk -v height=10 -f ../../../script/mad2dot.awk $+ > GSPEC.dot
 
 LCLS_map.pdf : LCLS.dot
 
@@ -162,14 +165,12 @@ GSPEC_mapicon.png : GSPEC_map.pdf
 	convert -scale 40 $? $@ 
 
 
-# Create these two optics plot icons by hand because conversion to png creates one
-# file per plot, and the ps files have many, but we only wnat the first one.
+# Create these two optics plot icons by hand because we only want the 
+# first frame from the PS. 
 LCLS_opticsicon.png : LCLS.ps
-	convert -rotate 90 -scale 200x140 $< $@
-	(mv LCLS_opticsicon-0.png LCLS_opticsicon.png; rm LCLS_opticsicon-*.png)
+	convert -rotate 90 -scale 200x140 'LCLS.ps[0]' $@
 SPEC_opticsicon.png : SPEC.ps
-	convert -rotate 90 -scale 200x140 $< $@
-	(mv SPEC_opticsicon-0.png SPEC_opticsicon.png; rm SPEC_opticsicon-*.png)
+	convert -rotate 90 -scale 200x140 'SPEC.ps[0]' $@
 
 
 # Prepare the files to install in a local staging directory. Do this for
