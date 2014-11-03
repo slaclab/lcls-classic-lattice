@@ -46,6 +46,9 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 31-OCT-2014, M. Woodley
+!  * define "New BSY" optics as default per H. Loos
+! ------------------------------------------------------------------------------
 ! 21-OCT-2014, M. Woodley
 !  * replace undulator segment US33 with "delta" undulator and phase shifter
 !    per A. Cedillos, H-D. Nuhn, and G. Gassner
@@ -2446,7 +2449,7 @@
           RM(1,1) = 1.0,     RM(1,2) = 3.184/2, &
           RM(2,1) = 0.0,     RM(2,2) = 1.0,     &
           RM(3,3) = 1.0,     RM(3,4) = 3.184/2, &
-          RM(4,3) = 0.0,     RM(4,4) = 1.0     
+          RM(4,3) = 0.0,     RM(4,4) = 1.0
 
   DUS33b : DRIF, L=1.682-US33[L]
   DUS33c : DRIF, L=0.012891527481
@@ -4709,7 +4712,8 @@
     CONSTR, QVM3[1], BETX<100.
     CONSTR, QVM4[1], BETY<100.
     CONSTR, MM1, BETX=MBETX, ALFX=MALFX, BETY=MBETY, ALFY=MALFY
-    !MIGRAD
+    !LMDIF, TOL=1.E-20
+    !MIGRAD, TOL=1.E-20
     !SIMPLEX
   ENDMATCH
   VALUE, 5.576250E-15   ! =expected penalty function with fitting OFF
@@ -5118,6 +5122,34 @@
     SET, KQM34,    0.585600683467
   ENDSUBROUTINE
 
+! ------------------------------------------------------------------------------
+
+  NewBSY : SUBROUTINE
+
+  ! load "New BSY" optics (smaller, symmetric betas in BSY)
+  ! (ML3DL2 penalty function:  2.557803E-26)
+ 
+    SET, KQ30201,  0.431061251508
+    SET, KQ30301, -0.469798912489
+    SET, KQ30401,  0.389442551401
+    SET, KQ30501, -0.582099319705
+    SET, KQ30601,  0.32792543523
+    SET, KQ30701, -0.368249399517
+    SET, KQ30801,  0.38340496772
+    SET, K50Q,     0.19306444469
+    SET, KQ50Q1,  -K50Q
+    SET, KQ50Q2,   K50Q
+    SET, KQ50Q3,  -K50Q
+    SET, KQSM1,    0
+    SET, KQ5,     -0.176167766822
+    SET, KQ6,      0.245795750992
+    SET, KQA0,    -0.238695691511
+    SET, KQVM1,   -0.684210904739 !-0.685292956771
+    SET, KQVM2,    0.604947394697 ! 0.605930850174
+    SET, KQVM3,    0.769413042703 ! 0.769308749867
+    SET, KQVM4,   -0.774662020425 !-0.774280712935
+  ENDSUBROUTINE
+
 ! ==============================================================================
 ! COMMANDs
 ! ------------------------------------------------------------------------------
@@ -5125,6 +5157,8 @@
   SETPLOT, XSIZE=25.4, YSIZE=20.32
   SETPLOT, LWIDTH=5, LSCALE=1.5, SSCALE=1.5, RSCALE=1.5
   OPTION, ECHO
+
+  NewBSY !250 m symmetric betas in BSY
 
 ! ------------------------------------------------------------------------------
 ! output files for RDB generation
