@@ -11,8 +11,8 @@
 # then executing make will not do anything - since there is nothing to be done!
 # To force make to build when no inputs have changed, use make -B <target>.
 #
-# NOTE2: This makefile should be run by GNU make. On Solaris, use gmake 
-# commands rather than make.
+# NOTE2: This makefile should be run by GNU make. On some OS, eg Solaris, use 
+# gmake command rather than make.
 # 
 # Usage examples:
 # 
@@ -37,7 +37,6 @@
 #    cd optics/etc/lattice/lcls
 #    make
 #    make all
-#    make installlatest
 #
 # To release optics files:
 #
@@ -49,12 +48,21 @@
 # Prerequisites:
 #
 # To use this makefile you'll need a pretty standard unix machine (linux or
-# mac) that has awk, dot and rsync. You will also need mad (version8) executable
-# as command "mad8". 
+# mac) that has the GNU toolset (specifically gmake, gawk), plus dot and rsync. 
+#
+# You will also need mad (version8) executable, either as command "mad8" or
+# tell make where it is, like this:
+#  
+#     make MAD8=/afs/slac.stanford.edu/u/ad/mdw/mad8.52/mad 
 #
 # -------------------------------------------------------------------------
 # Auth: Greg White, SLAC, 26-mar-2014.
-# Mod:  Greg White, 19-Aug-2014
+# Mod:  Greg White, SLAC, 3-Nov-2014
+#       Make compatible with Solaris; use explicit frame selection in convert 
+#       command instead of mv and rm, and awk -> gawk. Fixed install rsync.
+#       Mark Woodley, SLAC, 22-oct-2014.
+#       Point MAD8 to standard SLAC codes area
+#       Greg White, 19-Aug-2014
 #       Delete obsolete files from latest/ install directory as part of sync.
 #       Added staging the release. Removed 
 #       Greg White, 10-Apr-2014
@@ -64,8 +72,6 @@
 #       Fixed main target name 
 #       Greg White, 27-Mar-2014
 #       Install line files also. Redirect font config warnings to dev null.  
-# Mod:  Mark Woodley, SLAC, 22-oct-2014.
-#       Point MAD8 to standard SLAC codes area
 # =========================================================================
 
 # 
@@ -84,7 +90,6 @@ INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
 # To convert Postcript to PDF (of twiss plots), use ps2pdf. 
 %.pdf : %.ps
 	ps2pdf $< 
-#	convert -antialias -rotate 90 $< $@
 
 # To make png icon files from postscript, use convert.
 %_opticsicon.png : %.ps
@@ -188,7 +193,7 @@ stage :
 # Install output lattice files, beam path device lists and maps in release area
 #
 install : stage
-	rsync -e ssh -v .installstage/ $(INSTALLROOT)/$(INSTALLDIR)/
+	rsync -azv .installstage/ $(INSTALLROOT)/$(INSTALLDIR)
 
 # Install latest
 #
@@ -201,6 +206,8 @@ installlatest : stage
 	rsync -e ssh -r --delete -v .installstage/ $(INSTALLROOT)/latest/
 
 
-# Make a convenience target you cna use to delete all outout files.
+# Clean is a convenience target to delete all output files.
+#
 clean :
 	rm -f $(MODELLATS) *.pdf *.png *.dot print
+	rm -fr .installstage
