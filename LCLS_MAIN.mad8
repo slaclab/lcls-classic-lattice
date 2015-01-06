@@ -1,6 +1,6 @@
-  TITLE, "LCLS: LCLS22OCT14 design"
+  TITLE, "LCLS: LCLS07JAN15 design"
 
-! *** OPTICS=LCLS22OCT14 ***
+! *** OPTICS=LCLS07JAN15 ***
 
   OPTION, -INTER, -ECHO, WARN
   ASSIGN, ECHO="LCLS.echo"
@@ -46,9 +46,18 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 07-JAN-2015, M. Woodley
+!  * change TYPE of LI21 XCORs and YCORs to "type-4al"
+!  * move WSVM1 downstream of QVM2 ... change name to WSVM2
+!  * move XCVM2 upstream between QVM1 and QVM2
+!  * new BSY/LTU optics, optimized for WSVM2 quad-scan emittance measurements
+!  * fix edge angles of permanent bends in safety dump line
+! ------------------------------------------------------------------------------
+! 14-NOV-2014, M. Woodley
+!  * add XDCXRAY screen in XDC chamber #3 per H. Loos and A. Cedillos
+! ------------------------------------------------------------------------------
 ! 31-OCT-2014, M. Woodley
 !  * define "New BSY" optics as default per H. Loos
-! ------------------------------------------------------------------------------
 ! 21-OCT-2014, M. Woodley
 !  * replace undulator segment US33 with "delta" undulator and phase shifter
 !    per A. Cedillos, H-D. Nuhn, and G. Gassner
@@ -1727,12 +1736,6 @@
   GBdm   := 0.043          !full gap (m) - this is a full gap 'width' for these vert. dipoles
   ABdm0  := (5.0*RADDEG)/3
 
-  LBpm   := 0.944             !effective length of permanent magnet FFTB dump bends (m)
-  Bpm0   := 4.3               !permanent magnetic field at full gap = 3.81 cm
-  GBpm0  := 0.0381            !gap height as exists in FFTB in 2005 (m)
-  Bpm    := Bpm0*GBpm0/0.0520 !permanent magnetic field after opening gaps
-  ABpm   := LBpm*Bpm/Brhox
-
   LeffBdm := LBdm*ABdm0/(2*SIN(ABdm0/2)) !full bend path length (m)
 
   BYD1A  : SBEN, TYPE="1.69VD55.1", L=LeffBdm/2, ANGLE=ABdm0/2, HGAP=GBdm/2, &
@@ -1748,18 +1751,27 @@
   BYD3B  : SBEN, TYPE="1.69VD55.1", L=LeffBdm/2, ANGLE=ABdm0/2, HGAP=GBdm/2, &
                  E1=0, E2=ABdm0/2 , FINT=0.00, FINTX=0.57, TILT
 
-  BXPM1A : SBEN, TYPE="4D36-C"       , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
-                 E1=0     , E2=0     , FINT=0.5, FINTX=0.0
-  BXPM1B : SBEN, TYPE="4D36-C"       , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
-                 E1=0     , E2=1*ABpm, FINT=0.0, FINTX=0.5
-  BXPM2A : SBEN, TYPE="4D36-C"       , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
-                 E1=1*ABpm, E2=0     , FINT=0.5, FINTX=0.0
-  BXPM2B : SBEN, TYPE="4D36-C"       , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
-                 E1=0     , E2=2*ABpm, FINT=0.0, FINTX=0.5
-  BXPM3A : SBEN, TYPE="4D36-C"       , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
-                 E1=2*ABpm, E2=0     , FINT=0.5, FINTX=0.0
-  BXPM3B : SBEN, TYPE="4D36-C"       , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
-                 E1=0     , E2=3*ABpm, FINT=0.0, FINTX=0.5
+! modified FFTB permanent magnet dump bends
+
+  LBpm   := 0.944           !originel effective length (m)
+  GBpm0  := 0.0381          !original gap height (m)
+  Bpm0   := 4.3             !original permanent magnetic field (kG)
+  GBpm   := 0.052           !modified gap height (m)
+  Bpm    := Bpm0*GBpm0/GBpm !modified permanent magnetic field (kG)
+  ABpm   := LBpm*Bpm/Brhox  !modified bend angle (rad)
+
+  BXPM1A : SBEN, TYPE="4D36-C"        , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
+                 E1=0      , E2=0     , FINT=0.5, FINTX=0.0
+  BXPM1B : SBEN, TYPE="4D36-C"        , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
+                 E1=0      , E2=1*ABpm, FINT=0.0, FINTX=0.5
+  BXPM2A : SBEN, TYPE="4D36-C"        , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
+                 E1=-1*ABpm, E2=0     , FINT=0.5, FINTX=0.0
+  BXPM2B : SBEN, TYPE="4D36-C"        , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
+                 E1=0      , E2=2*ABpm, FINT=0.0, FINTX=0.5
+  BXPM3A : SBEN, TYPE="4D36-C"        , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
+                 E1=-2*ABpm, E2=0     , FINT=0.5, FINTX=0.0
+  BXPM3B : SBEN, TYPE="4D36-C"        , L=LBpm/2, ANGLE=ABpm/2, HGAP=GBpm/2, &
+                 E1=0      , E2=3*ABpm, FINT=0.0, FINTX=0.5
 
 ! DL1
 !  KQA01 :=  -7.474220813631            ! OLD - no lsr-htr (for commissioning in Dec. '06 through July '07) & on-measured TWSS0
@@ -2654,9 +2666,10 @@
  !DMUSPL : DRIFT, L=5.1031
 
   DXDCu  : DRIFT, L=1.106223
-  XDCa   : DRIFT, L=1.005777
-  XDCb   : DRIFT, L=0.542
-  XDCc   : DRIFT, L=0.255376
+  XDCa   : DRIFT, L=0.312777
+  XDCb   : DRIFT, L=0.693
+  XDCc   : DRIFT, L=0.542
+  XDCd   : DRIFT, L=0.255376
   DXDCd  : DRIFT, L=4.323924
 
   DSP0   : DRIFT, L=0.3667
@@ -3102,9 +3115,12 @@
   DVB25cm: DRIF, L=0.5-0.25
   DVB25cmc: DRIF, L=0.5-0.25
   DQVM2  : DRIF, L=0.5
-  DQVM2a : DRIF, L=0.25
-  DQVM2b : DRIF, L=DQVM2[L]-DQVM2a[L]
+  DQVM2b : DRIF, L=0.48-LQF/2
+  DQVM2a : DRIF, L=DQVM2[L]-DQVM2b[L]
   DXCVM2 : DRIF, L=0.25
+  DWSVM2 : DRIF, L=DXCVM2[L]+DVB25cm[L]
+  DWSVM2a : DRIF, L=0.48-LQF/2
+  DWSVM2b : DRIF, L=DWSVM2[L]-DWSVM2a[L]
   DVB1   : DRIF, L=8.0-2*0.3125, TYPE="CSR"
   DVB1m40cm: DRIF, L=8.0-0.4-2*0.3125, TYPE="CSR"
   DVB2   : DRIF, L=4.0, TYPE="CSR"
@@ -3222,7 +3238,7 @@
   WS28144: WIRE !LI28 emittance
   WS28444: WIRE !LI28 emittance
   WS28744: WIRE !LI28 emittance (existing; moved)
-  WSVM1 : WIRE !LTU emittance
+  WSVM2 : WIRE !LTU emittance
   WS31 : WIRE !LTU emittance
   WS32 : WIRE !LTU emittance
   WS33 : WIRE !LTU emittance
@@ -3268,6 +3284,7 @@
   OTR30    : PROF, TYPE="OTR"      !LTU slice energy spread (90 deg from TCAV3)
   YAGPSI   : PROF, TYPE="YAG"
   OTR33    : PROF, TYPE="OTR"      !LTU slice emittance (~90 deg from TCAV3)
+  XDCXRAY  : PROF                  !safety dump line Xray screen
   YAGXRAY  : PROF, TYPE="YAG"      !safety dump line Xray screen
 
 ! bunch length monitors
@@ -3508,8 +3525,8 @@
   XCA11  : HKIC,TYPE="class-1s"
   XCA12  : HKIC,TYPE="class-1s"       ! calibrated to <1%
 
-  XC21202: HKIC,TYPE="type-4"         ! pulled off structure and replaced on beamline?
-  XC21302: HKIC,TYPE="type-4"         ! pulled off structure and replaced on beamline?
+  XC21202: HKIC,TYPE="type-4al"       ! pulled off structure and replaced on beamline?
+  XC21302: HKIC,TYPE="type-4al"       ! pulled off structure and replaced on beamline?
   XCM11  : HKIC,TYPE="class-1x"
   XCM13  : HKIC,TYPE="class-1a"
   XCM14  : HKIC,TYPE="class-1a"
@@ -3576,8 +3593,8 @@
   YCA11   : VKIC,TYPE="class-1s"       ! calibrated to <1%
   YCA12   : VKIC,TYPE="class-1s"
 
-  YC21203 : VKIC,TYPE="type-4"
-  YC21303 : VKIC,TYPE="type-4"         ! pulled off structure and replaced on beamline?
+  YC21203 : VKIC,TYPE="type-4al"
+  YC21303 : VKIC,TYPE="type-4al"       ! pulled off structure and replaced on beamline?
   YCM11   : VKIC,TYPE="class-1x"
   YCM12   : VKIC,TYPE="class-1a"
   YCM15   : VKIC,TYPE="class-1a"
@@ -3971,8 +3988,8 @@
                 QVB3,BPMVB3,QVB3,D40cmc,YCVB3,DVB1m40cm,BY2A,BY2B,CNTV, &
                 VBout)
   VBSYS : LINE=(DYCVM1,&
-                YCVM1,DQVM1,QVM1,BPMVM1,QVM1,DQVM2a,WSVM1,DQVM2b,&
-                QVM2,BPMVM2,QVM2,DXCVM2,XCVM2,DVB25cm,&
+                YCVM1,DQVM1,QVM1,BPMVM1,QVM1,DQVM2a,XCVM2,DQVM2b,&
+                QVM2,BPMVM2,QVM2,DWSVM2a,WSVM2,DWSVM2b,&
                 VBEND,DVB25cmc,&
                 XCVM3,D25cm,QVM3,BPMVM3,QVM3,DVBem25cm,&
                 YCVM4,D25cm,QVM4,BPMVM4,QVM4,DVBem15cm,IM31,D10cmb,IMBCS1,&
@@ -4050,10 +4067,10 @@
                   DBMARK38)
 
   PERMDUMP: LINE=(SFTBEG,DYD1,DSS1,DYD2,DSS2,DYD3,DScS1,VV38,DScS2,&
-                  PCPM1,BTM1,DXDCu,XDCa,XDCb,YAGXRAY,XDCc,DXDCd,SP0,DSP0,&
-                  ST1,DST1,BTMST1,DPM1c,PCPM2,BTM2,DPM1d,BXPM1A,BXPM1B,&
-                  DPM1,BXPM2A,BXPM2B,DPM2,BXPM3A,BXPM3B,DSFT,SFTDMP,&
-                  DPM2e,BTMSFT,DMPend)
+                  PCPM1,BTM1,DXDCu,XDCa,XDCXRAY,XDCb,XDCc,YAGXRAY,XDCd,&
+                  DXDCd,SP0,DSP0,ST1,DST1,BTMST1,DPM1c,PCPM2,BTM2,DPM1d,&
+                  BXPM1A,BXPM1B,DPM1,BXPM2A,BXPM2B,DPM2,BXPM3A,BXPM3B,&
+                  DSFT,SFTDMP,DPM2e,BTMSFT,DMPend)
 
   LTU     : LINE=(MM1,DOGLG2A,DOGLG2B,MM2,EDMCH,EDSYS,UNMCH)
   BSYLTU  : LINE=(RWWAKEss,BSY,B12WAL,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
@@ -5128,7 +5145,7 @@
 
   ! load "New BSY" optics (smaller, symmetric betas in BSY)
   ! (ML3DL2 penalty function:  2.557803E-26)
- 
+
     SET, KQ30201,  0.431061251508
     SET, KQ30301, -0.469798912489
     SET, KQ30401,  0.389442551401
@@ -5150,6 +5167,35 @@
     SET, KQVM4,   -0.774662020425 !-0.774280712935
   ENDSUBROUTINE
 
+! ------------------------------------------------------------------------------
+
+  NewBSY2 : SUBROUTINE
+
+  ! load updated "New BSY" optics (smaller, symmetric betas in BSY, with low
+  ! beta x at Q6 optimized for quad scan at WSVM2)
+  ! (ML3DL2 penalty function:  3.392496E-26)
+
+    SET, KQ30201,  0.431061251508
+    SET, KQ30301, -0.469798912489
+    SET, KQ30401,  0.389442551401
+    SET, KQ30501, -0.582099319705
+    SET, KQ30601,  0.32792543523
+    SET, KQ30701, -0.368249399517
+    SET, KQ30801,  0.38340496772
+    SET, K50Q,     1.902546E-01
+    SET, KQ50Q1,  -K50Q
+    SET, KQ50Q2,   K50Q
+    SET, KQ50Q3,  -K50Q
+    SET, KQSM1,    0
+    SET, KQ5,     -1.770000E-01
+    SET, KQ6,      2.281423E-01
+    SET, KQA0,    -3.272445E-02
+    SET, KQVM1,   -0.031869475721 !-3.187063E-02
+    SET, KQVM2,    0.273189578618 ! 2.731903E-01
+    SET, KQVM3,    0.81831036317  ! 8.183102E-01
+    SET, KQVM4,   -0.849449243488 !-8.494490E-01
+  ENDSUBROUTINE
+
 ! ==============================================================================
 ! COMMANDs
 ! ------------------------------------------------------------------------------
@@ -5158,7 +5204,8 @@
   SETPLOT, LWIDTH=5, LSCALE=1.5, SSCALE=1.5, RSCALE=1.5
   OPTION, ECHO
 
-  NewBSY !250 m symmetric betas in BSY
+ !NewBSY  !250 m symmetric betas in BSY
+  NewBSY2 !250 m symmetric betas in BSY, optimized for quad-scans at WSVM2
 
 ! ------------------------------------------------------------------------------
 ! output files for RDB generation
@@ -5280,7 +5327,7 @@
 ! Twiss plots, etc. (Full Machine)
 ! ------------------------------------------------------------------------------
 
-  ASSIGN, PRINT="LCLS22OCT14.print"
+  ASSIGN, PRINT="LCLS07JAN15.print"
 
  !COMMENT
     BEAM, ENERGY=E00

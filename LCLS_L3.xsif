@@ -1,3 +1,6 @@
+
+! *** OPTICS=LCLS07JAN15 ***
+
 ! ==============================================================================
 ! 15-NOV-2011, M. Woodley
 !    Change LI30 wraparound quads (QUAD LI30 615 and QUAD LI30 715) to MARKERs

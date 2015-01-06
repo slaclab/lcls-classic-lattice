@@ -1,4 +1,9 @@
+
+! *** OPTICS=LCLS07JAN15 ***
+
 ! ==============================================================================
+! 07-JAN-2015, M. Woodley
+!    Change TYPE of LI21 XCORs and YCORs to "type-4al"
 ! 01-JUL-2010, M. Woodley
 !    Per H. Loos: fix DELTAE arithmetic for the following LCAV elements:
 !      K24_2a1, K24_2a2, K24_2a3
@@ -381,12 +386,12 @@
 ! XCORs
 ! ------------------------------------------------------------------------------
 
-  XC21402 : HKIC, TYPE="type-4f" !fast-feedback (loop-2)
-  XC21502 : HKIC, TYPE="type-4"
-  XC21602 : HKIC, TYPE="type-4"
-  XC21702 : HKIC, TYPE="type-4"
-  XC21802 : HKIC, TYPE="type-4f" !fast-feedback (loop-2)
-  XC21900 : HKIC, TYPE="type-4"
+  XC21402 : HKIC, TYPE="type-4al" !fast-feedback (loop-2)
+  XC21502 : HKIC, TYPE="type-4al"
+  XC21602 : HKIC, TYPE="type-4al"
+  XC21702 : HKIC, TYPE="type-4al"
+  XC21802 : HKIC, TYPE="type-4al" !fast-feedback (loop-2)
+  XC21900 : HKIC, TYPE="type-4al"
 
   XC22202 : HKIC, TYPE="type-4"
   XC22302 : HKIC, TYPE="type-4"
@@ -417,12 +422,12 @@
 ! YCORs
 ! ------------------------------------------------------------------------------
 
-  YC21403 : VKIC, TYPE="type-4"
-  YC21503 : VKIC, TYPE="type-4f" !fast-feedback (loop-2)
-  YC21603 : VKIC, TYPE="type-4"
-  YC21703 : VKIC, TYPE="type-4"
-  YC21803 : VKIC, TYPE="type-4"
-  YC21900 : VKIC, TYPE="type-4f" !fast-feedback (loop-2)
+  YC21403 : VKIC, TYPE="type-4al"
+  YC21503 : VKIC, TYPE="type-4al" !fast-feedback (loop-2)
+  YC21603 : VKIC, TYPE="type-4al"
+  YC21703 : VKIC, TYPE="type-4al"
+  YC21803 : VKIC, TYPE="type-4al"
+  YC21900 : VKIC, TYPE="type-4al" !fast-feedback (loop-2)
 
   YC22203 : VKIC, TYPE="type-4"
   YC22303 : VKIC, TYPE="type-4"
