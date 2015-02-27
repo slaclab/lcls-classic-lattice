@@ -1,6 +1,6 @@
-  TITLE, "LCLS: LCLS07JAN15 design"
+  TITLE, "LCLS: LCLS27FEB15 design"
 
-! *** OPTICS=LCLS07JAN15 ***
+! *** OPTICS=LCLS27FEB15 ***
 
   OPTION, -INTER, -ECHO, WARN
   ASSIGN, ECHO="LCLS.echo"
@@ -45,6 +45,9 @@
 
 ! ==============================================================================
 ! Modification History
+! ------------------------------------------------------------------------------
+! 27-FEB-2015, M. Woodley
+!  * add BSY post-kicker pulsed correctors XCBSY71/YCBSY72
 ! ------------------------------------------------------------------------------
 ! 07-JAN-2015, M. Woodley
 !  * change TYPE of LI21 XCORs and YCORs to "type-4al"
@@ -3021,6 +3024,8 @@
   DBSY39   : DRIF, L=1.06296
   DPM      : DRIF, L=0.425 !BSY pulsed magnet (PM) half-length
   DPMPM    : DRIF, L=0.6875/2 !PM-to-PM half-separation
+  DPMPMa   : DRIF, L=0.214731
+  DPMPMb   : DRIF, L=DPMPM[L]-DPMPMa[L]
   DBSY40   : DRIF, L=1.06296
   D9502001 : DRIF, L=0.32390799 !B2 off
   D9502002 : DRIF, L=0.32399047 !B2 off
@@ -3531,8 +3536,9 @@
   XCM13  : HKIC,TYPE="class-1a"
   XCM14  : HKIC,TYPE="class-1a"
 
-  XC6    : HKIC,TYPE="class-4"
-  XCA0   : HKIC,TYPE="class-4"
+  XCBSY71 : HKIC,TYPE="pulsed"
+  XC6     : HKIC,TYPE="class-4"
+  XCA0    : HKIC,TYPE="class-4"
 
  !XCVB2  : HKIC,TYPE="class-4"       ! removed from beamline
   XCVM2  : HKIC,TYPE="type-4"
@@ -3598,6 +3604,8 @@
   YCM11   : VKIC,TYPE="class-1x"
   YCM12   : VKIC,TYPE="class-1a"
   YCM15   : VKIC,TYPE="class-1a"
+
+  YCBSY72 : VKIC,TYPE="pulsed"
   YC5     : VKIC,TYPE="class-4"
   YCA0    : VKIC,TYPE="class-4"       ! add new YCOR here, if easy (PE, Nov. 4, 2003)
 
@@ -3957,7 +3965,7 @@
       DBSY37,PMV,DBSY38,&
     ROLL1,D9501401,D9501402,DBSY39,&
       DPM,PM1,DPM,DPMPM,C50PC155,DPMPM,&
-      DPM,PM2,DPM,DPMPM,C50PC165,DPMPM,&
+      DPM,PM2,DPM,DPMPM,C50PC165,DPMPMa,XCBSY71,YCBSY72,DPMPMb,&
       DPM,BE_TGT,DPM,DPMPM,C50PC175,DPMPM,&
       DPM,PM4,DPM,DPMPM,C50PC185,DPMPM,&
       DPM,PM5,DPM,&
@@ -4045,6 +4053,14 @@
                 DUHW2,UHWALL2,DTDUND1,&
                 TDUND,DTDUND2,PCMUON,DMUON1,VV999,DMUON3,MM3,PFILT1,&
                 DBMARK37)
+
+  TEMPmdw :LINE=(QT12,D40cmb,YCQT12,DDL30em40cm,QT13,QT13,DDL20e,&
+                 DX33A,DX33B,DDL1a,BYKIK1A,BYKIK1B,DDL1c,DDL1c,&
+                 BYKIK2A,BYKIK2B,DDL1b,XCDL2,D32A,QDL32,BPMDL2,&
+                 QDL32,D32B,YCDL2,DSPLR,SPOILER,DDL1cm40cm,TDKIK,D30cma,&
+                 PCTDKIK1,DPC1,PCTDKIK2,DPC2,PCTDKIK3,DPC3,PCTDKIK4,DPC4,&
+                 SPONTUA,SPONTUB,DDL1dm30cm,DX34A,DX34B,&
+                 DDL20,QT21,QT21,DDL30em40cm,XCQT22,D40cmb,QT22)
 
 ! Undulator exit and Dumps:
 ! ========================
@@ -5211,7 +5227,7 @@
 ! output files for RDB generation
 ! ------------------------------------------------------------------------------
 
- !CALL, FILENAME="misc/makeSymbols.mad8"
+ !CALL, FILENAME="RDB/makeSymbols.mad8"
 
 ! ------------------------------------------------------------------------------
 ! Online Modelling Support.
@@ -5220,7 +5236,6 @@
 ! ------------------------------------------------------------------------------
 ! CALL, FILENAME="patch.mad8"
 ! ------------------------------------------------------------------------------
-
 
 ! ------------------------------------------------------------------------------
 ! matching
@@ -5327,7 +5342,7 @@
 ! Twiss plots, etc. (Full Machine)
 ! ------------------------------------------------------------------------------
 
-  ASSIGN, PRINT="LCLS07JAN15.print"
+  ASSIGN, PRINT="LCLS27FEB15.print"
 
  !COMMENT
     BEAM, ENERGY=E00
