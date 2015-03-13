@@ -57,7 +57,9 @@
 #
 # -------------------------------------------------------------------------
 # Auth: Greg White, SLAC, 26-mar-2014.
-# Mod:  Greg White, SLAC, 3-Nov-2014
+# Mod:  Greg White, SLAC, 12-MAr-2015
+#       Explicity use gawk on Solaris, but awk otherwise. 
+#       Greg White, SLAC, 3-Nov-2014
 #       Make compatible with Solaris; use explicit frame selection in convert 
 #       command instead of mv and rm, and awk -> gawk. Fixed install rsync.
 #       Mark Woodley, SLAC, 22-oct-2014.
@@ -77,6 +79,11 @@
 # 
 # MACROS
 #
+AWK=awk
+UNAME := $(shell uname)
+ifeq ($(UNAME), Solaris)
+    AWK=gawk
+endif
 
 # You can override this from the command line if you want a different 
 # executable.
@@ -143,13 +150,13 @@ endif
 # optics/etc/lattice/lcls/, since they use mad2dot from the script directory.
 #
 LCLS_lines.dat LCLS.dot : LCLS_survey.tape $(ELEMENTDEVICES) LCLS.print  
-	gawk -v width=38 -v height=4  -f ../../../script/mad2dot.awk $+ > LCLS.dot
+	$(AWK) -v width=38 -v height=4  -f ../../../script/mad2dot.awk $+ > LCLS.dot
 
 SPEC_lines.dat SPEC.dot : SPEC_survey.tape $(ELEMENTDEVICES) SPEC.print 
-	gawk -v width=20 -v height=10 -f ../../../script/mad2dot.awk $+ > SPEC.dot
+	$(AWK) -v width=20 -v height=10 -f ../../../script/mad2dot.awk $+ > SPEC.dot
 
 GSPEC_lines.dat GSPEC.dot : GSPEC_survey.tape $(ELEMENTDEVICES) GSPEC.print
-	gawk -v height=10 -f ../../../script/mad2dot.awk $+ > GSPEC.dot
+	$(AWK) -v height=10 -f ../../../script/mad2dot.awk $+ > GSPEC.dot
 
 LCLS_map.pdf : LCLS.dot
 
