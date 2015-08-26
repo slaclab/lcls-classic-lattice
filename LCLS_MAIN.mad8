@@ -1,6 +1,6 @@
-  TITLE, "LCLS: LCLS27FEB15 design"
+  TITLE, "LCLS: LCLS25AUG15 design"
 
-! *** OPTICS=LCLS27FEB15 ***
+! *** OPTICS=LCLS251AUG15 ***
 
   OPTION, -INTER, -ECHO, WARN
   ASSIGN, ECHO="LCLS.echo"
@@ -45,6 +45,11 @@
 
 ! ==============================================================================
 ! Modification History
+! ------------------------------------------------------------------------------
+! 25-AUG-2015, M. Woodley
+!  * add wire scanner WSDL4
+!  * add dechirper modules DCHIRPV and DCHIRPH (split in half)
+!  * move correctors XCDL4 and YCDL4 downstream
 ! ------------------------------------------------------------------------------
 ! 27-FEB-2015, M. Woodley
 !  * add BSY post-kicker pulsed correctors XCBSY71/YCBSY72
@@ -1556,6 +1561,21 @@
   DX37B  : DRIFT, L=LB3/2
   DX38A  : DRIFT, L=LB3/2
   DX38B  : DRIFT, L=LB3/2
+
+! dechirper installation
+
+  D37a     : DRIF, L=2.923
+  D37b     : DRIF, L=9.02398
+  D37c     : DRIF, L=1.0975
+  DCHIRPV  : INST, L=2.0/2   !split in half
+  MDCHIRPV : MARK            !center of dechirper
+  D37d     : DRIF, L=0.5117
+  D38a     : DRIF, L=0.5124
+  DCHIRPH  : INST, L=2.0/2   !split in half
+  MDCHIRPH : MARK            !center of dechirper
+  D38b     : DRIF, L=0.6091
+  D38c     : DRIF, L=0.5407
+  D38d     : DRIF, L=11.89398
 
 ! Single beam dumper vertical kicker
 ! ==================================
@@ -3244,6 +3264,7 @@
   WS28444: WIRE !LI28 emittance
   WS28744: WIRE !LI28 emittance (existing; moved)
   WSVM2 : WIRE !LTU emittance
+  WSDL4 : WIRE
   WS31 : WIRE !LTU emittance
   WS32 : WIRE !LTU emittance
   WS33 : WIRE !LTU emittance
@@ -4016,8 +4037,9 @@
   DL23  : LINE=(BX35A,BX35B,DCQ31a,CQ31,CQ31,DCQ31b,OTR30,D29cma,XCDL3, &
                 D33A,QDL33,BPMDL3,QDL33,D33B,YCDL3,D32cmd,CEDL3, &
                 DCQ32a,CQ32,CQ32,DCQ32b,BX36A,BX36B,CNT3b)
-  DL24  : LINE=(DX37A,DX37B,D30cm,IMBCS2,DDL10m70cm,XCDL4,D34A,QDL34,&
-                BPMDL4,QDL34,D34B,YCDL4,DDL10um25cm,DDL10v,DX38A,DX38B)
+  DL24  : LINE=(D37a,IMBCS2,D37b,WSDL4,D37c,DCHIRPV,MDCHIRPV,DCHIRPV,&
+                D37d,QDL34,BPMDL4,QDL34,D38a,DCHIRPH,MDCHIRPH,DCHIRPH,&
+                D38b,XCDL4,D38c,YCDL4,D38d)
   TRIP1 : LINE=(DDL20e,QT11,QT11,DDL30em40cm,XCQT12,D40cmb,QT12, &
                 BPMT12,QT12,D40cmb,YCQT12,DDL30em40cm,QT13,QT13,DDL20e)
   TRIP2 : LINE=(DDL20,QT21,QT21,DDL30em40cm,XCQT22,D40cmb,QT22, &
@@ -5342,7 +5364,7 @@
 ! Twiss plots, etc. (Full Machine)
 ! ------------------------------------------------------------------------------
 
-  ASSIGN, PRINT="LCLS27FEB15.print"
+  ASSIGN, PRINT="LCLS25AUG15.print"
 
  !COMMENT
     BEAM, ENERGY=E00
