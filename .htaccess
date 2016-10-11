@@ -17,7 +17,6 @@ IndexOptions IgnoreCase FancyIndexing FoldersFirst NameWidth=* DescriptionWidth=
 # The Directories and files found in the main output directory
 #
 
-AddDescription "Beam Switch Yard through 52 line geometry" BSY-52LINE.print
 AddDescription "Beam Switch Yard to End of Dump line geometry" BSY-LCLS.print
 AddDescription "Beam Switch Yard to End of Safety Dump geometry " BSY-SFTDMP.print
 AddDescription "Gun Spectometer line geometry " GSPEC.print
@@ -31,7 +30,6 @@ AddDescription "135 MeV Spectrometer line survey " SPEC_survey.tape
 AddDescription "Gun to Dump optics plots (PDF)" LCLS.pdf
 AddDescription "Gun to end Gun Spectrometer line optics plots (PDF)" GSPEC.pdf
 AddDescription "Gun to end 135 Mev Spectrometer line optics plots (PDF)" SPEC.pdf
-AddDescription "Beam Switch Yard through 52 line optics plots" BSY-52LINE.pdf
 AddDescription "Beam Switch Yard to End of Safety Dump optics " BSY-SFTDMP.pdf
 
 # The Descriptions of files found in the opt subdirectrory
