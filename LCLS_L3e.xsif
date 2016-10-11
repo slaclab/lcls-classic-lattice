@@ -1,4 +1,8 @@
 ! ==============================================================================
+! 09-NOV-2015, M. Woodley
+!    Fixed longstanding error in definition of drift lengths around LI27/28
+!    wire scanners
+! ------------------------------------------------------------------------------
 ! 18-SEP-2008, M. Woodley
 !    Fixed structure counts in header comments
 ! 17-AUG-2008, P. Emma
@@ -110,6 +114,15 @@
 ! ==============================================================================
 ! DRIFs
 ! ------------------------------------------------------------------------------
+
+  DAQ5A  : DRIF, L=2.3435
+  DAQ6A  : DRIF, L=0.7348
+  DAQ5B  : DRIF, L=2.841
+  DAQ6B  : DRIF, L=0.2373
+  DAQ5C  : DRIF, L=2.841
+  DAQ6C  : DRIF, L=0.2373
+  DAQ5D  : DRIF, L=2.344
+  DAQ6D  : DRIF, L=0.7343
 
   DAQ9   : DRIF, L=0.2091
   DAQ10  : DRIF, L=0.9089
@@ -253,7 +266,7 @@
 
   LI25  : LINE=(LI25beg,ZLIN09,XC24901,YC24901,&
                 K25_1,DAQ1,Q25201,BPM25201,Q25201,DAQ2,XC25201,YC25201,&
-                K25_2,D255a,IMBC2O,D255b,D255c,TCAV3,TCAV3,&
+                K25_2,D255a,IMBC2O,D255b,D255c,TCAV3,&
                 D255d,Q25301,BPM25301,Q25301,DAQ2,XC25301,YC25301,&
                 K25_3,D256a,PH03,D256b,BL22,D256e,OTR22,D256c,&
                 BXKIKA,BXKIKB,D256d,DAQ1,Q25401,BPM25401,Q25401,DAQ2,&
@@ -305,7 +318,7 @@
                 K27_3,DAQ1,Q27401,BPM27401,Q27401,DAQ2,XC27401,YC27401,&
                 K27_4,DAQ1,Q27501,BPM27501,Q27501,DAQ2,XC27501,YC27501,&
                 K27_5,DAQ1,Q27601,BPM27601,Q27601,DAQ2,XC27601,YC27601,&
-                K27_6,DAQ5,WS27644 ,DAQ6,Q27701,BPM27701,Q27701,DAQ2,&
+                K27_6,DAQ5A,WS27644,DAQ6A,Q27701,BPM27701,Q27701,DAQ2,&
                 XC27701,YC27701,&
                 K27_7,DAQ1,Q27801,BPM27801,Q27801,DAQ2,XC27801,YC27801,&
                 K27_8,DAQ7,Q27901,BPM27901,Q27901,DAQ8,XC27901,YC27901,&
@@ -323,15 +336,15 @@
   K28_8 : LINE=(K28_8a,K28_8b,K28_8c,K28_8d)
 
   LI28  : LINE=(LI28beg,ZLIN12,&
-                K28_1,DAQ5,WS28144 ,DAQ6,Q28201,BPM28201,Q28201,DAQ2,&
+                K28_1,DAQ5B,WS28144,DAQ6B,Q28201,BPM28201,Q28201,DAQ2,&
                 XC28201,YC28201,&
                 K28_2,DAQ1,Q28301,BPM28301,Q28301,DAQ2,XC28301,YC28301,&
                 K28_3,DAQ1,Q28401,BPM28401,Q28401,DAQ2,XC28401,YC28401,&
-                K28_4,DAQ5,WS28444 ,DAQ6,Q28501,BPM28501,Q28501,DAQ2,&
+                K28_4,DAQ5C,WS28444,DAQ6C,Q28501,BPM28501,Q28501,DAQ2,&
                 XC28501,YC28501,&
                 K28_5,DAQ1,Q28601,BPM28601,Q28601,DAQ2,XC28601,YC28601,&
                 K28_6,DAQ1,Q28701,BPM28701,Q28701,DAQ2,XC28701,YC28701,&
-                K28_7,DAQ5,WS28744 ,DAQ6,Q28801,BPM28801,Q28801,DAQ2,&
+                K28_7,DAQ5D,WS28744,DAQ6D,Q28801,BPM28801,Q28801,DAQ2,&
                 XC28801,YC28801,&
                 K28_8,DAQ7,Q28901,BPM28901,Q28901,DAQ8,XC28901,YC28901,&
                 LI28end)

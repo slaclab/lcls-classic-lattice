@@ -1,6 +1,6 @@
-  TITLE, "LCLS: LCLS25AUG15 design"
+  TITLE, "LCLS: LCLS12OCT16 design"
 
-! *** OPTICS=LCLS251AUG15 ***
+! *** OPTICS=LCLS12OCT16 ***
 
   OPTION, -INTER, -ECHO, WARN
   ASSIGN, ECHO="LCLS.echo"
@@ -45,6 +45,15 @@
 
 ! ==============================================================================
 ! Modification History
+! ------------------------------------------------------------------------------
+! 12-OCT-2016, M. Woodley
+!  * prepare for XLEAP installation (between QUM2 and QUM3)
+!  * once installed, uncomment XLEAP beamline definition and set quad strengths
+!    to match XLEAP with SUBROUTINE MXLEAP
+!  * move end of L3 (DBMARK29) u/s to Z= 3042.005 m
+!  * remove unused devices from BSY in preparation for BSY Reconfiguration
+!  * eliminate 52LINE
+!  * add new "Korean" RFBPM "RFBUE1" 12.0 m downstream of RFBU34 per H.-D. Nuhn
 ! ------------------------------------------------------------------------------
 ! 25-AUG-2015, M. Woodley
 !  * add wire scanner WSDL4
@@ -1071,9 +1080,6 @@
   DBMARK83 : MARK !(BX02exit) exit of BX02 ... LCLS injection point
   DBMARK28 : MARK !(QM15exit) exit of QM15 ... just after TD11
   DBMARK29 : MARK !(LI30 FV2) LI30 fast valve 2 ... start of BSY
-  DBMARK14 : MARK !(50B1BEND) entrance of 50B1
-  DBMARK33 : MARK !(SWIVEL  ) SLC "swivel point"
-  DBMARK99 : MARK !(52-SL2  ) 52 SL2
   DBMARK34 : MARK !(BX31entr) entrance of BX31
   DBMARK36 : MARK !(WS31    ) center of WS31
   DBMARK37 : MARK !(endUNMCH) end of undulator match
@@ -1206,10 +1212,10 @@
 
 ! transverse deflecting cavities
 
- ! TCAV0 : DRIF, L=0.6680236/2  ! flange-to-flange (then split in two)
- ! TCAV3 : DRIF, L=2.438/2
-  TCAV0 : LCAV, TYPE="TRANS_DEFL", L=0.6680236/2  ! flange-to-flange (then split in two)
-  TCAV3 : LCAV, TYPE="TRANS_DEFL", L=2.438/2
+ ! TCAV0h : DRIF, L=0.6680236/2  ! flange-to-flange (then split in two)
+ ! TCAV3h : DRIF, L=2.438/2
+  TCAV0h : LCAV, TYPE="TRANS_DEFL", L=0.6680236/2  ! flange-to-flange (then split in two)
+  TCAV3h : LCAV, TYPE="TRANS_DEFL", L=2.438/2
   LKIK    := 1.0601              ! kicker coil length per magnet (m) [41.737 in from SA-380-330-02, rev. 0]
   BXKIKA  : SBEN, TYPE="XPULSED", L=LKIK/2, ANGLE=1E-12, HGAP=25.4E-3, &
                   E1=0  , FINT=0.5, FINTX=0
@@ -1458,62 +1464,6 @@
   LDo2 := LD2/COS(AB21)-LQc  !outer bend-to-bend path length (m)
   LDo3 := LD3/COS(AB21)-LQc  !outer bend-to-bend path length (m)
   LDo4 := LD4/COS(AB21)      !outer bend-to-bend path length (m)
-
-! 52-line stuff
-! =============
-
-  B50B1A  :  SBEN,L=1.1320272,ANGLE=-0.86939816E-02,TYPE="50B1"
-  B50B1B  :  SBEN,L=1.1320272,ANGLE=-0.86939816E-02,TYPE="50B1"
-  B52AGFA :  SBEN,L=0.40010029,ANGLE=-0.14360109E-02,&
-                  K1=0.43265282,TYPE="52AGF"
-  B52AGFB :  SBEN,L=0.40010029,ANGLE=-0.14360109E-02,&
-                  K1=0.43265282,TYPE="52AGF"
-  B52WIG1A:  SBEN,L=0.23367797/2,ANGLE=-0.23818663E-02/2,&
-                  TILT,TYPE="52WG1"
-  B52WIG1B:  SBEN,L=0.23367797/2,ANGLE=-0.23818663E-02/2,&
-                  TILT,TYPE="52WG1"
-  B52WIG2A:  SBEN,L=0.23368102,ANGLE=0.23818974E-02,&
-                  TILT,TYPE="52WG1"
-  B52WIG2B:  SBEN,L=0.23368102,ANGLE=0.23818974E-02,&
-                  TILT,TYPE="52WG1"
-  B52WIG3A:  SBEN,L=0.23367797/2,ANGLE=-0.23818663E-02/2,&
-                  TILT,TYPE="52WG1"
-  B52WIG3B:  SBEN,L=0.23367797/2,ANGLE=-0.23818663E-02/2,&
-                  TILT,TYPE="52WG1"
-  Q52Q2   :  QUAD,L=0.37224614,K1=-0.38544745,TYPE="52Q2"
-  XC69    :  HKIC,TYPE="52A1X"
-  YC54T   :  VKIC,TYPE="52WIGT"
-  YC59    :  VKIC,TYPE="52A1Y"
-  BPM52   :  MONI,TYPE="20_um_res"
-  BPM56   :  MONI,TYPE="20_um_res"
-  BPM64   :  MONI,TYPE="20_um_res"
-  BPM68   :  MONI,TYPE="20_um_res"
-  IM61    :  MARK,TYPE="52I1"
-  PR45    :  INST,TYPE="50PR2"
-  PR55    :  INST,TYPE="52PR0"
-  PR60    :  INST,TYPE="52PR1"
-  WS62    :  INST,TYPE="52WS1"
-  DRI14001:  DRIF,L=0.7620000
-  DRI14002:  DRIF,L=2.9725315
-  DRI14003:  DRIF,L=0.91440000E-01
-  DRI14004:  DRIF,L=0.2092970
-  DRI14005:  DRIF,L=0.1737360
-  DRI14006:  DRIF,L=0.1139068
-  DRI14007:  DRIF,L=0.2255520
-  DRI14008:  DRIF,L=0.1280160
-  DRI14009:  DRIF,L=0.1219200
-  DRI14010:  DRIF,L=0.1916339
-  T460061T:  DRIF,L=0,TYPE="52I1"
-  DRI14011:  DRIF,L=0.1981200
-  DRI14012:  DRIF,L=0.3230880
-  DRI14013:  DRIF,L=0.4252539
-  SL1X    :  DRIF,L=0,TYPE="52SL1X"
-  DRI14014:  DRIF,L=0.7909590
-  SL1Y    :  DRIF,L=0,TYPE="52SL1Y"
-  DRI14015:  DRIF,L=1.0088270
-  DRI14016:  DRIF,L=0.3139440
-  DRI14017:  DRIF,L=2.2764689
-  SL2     :  DRIF,L=0,TYPE="52SL2"
 
 ! Vertical bend system and DL2
 ! ============================
@@ -2087,25 +2037,6 @@
   Q30715C: MARK, TYPE="QW" !power supply decommissioned
   Q30801 : QUAD, TYPE="QE", L=LQE/2,  K1=KQ30801, APER=rQE
 
-! BSY
-
-  K50Q   :=  0.252164058501
-  KQ50Q1 := -K50Q
-  KQ50Q2 :=  K50Q
-  KQ50Q3 := -K50Q
-  KQSM1  :=  0              !skew quad
-  KQ5    := -0.159291446684
-  KQ6    :=  0.234194141524
-  KQA0   := -0.201473658651
-
-  Q50Q1 : QUAD, TYPE="50Q1",       L=0.093671, K1=KQ50Q1, APER=0.010325
-  Q50Q2 : QUAD, TYPE="50Q2",       L=0.162151, K1=KQ50Q2, APER=0.010325
-  Q50Q3 : QUAD, TYPE="50Q3",       L=0.143254, K1=KQ50Q3, APER=0.010325
-  QSM1  : QUAD, TYPE="ETA",        L=LQx/2,    K1=KQSM1,  APER=rQx     , TILT
-  Q5    : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQ5,    APER=rQF
-  Q6    : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQ6,    APER=rQF
-  QA0   : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQA0,   APER=rQF
-
 ! LTU vertical bend system quads:
 ! ------------------------------
 
@@ -2292,7 +2223,8 @@
   RFBU31 : MONI, L=LRFBu, TYPE="01_um_res"           ! undulator BPMs
   RFBU32 : MONI, L=LRFBu, TYPE="01_um_res"           ! undulator BPMs
   RFBU33 : MONI, L=LRFBu, TYPE="01_um_res"           ! undulator BPMs
-  RFBU34 : MONI, L=LRFBu, TYPE="01_um_res"           ! undulator BPMs
+  RFBU34 : MONI, L=LRFBu, TYPE="01_um_res"           ! Korean BPM
+  RFBUE1 : MONI, L=LRFBu, TYPE="01_um_res"           ! Korean BPM
 
   BFW00  : INST      ! Beam Finder Wire
   BFW01  : INST      ! Beam Finder Wire
@@ -2607,13 +2539,13 @@
                   DBRL,  GIRD28,DBRS,GIRD29,DBRS,GIRD30, &
                   DBRL,  GIRD31,DBRS,GIRD32,DBRS,GIRD33)
 
-  UND     : LINE=(UNDSTART,DF0,DB3,RFBU00,UNDCL,DB0a,RFBU34,DB0B,UNDTERM)
+  UND : LINE=(UNDSTART,DF0,DB3,RFBU00,UNDCL,DB0a,RFBU34,DB0B,RWWAKEU,UNDTERM)
 
 ! Undulator exit section:
 ! ----------------------
 
-  XTC01 : LCAV, FREQ=XbandF, TYPE="TRANS_DEFL", L=1.0/2 !horizontal deflection
-  XTC02 : LCAV, FREQ=XbandF, TYPE="TRANS_DEFL", L=1.0/2 !horizontal deflection
+  XTC01h : LCAV, FREQ=XbandF, TYPE="TRANS_DEFL", L=1.0/2 !horizontal deflection
+  XTC02h : LCAV, FREQ=XbandF, TYPE="TRANS_DEFL", L=1.0/2 !horizontal deflection
 
   KQUE1 := -0.063065263603 !XTCAV optics
   KQUE2 :=  0.135705662403 !XTCAV optics
@@ -2623,8 +2555,8 @@
 
   DUE1a  : DRIF, L=1.790539
   DUE1b  : DRIF, L=9.34167
-  DUE1c  : DRIF, L=0.818826
-  DUE2a  : DRIF, L=1.0
+  DUE1c  : DRIF, L=0.725199-LRFBu/2 !0.818826
+  DUE2a  : DRIF, L=1.093627-LRFBu/2 !1.0
   DUE2b  : DRIF, L=5.899673 !5.885373
   DUE2c  : DRIF, L=0.188    !0.1935
   DUE2d  : DRIF, L=3.9436   !3.937447
@@ -2652,7 +2584,9 @@
   TRUE1  : INST !Be foil inserter (THz)
   PCXTC  : ECOL !XTCAV photon collimator (9 mm aperture)
   VVXTC  : MARK !XTCAV vacuum valve
+  INTW   : MARK !XTCAV entrance
   MXTC   : MARK !centerline between XTC01 and XTC02 (for matching)
+  EXTW   : MARK !XTCAV exit
   SPXTC  : INST !XTCAV spoiler
   UEend  : MARK
 
@@ -2714,21 +2648,22 @@
 
 ! Safety Dump:
 ! -----------
-  SFTBEG : MARK ! start of safety dump (entrance of turned-off BYD1)
-  PCPM0  : ECOL,  L=LPCPM,XSIZE=0.0168,YSIZE=0.0103  ! added Sep. 13, 2007 per J. Langton
-  PCPM1  : ECOL,  L=LPCPM,XSIZE=0.0168,YSIZE=0.0103
-  PCPM2  : ECOL,  L=LPCPM,XSIZE=0.0198,YSIZE=0.0121
-  BTM0   : INST  ! Burn-Through-Monitor behind PCPM1L
-  BTM1   : INST  ! Burn-Through-Monitor behind PCPM1L
-  BTM2   : INST  ! Burn-Through-Monitor behind PCPM1L
-  DYD1   : DRIFT, L=LBdm*cos(1*ABdm0/2)
-  DYD2   : DRIFT, L=LBdm*cos(3*ABdm0/2)
-  DYD3   : DRIFT, L=LBdm*cos(5*ABdm0/2)
-  DSS1   : DRIFT, L=LDS*cos(1*ABdm0)
-  DSS2   : DRIFT, L=LDS*cos(2*ABdm0)
-  DScS1  : DRIFT, L=LDSC*cos(3*ABdm0)/2+0.188398+0.004
-  DScS2  : DRIFT, L=LDSC*cos(3*ABdm0)/2-0.188398-0.004
-  BTMSFT : INST  ! Burn-Through-Monitor behind saftey-dump
+  SFTBEG  : MARK ! start of safety dump (entrance of turned-off BYD1)
+  PCPM0   : ECOL,  L=LPCPM,XSIZE=0.0168,YSIZE=0.0103  ! added Sep. 13, 2007 per J. Langton
+  PCPM1   : ECOL,  L=LPCPM,XSIZE=0.0168,YSIZE=0.0103
+  PCPM2   : ECOL,  L=LPCPM,XSIZE=0.0198,YSIZE=0.0121
+  BTM0    : INST  ! Burn-Through-Monitor behind PCPM1L
+  BTM1    : INST  ! Burn-Through-Monitor behind PCPM1L
+  BTM2    : INST  ! Burn-Through-Monitor behind PCPM1L
+  DYD1    : DRIFT, L=LBdm*cos(1*ABdm0/2)
+  DYD2    : DRIFT, L=LBdm*cos(3*ABdm0/2)
+  DYD3    : DRIFT, L=LBdm*cos(5*ABdm0/2)
+  DSS1    : DRIFT, L=LDS*cos(1*ABdm0)
+  DSS2    : DRIFT, L=LDS*cos(2*ABdm0)
+  DScS1   : DRIFT, L=LDSC*cos(3*ABdm0)/2+0.188398+0.004
+  DScS2   : DRIFT, L=LDSC*cos(3*ABdm0)/2-0.188398-0.004
+  BTMSFT  : INST  ! Burn-Through-Monitor behind saftey-dump
+  PDMPend : MARK
 
 ! ==============================================================================
 ! DRIFTs
@@ -2736,10 +2671,10 @@
 
 ! L1/2/3 FODO cells
 
-  D9   : DRIF, L=DLWL9
-  D10  : DRIF, L=DLWL10
-  DAQ1 : DRIF, L=0.0342
-  DAQ2 : DRIF, L=0.027
+  D9ft  : DRIF, L=DLWL9
+  D10ft : DRIF, L=DLWL10
+  DAQ1  : DRIF, L=0.0342
+  DAQ2  : DRIF, L=0.027
 
 ! injector geometry
 
@@ -2947,7 +2882,6 @@
   DAQ4  : DRIF, L=2.5527
   DAQ5  : DRIF, L=2.841-0.3048-1.2192
   DAQ6  : DRIF, L=0.2373
-  DAQ6A : DRIF, L=0.2373+0.3048+1.2192
   DAQ7  : DRIF, L=0.2748
   DAQ8  : DRIF, L=2.6312
   DAQ8A : DRIF, L=0.5+0.003200
@@ -2957,7 +2891,7 @@
   DAQ14 : DRIF, L=0.2130
   DAQ15 : DRIF, L=0.0087
   DAQ16 : DRIF, L=0.2274
-  DAQ17 : DRIF, L=3.9709
+  DAQ17 : DRIF, L=0.061901 !3.9709
   D255a : DRIF, L=0.06621-0.001510
   D255b : DRIF, L=0.11184+0.001510
   D255c : DRIF, L=0.17805-0.275500+0.25
@@ -2992,100 +2926,6 @@
   DM24D : DRIF, L=0.070700, TYPE="CSR"
   DM24C : DRIF, L=0.106300, TYPE="CSR"
   DM25  : DRIF, L=0.160400
-
-! BSY
-
-  DBSY00   : DRIF, L=0.134786
-  DBSY01   : DRIF, L=0.140208
-  DBSY02a  : DRIF, L=1.605264
-  DBSY02b  : DRIF, L=0.0184
-  DBSY02c  : DRIF, L=2.688336
-  DBSY03   : DRIF, L=0.35052
-  DBSY04   : DRIF, L=2.93
-  DBSY05   : DRIF, L=0.5411+2.0764+4.843132
-  DBSY06   : DRIF, L=0.35052
-  DBSY07   : DRIF, L=0.382923
-  DBSY08   : DRIF, L=0.128016
-  DBSY09   : DRIF, L=0.950976
-  DBSY10   : DRIF, L=0.192024
-  DBSY11   : DRIF, L=0.466344
-  DBSY12   : DRIF, L=0.331248
-  DBSY13   : DRIF, L=0.566
-  DBSY14   : DRIF, L=0.247
-  DBSY15   : DRIF, L=0.459
-  DBSY16   : DRIF, L=0.35052
-  DBSY17   : DRIF, L=0.487899
-  DBSY18   : DRIF, L=0.204216
-  DBSY19   : DRIF, L=0.204216+0.377343
-  D50B1    : DRIF, L=1.132027 !50B1 half-length
-  DBSY20   : DRIF, L=0.762
-  DBSY21   : DRIF, L=2.329
-  DBSY22a  : DRIF, L=5.402548
-  DBSY22b  : DRIF, L=7.405675+3.2853-0.61397
-  DBSY23   : DRIF, L=0.61397
-  DBSY24   : DRIF, L=0.635
-  DBSY25   : DRIF, L=0.787
-  DBSY26   : DRIF, L=0.534
-  DBSY27   : DRIF, L=0.813
-  DBSY28   : DRIF, L=0.685
-  DBSY29   : DRIF, L=0.61
-  DBSY30   : DRIF, L=1.27
-  DBSY31   : DRIF, L=1.778
-  DBSY32   : DRIF, L=0.457
-  DBSY33   : DRIF, L=0.153
-  DBSY34   : DRIF, L=0.177
-  DBSY35   : DRIF, L=0.483
-  DBSY36   : DRIF, L=0.483
-  DBSY37   : DRIF, L=0.587
-  PMV      : DRIF, L=0.4 !vertical pulsed magnet ... not used
-  DBSY38   : DRIF, L=0.589942
-  D9501401 : DRIF, L=0.32399974 !B1 off
-  D9501402 : DRIF, L=0.3239982 !B1 off
-  DBSY39   : DRIF, L=1.06296
-  DPM      : DRIF, L=0.425 !BSY pulsed magnet (PM) half-length
-  DPMPM    : DRIF, L=0.6875/2 !PM-to-PM half-separation
-  DPMPMa   : DRIF, L=0.214731
-  DPMPMb   : DRIF, L=DPMPM[L]-DPMPMa[L]
-  DBSY40   : DRIF, L=1.06296
-  D9502001 : DRIF, L=0.32390799 !B2 off
-  D9502002 : DRIF, L=0.32399047 !B2 off
-  DBSY41   : DRIF, L=66.20934
-  DBSY42   : DRIF, L=0.615959
-  DBSY43   : DRIF, L=2.850589
-  DBSY44   : DRIF, L=0.15875
-
-  DMB01    : DRIF, L=3.741122599997 !3.687288
-  DMB02    : DRIF, L=0.27604
-  H1DL     : DRIF, L=0.08335
-  DM03     : DRIF, L=0.110211
-  V1DL     : DRIF, L=0.08335
-  DM04     : DRIF, L=0.49955
-  DM05     : DRIF, L=0.660502
-  DM08     : DRIF, L=0.686013
-  DM09     : DRIF, L=0.550794
-  DM10B    : DRIF, L=0.470278 !0.423278
-  DQSM1    : DRIF, L=0.28438  !0.43938
-  DYC5     : DRIF, L=0.307342
-  I4A      : DRIF, L=0.32385-0.205742
-  I4B      : DRIF, L=0.32385
-  I5       : DRIF, L=0.32385
-  DM12A    : DRIF, L=0.044958
-  I6       : DRIF, L=0.32385
-  DM12B    : DRIF, L=0.459314
-  DM12C    : DRIF, L=0.31
-  DXC6     : DRIF, L=0.68
-  DM2      : DRIF, L=0.561408
-  D2L      : DRIF, L=0.6096
-  DM3      : DRIF, L=0.1524
-  ST60L    : DRIF, L=0.6096
-  DM4      : DRIF, L=8.622041
-  DXCA0    : DRIF, L=0.31
-  DYCA0    : DRIF, L=0.356220-0.076799
-  ST61L    : DRIF, L=0.6096
-  DM5      : DRIF, L=0.561379
-  DM6      : DRIF, L=0.567588
-  DMONI    : DRIF, L=0.009525
-  WALL     : DRIF, L=16.764
 
 ! LTU
 
@@ -3238,9 +3078,76 @@
   DUHW3   : DRIFT, L=0.397024
   UHWALL3 : DRIFT, L=9.875*in2m
 
+! ------------------------------------------------------------------------------
+! XLEAP
+! ------------------------------------------------------------------------------
+
+! wiggler modeled as R-matrix to include vertical natural focusing
+
+  Kwig  := 50.0                            !wiggler parameter [m^-1]
+  lamw  :=  0.34                           !wiggler period [m]
+  Lwig  :=  2.38                           !wiggler length [m]
+  kqwig := (2*pi*Kwig/lamw/sqrt(2)/gamf)^2 !natural vertical focusing "k" [m^-2]
+
+  WIGXL : MATRIX, &
+    L       = Lwig, &
+    RM(1,1) = 1.0,  &
+    RM(1,2) = Lwig, &
+    RM(2,1) = 0.0,  &
+    RM(2,2) = 1.0,  &
+    RM(3,3) = cos(Lwig*sqrt(kqwig)),  &
+    RM(3,4) = sin(Lwig*sqrt(kqwig))/sqrt(kqwig), &
+    RM(4,3) = -sin(Lwig*sqrt(kqwig))*sqrt(kqwig),  &
+    RM(4,4) = cos(Lwig*sqrt(kqwig))
+
+! XLEAP installation (see SUBROUTINE MXLEAP below)
+
+  LXLEAP := 8.14492 !length of space between QUM2 and QUM3
+
+  DXL0  : DRIF, L=0.59371
+  XCXL1 : HKIC, TYPE="type-4"
+  DXL1  : DRIF, L=0.5183
+  YCXL1 : VKIC, TYPE="type-4"
+  DXL2  : DRIF, L=0.4818
+  PRXL1 : PROF, TYPE="YAG"
+  DXL3  : DRIF, L=1.9847-Lwig/2
+  DXL4  : DRIF, L=1.8034-Lwig/2
+  PRXL2 : PROF, TYPE="YAG"
+  DXL5  : DRIF, L=0.4318
+  YCXL2 : VKIC, TYPE="type-4"
+  DXL6  : DRIF, L=0.5080
+  XCXL2 : HKIC, TYPE="type-4"
+  DXL7  : DRIF, L=1.0922
+  PRXL3 : PROF, TYPE="OTR" !photodiode for measuring beam-laser timing
+  DXL8  : DRIF, L=0.73101
+
 ! ==============================================================================
 ! MARKERs
 ! ------------------------------------------------------------------------------
+
+! Permanent reference points in the linac (and LTU: Z') Z-coordinate system (in meters)
+! (NOTE: Z' is measured parallel to the undulator axis which is at an angle of
+! 2*AVB [=4.668514 mrad on May 4, 2004] w.r.t. the linac axis):
+! (Note Q20-901 is at 2029.4060 m in drawing ID-380-802-00 pg. 2 - this does not agree
+!  with Woodley/Seeman database at 2029.3939 m.  We assume drawing is right -PE, June 11, 2004)
+! ============================================================================================
+  ZLIN00   : MARK  ! face of L0-a entrance flange : Z=2019.106625 (= 1.459000 m from cathode parallel to injector line, X = 9.612087)
+! DBMARK98 : MARK  ! (135SPECT)135-MeV spect. dump: Z=2036.774471
+  ZLIN01   : MARK  ! entrance to 21-1b            : Z=2035.035130 (= 20*101.600 m + 3.0441 m - 0.00897 m: 8/1/05)
+  ZLIN02   : MARK  ! center of QUAD LI21 201      : (not used anymore since Q21201 is a few mm off) [was Z=2045.436400 pre 1/11/07]
+  ZLIN03   : MARK  ! center of QUAD LI21 301      : (not used anymore since Q21301 is a few mm off) [was Z=2057.855466 pre 1/11/07]
+  ZLIN04   : MARK  ! entrance to 21-3b            : Z=2059.732900
+  ZLIN05   : MARK  ! start of LI22                : Z=2133.600000
+  ZLIN06   : MARK  ! start of LI23                : Z=2235.200000
+  ZLIN07   : MARK  ! start of LI24                : Z=2336.800000
+  ZLIN08   : MARK  ! center of QUAD LI24 701 (A)  : Z=2410.786000 (not moved)
+  ZLIN09   : MARK  ! start of LI25                : Z=2438.400000
+  ZLIN10   : MARK  ! start of LI26                : Z=2540.000000
+  ZLIN11   : MARK  ! start of LI27                : Z=2641.600000
+  ZLIN12   : MARK  ! start of LI28                : Z=2743.200000
+  ZLIN13   : MARK  ! start of LI29                : Z=2844.800000
+  ZLIN14   : MARK  ! start of LI30                : Z=2946.400000
+  ZLIN15   : MARK  ! station-100 (or "S100")      : Z=3048.000000  (Z' =   0.000000 m, X'= 0.000000 m, Y'= 0.000000 m)
 
 ! wire scanners
 
@@ -3321,6 +3228,7 @@
   BL22  : BLMO !BC2+ (ceramic gap-based relative bunch length monitor)
 
 ! bunch charge monitors (toroids)
+
   IM01   : IMON !L0
   IM02   : IMON !L0
   IMS1   : IMON !135-MeV spectrometer
@@ -3338,6 +3246,7 @@
   IMDUMP : IMON !in dump line after Y-bends and quad (comparator with IMUNDO)
 
 ! BCS toroids (from Saleski request)
+
   IMBCS1 : IMON !LTU: upstr. of BX31 (comparator with IMBCS2)
   IMBCS2 : IMON !LTU: dnstr. of BX36 (comparator with IMBCS1)
   IMBCS3 : IMON !pre-dump magnet toroid with >42-mm ID stay-clear (comparator with IMBCS4)
@@ -3360,6 +3269,7 @@
   TD11 : INST !BC1+ insertable block
 
 ! miscellany
+
   LSOL1    := 0.200
   L0beg    : MARK
   SOL1BK   : SOLENOID,L=1E-9,KS=0       !gun-bucking-solenoid (set to ~zero length and strength, with longitudinal unknown for now)
@@ -3418,60 +3328,14 @@
   RWWAKEss : MARK !will be resistive wall wake of stainless steel in ELEGANT
   LI30end  : MARK
   L3end    : MARK
-  BSYbeg   : MARK
   CNTV     : MARK !ELEGANT will correct the orbit here for CSR-steering
   CNTw     : MARK !ELEGANT will correct the orbit here for CSR-steering
   CNT3a    : MARK !ELEGANT will correct the orbit here for CSR-steering
   CNT3b    : MARK !ELEGANT will correct the orbit here for CSR-steering
   EOBLM    : MARK !future electro-optic bunch length monitor?
   RWWAKEAl : MARK !will be resistive wall wake of aluminum in ELEGANT
+  RWWAKEU  : MARK !will be resistive wall wake of undulator in ELEGANT
   PFILT1   : MARK
-
-! BSY stuff (exists)
-
-  FFTBORGN : MARK
-  S100     : MARK !station 100
-  C50PC20  : MARK !50PC-20
-  P460031T : MARK !50PRX-1 ... not used
-  P460032T : MARK !50PRY-1 ... not used
-  C50PC30  : MARK !50PC-30
-  IMBSY34  : IMON !50I-1A
-  PRBSY45  : PROF, TYPE="PHOSPHOR" !50PR-2
-  C50PC45  : MARK !50PC-45
-  I_1      : MARK !I-1 (BCS)
-  I_2      : MARK !I-2 (BCS)
-  A4V      : MARK !not used
-  A4H      : MARK !not used
-  M351010T : MARK !not used
-  P950115T : MARK !PR115 ... not used
-  IV3      : MARK
-  P460118T : MARK !50PR-3 ... not used
-  C50PC119 : MARK !PC-119
-  ISP2     : MARK !ISP-2 ... not used
-  ROLL1    : MARK !for A-line
-  PM1      : MARK !new pulse-stealing kicker
-  C50PC155 : MARK !PC-155
-  PM2      : MARK !original pulsed-magnet ... removed
-  C50PC165 : MARK !PC-165
-  BE_TGT   : MARK !insertable Be target
-  C50PC175 : MARK !PC-175
-  PM4      : MARK !original pulsed-magnet ... removed
-  C50PC185 : MARK !PC-185
-  PM5      : MARK !original pulsed-magnet ... removed
-  C50PC195 : MARK !PC-195
-  D10J     : MARK !D10
-  D19A     : MARK !D10
-  D10H     : MARK !D10
-  FLNG     : MARK !D10
-  ROLL2    : MARK !for A-line
-
-  PC90     : MARK
-  I3       : MARK
-  P950020T : MARK
-  IV4      : MARK
-  D2       : MARK
-  ST60     : MARK
-  ST61     : MARK
 
   SS1    : MARK
   SS3    : MARK
@@ -3479,30 +3343,6 @@
   MM2    : MARK
   MM3    : MARK
 
-! Permanent reference points in the linac (and LTU: Z') Z-coordinate system (in meters)
-! (NOTE: Z' is measured parallel to the undulator axis which is at an angle of
-! 2*AVB [=4.668514 mrad on May 4, 2004] w.r.t. the linac axis):
-! (Note Q20-901 is at 2029.4060 m in drawing ID-380-802-00 pg. 2 - this does not agree
-!  with Woodley/Seeman database at 2029.3939 m.  We assume drawing is right -PE, June 11, 2004)
-! ============================================================================================
-  ZLIN00   : MARK  ! face of L0-a entrance flange : Z=2019.106625 (= 1.459000 m from cathode parallel to injector line, X = 9.612087)
-! DBMARK98 : MARK  ! (135SPECT)135-MeV spect. dump: Z=2036.774471
-  ZLIN01   : MARK  ! entrance to 21-1b            : Z=2035.035130 (= 20*101.600 m + 3.0441 m - 0.00897 m: 8/1/05)
-  ZLIN02   : MARK  ! center of QUAD LI21 201      : (not used anymore since Q21201 is a few mm off) [was Z=2045.436400 pre 1/11/07]
-  ZLIN03   : MARK  ! center of QUAD LI21 301      : (not used anymore since Q21301 is a few mm off) [was Z=2057.855466 pre 1/11/07]
-  ZLIN04   : MARK  ! entrance to 21-3b            : Z=2059.732900
-  ZLIN05   : MARK  ! start of LI22                : Z=2133.600000
-  ZLIN06   : MARK  ! start of LI23                : Z=2235.200000
-  ZLIN07   : MARK  ! start of LI24                : Z=2336.800000
-  ZLIN08   : MARK  ! center of QUAD LI24 701 (A)  : Z=2410.786000 (not moved)
-  ZLIN09   : MARK  ! start of LI25                : Z=2438.400000
-  ZLIN10   : MARK  ! start of LI26                : Z=2540.000000
-  ZLIN11   : MARK  ! start of LI27                : Z=2641.600000
-  ZLIN12   : MARK  ! start of LI28                : Z=2743.200000
-  ZLIN13   : MARK  ! start of LI29                : Z=2844.800000
-  ZLIN14   : MARK  ! start of LI30                : Z=2946.400000
-  ZLIN15   : MARK  ! station-100 (or "S100")      : Z=3048.000000  (Z' =   0.000000 m, X'= 0.000000 m, Y'= 0.000000 m)
-  BSYEND   : MARK  ! FFTB side of muon plug wall  : Z=3224.022426  (Z' = 176.020508 m, X'= 0.000000 m, Y'=-0.821761 m)
   VBIN     : MARK  ! start of vert. bend system   : Z=3226.684266  (Z' = 178.682319 m, X'= 0.000000 m, Y'=-0.834188 m)
   VBOUT    : MARK  ! end of vert. bend system     : Z=3252.866954  (Z' = 204.865007 m, X'= 0.000000 m, Y'=-0.895305 m)
   UNDSTART : MARK  ! start of undulator system    : Z=3562.999159  (Z' = 515.000592 m, X'=-1.250000 m, Y'=-0.895305 m)
@@ -3513,23 +3353,6 @@
 
   DUMPFACE : INST  ! entrance face of main e- dump (same as EOL)
   BTMDUMP  : INST  ! Burn-Through-Monitor of main e- dump
-
-! ==============================================================================
-! existing XCORs
-! ------------------------------------------------------------------------------
-
-!  XC460009T : HKIC
-!  XC460026T : HKIC
-!  XC460034T : HKIC !do not use to steer ... bad results in Elegant
-!  XC460036T : HKIC !do not use to steer ... bad results in Elegant
-!  XC920020T : HKIC
-!  XC921010T : HKIC !do not use to steer ... bad results in Elegant
-  XCBSY09  : HKIC ! names changed from above to these (Sep. 2008)
-  XCBSY26  : HKIC
-  XCBSY34  : HKIC !do not use to steer ... bad results in Elegant
-  XCBSY36  : HKIC !do not use to steer ... bad results in Elegant
-  XCBSY60  : HKIC
-  XCBSY81  : HKIC !do not use to steer ... bad results in Elegant
 
 ! ==============================================================================
 ! new XCORs
@@ -3557,10 +3380,6 @@
   XCM13  : HKIC,TYPE="class-1a"
   XCM14  : HKIC,TYPE="class-1a"
 
-  XCBSY71 : HKIC,TYPE="pulsed"
-  XC6     : HKIC,TYPE="class-4"
-  XCA0    : HKIC,TYPE="class-4"
-
  !XCVB2  : HKIC,TYPE="class-4"       ! removed from beamline
   XCVM2  : HKIC,TYPE="type-4"
   XCVM3  : HKIC,TYPE="type-4"
@@ -3582,23 +3401,6 @@
   XCUE1  : HKIC,TYPE="class-4"
   XCD3   : HKIC,TYPE="class-5"
   XCDD   : HKIC,TYPE="class-5"
-
-! ==============================================================================
-! existing YCORs
-! ------------------------------------------------------------------------------
-
-!  YC460010T : VKIC
-!  YC460027T : VKIC !do not use to steer ... bad results in Elegant
-!  YC460035T : VKIC !do not use to steer ... bad results in Elegant
-!  YC460037T : VKIC
-!  YC920020T : VKIC
-!  YC921010T : VKIC !do not use to steer ... bad results in Elegant
-  YCBSY10   : VKIC ! names changed from above to these (Sep. 2008)
-  YCBSY27   : VKIC !do not use to steer ... bad results in Elegant
-  YCBSY35   : VKIC !do not use to steer ... bad results in Elegant
-  YCBSY37   : VKIC
-  YCBSY62   : VKIC
-  YCBSY82   : VKIC !do not use to steer ... bad results in Elegant
 
 ! ==============================================================================
 ! new YCORs
@@ -3625,10 +3427,6 @@
   YCM11   : VKIC,TYPE="class-1x"
   YCM12   : VKIC,TYPE="class-1a"
   YCM15   : VKIC,TYPE="class-1a"
-
-  YCBSY72 : VKIC,TYPE="pulsed"
-  YC5     : VKIC,TYPE="class-4"
-  YCA0    : VKIC,TYPE="class-4"       ! add new YCOR here, if easy (PE, Nov. 4, 2003)
 
   YCVB1  : VKIC,TYPE="class-4"
   YCVB3  : VKIC,TYPE="class-4"
@@ -3737,28 +3535,6 @@
   BPM30701 : MONI, TYPE="10_um_res"
   BPM30801 : MONI, TYPE="10_um_res"
 
-!  BPM304001T : MONI, TYPE="10_um_res"
-!  BPM460029T : MONI, TYPE="10_um_res"
-!  BPM460039T : MONI, TYPE="10_um_res"
-!  BPM460051T : MONI, TYPE="10_um_res"
-!  BPM920020T : MONI, TYPE="10_um_res"
-!  BPM920030T : MONI, TYPE="10_um_res"
-!  BPM920050T : MONI, TYPE="10_um_res"
-!  BPM921010T : MONI, TYPE="10_um_res"
-!  BPM921020T : MONI, TYPE="10_um_res"
-!  BPM921030T : MONI, TYPE="10_um_res"
-
-  BPMBSY1  : MONI, TYPE="10_um_res"
-  BPMBSY29 : MONI, TYPE="10_um_res"
-  BPMBSY39 : MONI, TYPE="10_um_res"
-  BPMBSY51 : MARK
-  BPMBSY61 : MONI, TYPE="10_um_res"  ! rename these 6 BSY BPMs on Aug. 8, 2008
-  BPMBSY63 : MONI, TYPE="10_um_res"
-  BPMBSY83 : MONI, TYPE="10_um_res"
-  BPMBSY85 : MONI, TYPE="10_um_res"
-  BPMBSY88 : MONI, TYPE="10_um_res"
-  BPMBSY92 : MONI, TYPE="10_um_res"
-
 ! ==============================================================================
 ! new BPMs
 ! ------------------------------------------------------------------------------
@@ -3849,9 +3625,9 @@
 
 ! load idealized (design) L1, L2, and L3 lattices ...
 
-!  CALL, FILENAME="LCLS_L1e.xsif"
-!  CALL, FILENAME="LCLS_L2e.xsif"
-!  CALL, FILENAME="LCLS_L3e.xsif"
+ !CALL, FILENAME="LCLS_L1e.xsif"
+ !CALL, FILENAME="LCLS_L2e.xsif"
+ !CALL, FILENAME="LCLS_L3e.xsif"
 
 ! ... or actual (as built) L1, L2, and L3 lattices
 
@@ -3863,12 +3639,17 @@
 ! BEAMLINEs
 ! ------------------------------------------------------------------------------
 
-  L1c   : LINE=(D9,DAQ1,QFL1,QFL1,DAQ1,&
-                D9,DAQ1,QDL1,QDL1,DAQ1)
-  L2c   : LINE=(4*D10,DAQ1,QFL2,QFL2,DAQ2,&
-                4*D10,DAQ1,QDL2,QDL2,DAQ2)
-  L3c   : LINE=(4*D10,DAQ1,QFL3,QFL3,DAQ2,&
-                4*D10,DAQ1,QDL3,QDL3,DAQ2)
+  L1c   : LINE=(D9ft,DAQ1,QFL1,QFL1,DAQ1,&
+                D9ft,DAQ1,QDL1,QDL1,DAQ1)
+  L2c   : LINE=(4*D10ft,DAQ1,QFL2,QFL2,DAQ2,&
+                4*D10ft,DAQ1,QDL2,QDL2,DAQ2)
+  L3c   : LINE=(4*D10ft,DAQ1,QFL3,QFL3,DAQ2,&
+                4*D10ft,DAQ1,QDL3,QDL3,DAQ2)
+
+  TCAV0 : LINE=(TCAV0h,SC6,TCAV0h)
+  TCAV3 : LINE=(TCAV3h,TCAV3h)
+  XTC01 : LINE=(XTC01h,XTC01h)
+  XTC02 : LINE=(XTC02h,XTC02h)
 
   SC0   : LINE=(XC00,YC00)
   SC1   : LINE=(XC01,YC01)
@@ -3912,7 +3693,7 @@
 
   DL1A  : LINE=(EMAT,DL1beg,DE00,DE00a,&
                 QE01,BPM6,QE01,DE01a,IM02,DE01b,VV02,DE01c,QE02,QE02,&
-                Dh00,LSRHTR,Dh06,TCAV0,SC6,TCAV0,&
+                Dh00,LSRHTR,Dh06,TCAV0,&
                 DE02,QE03,BPM8,QE03,DE03a,DE03b,SC7,DE03c,&
                 QE04,BPM9,QE04,DE04,&
                 WS01,DE05,OTR1,DE05c,VV03,DE06a,RST1,DE06b,WS02,&
@@ -3966,49 +3747,6 @@
   L3    : LINE=(L3beg,&
                 LI25,LI26,LI27,LI28,LI29,LI30,&
                 L3end,DBMARK29)
-
-! merged LCLS/SLC/A-line BSY
-
-  BSY : LINE=(BSYbeg,DBSY00,&
-    Q50Q1,Q50Q1,DBSY01,BPMBSY1,DBSY02a,FFTBORGN,DBSY02b,S100,ZLIN15,&
-      DBSY02c,XCBSY09,DBSY03,YCBSY10,DBSY04,C50PC20,DBSY05,XCBSY26,DBSY06,&
-      YCBSY27,DBSY07,&
-    Q50Q2,Q50Q2,DBSY08,BPMBSY29,DBSY09,P460031T,DBSY10,P460032T,DBSY11,&
-      C50PC30,DBSY12,IMBSY34,DBSY13,XCBSY34,DBSY14,YCBSY35,DBSY15,XCBSY36,&
-      DBSY16,YCBSY37,DBSY17,&
-    Q50Q3,Q50Q3,DBSY18,BPMBSY39,DBSY19,DBMARK14)
-
-  B12WAL : LINE=(&
-    D50B1,D50B1,DBSY20,PRBSY45,DBSY21,C50PC45,DBSY22a,DBMARK33,DBSY22b,&
-      BPMBSY51,DBSY23,I_1,DBSY24,I_2,DBSY25,A4V,DBSY26,A4H,DBSY27,M351010T,&
-      DBSY28,P950115T,DBSY29,IV3,DBSY30,P460118T,DBSY31,C50PC119,DBSY32,&
-      XCBSY60,DBSY33,BPMBSY61,DBSY34,YCBSY62,DBSY35,BPMBSY63,DBSY36,ISP2,&
-      DBSY37,PMV,DBSY38,&
-    ROLL1,D9501401,D9501402,DBSY39,&
-      DPM,PM1,DPM,DPMPM,C50PC155,DPMPM,&
-      DPM,PM2,DPM,DPMPM,C50PC165,DPMPMa,XCBSY71,YCBSY72,DPMPMb,&
-      DPM,BE_TGT,DPM,DPMPM,C50PC175,DPMPM,&
-      DPM,PM4,DPM,DPMPM,C50PC185,DPMPM,&
-      DPM,PM5,DPM,&
-      DBSY40,&
-    D9502001,D9502002,DBSY41,D10J,DBSY42,D19A,DBSY43,D10H,DBSY44,FLNG,ROLL2,&
-      DMB01,PC90,DMB02,H1DL,XCBSY81,H1DL,DM03,V1DL,YCBSY82,V1DL,DM04,I3,DM05,&
-      P950020T,DM08,IV4,DM09,BPMBSY83,DM10B,QSM1,QSM1,DQSM1,&
-    Q5,BPMBSY85,Q5,DYC5,I4A,I4B,I5,I5,DM12A,I6,I6,DM12B,YC5,DM12C,XC6,DXC6,&
-    Q6,BPMBSY88,Q6,DM2,D2L,D2,D2L,DM3,ST60L,ST60,ST60L,DM4,XCA0,DXCA0,YCA0,&
-      DYCA0,ST61L,ST61,ST61L,DM5,&
-    QA0,BPMBSY92,QA0,DM6,DMONI,DMONI,WALL,BSYend)
-
-  B52LIN: LINE=(B50B1A    ,B50B1B    ,DRI14001  ,PR45      ,DRI14002  ,&
-                BPM52     ,DRI14003  ,B52AGFA   ,B52AGFB   ,DRI14004  ,&
-                B52WIG1A  ,B52WIG1B  ,DRI14005  ,B52WIG2A  ,YC54T     ,&
-                B52WIG2B  ,DRI14005  ,B52WIG3A  ,B52WIG3B  ,DRI14006  ,&
-                PR55      ,DRI14007  ,BPM56     ,DRI14008  ,Q52Q2     ,&
-                Q52Q2     ,DRI14009  ,PR60      ,DRI14010  ,IM61      ,&
-                DRI14011  ,WS62      ,DRI14012  ,YC59      ,DRI14013  ,&
-                SL1X      ,BPM64     ,DRI14014  ,SL1Y      ,DRI14015  ,&
-                BPM68     ,DRI14016  ,XC69      ,DRI14017  ,SL2       ,&
-                DBMARK99)
 
   ECELL : LINE=(QE31,DQEC,DQEC,QE32,QE32,DQEC,DQEC,QE31)
   VBEND : LINE=(VBin,&
@@ -4065,10 +3803,16 @@
                 DQEAc,QE35,BPME35,QE35,DQEBx,CX35,DQEBx2,DE3, &
                 YCE36,DQEA,QE36,BPME36,QE36,DQEBy,CY36,DQEBy2, &
                 WS34,D40cmg,WS35,D40cmh)
+
+
+  XLEAP : LINE=(DUM2B,DU3m80cm,YCUM3,DUM3A)
+  !XLEAP : LINE=(DXL0,XCXL1,DXL1,YCXL1,DXL2,PRXL1,DXL3,WIGXL,&
+  !              DXL4,PRXL2,DXL5,YCXL2,DXL6,XCXL2,DXL7,PRXL3,DXL8)
+
   UNMCH : LINE=(DU1m80cma,WS36,DU1m80cmb,DCX37,D32cmc,XCUM1,DUM1A,&
                 QUM1,BPMUM1,QUM1,DUM1B, &
                 D32cm,DU2m120cm,DCY38,D32cma,YCUM2,DUM2A,QUM2, &
-                BPMUM2,QUM2,DUM2B,DU3m80cm,YCUM3,DUM3A, &
+                BPMUM2,QUM2,XLEAP, &
                 QUM3,BPMUM3,QUM3,DUM3B,D40cma,EOBLM,DU4m120cm, &
                 XCUM4,DUM4A,QUM4,BPMUM4,QUM4,DUM4B,RFB07,DU5m80cm, &
                 IMUNDI,DUHW1,RWWAKEAl,UHWALL1,DMUON2,DVV35,RFB08,&
@@ -4076,21 +3820,15 @@
                 TDUND,DTDUND2,PCMUON,DMUON1,VV999,DMUON3,MM3,PFILT1,&
                 DBMARK37)
 
-  TEMPmdw :LINE=(QT12,D40cmb,YCQT12,DDL30em40cm,QT13,QT13,DDL20e,&
-                 DX33A,DX33B,DDL1a,BYKIK1A,BYKIK1B,DDL1c,DDL1c,&
-                 BYKIK2A,BYKIK2B,DDL1b,XCDL2,D32A,QDL32,BPMDL2,&
-                 QDL32,D32B,YCDL2,DSPLR,SPOILER,DDL1cm40cm,TDKIK,D30cma,&
-                 PCTDKIK1,DPC1,PCTDKIK2,DPC2,PCTDKIK3,DPC3,PCTDKIK4,DPC4,&
-                 SPONTUA,SPONTUB,DDL1dm30cm,DX34A,DX34B,&
-                 DDL20,QT21,QT21,DDL30em40cm,XCQT22,D40cmb,QT22)
 
 ! Undulator exit and Dumps:
 ! ========================
-  UNDEXIT : LINE=(UEbeg,DUE1a,VV36,DUE1b,IMUNDO,DUE1c,&
+  UNDEXIT : LINE=(UEbeg,DUE1a,VV36,DUE1b,IMUNDO,DUE1c,RFBUE1,&
                   DUE2a,XCUE1,DUE2b,PH31,DUE2c,PH32,DUE2d,YCUE2,DUE2e,&
                   BPMUE1,DUE2f,QUE1,QUE1,DUE3a,TRUE1,DUE3b,&
-                  PCXTC,DPCVV,VVXTC,DVVXTC,XTC01,XTC01,DXTC12,MXTC,DXTC12,&
-                  XTC02,XTC02,DXTCSP,SPXTC,DUE4,QUE2,QUE2,&
+                  PCXTC,DPCVV,VVXTC,DVVXTC,&
+                  INTW,XTC01,DXTC12,MXTC,DXTC12,XTC02,EXTW,&
+                  DXTCSP,SPXTC,DUE4,QUE2,QUE2,&
                   DUE5a,BPMUE2,DUE5b,BTM0,DUHW3,UHWALL3,DUE5c,YCD3,DUE5d,&
                   XCD3,DUE5e,UEend,&
                   DLstart,DSB0a,PCPM0,DSB0b,IMBCS3,DSB0c,VV37,&
@@ -4108,12 +3846,186 @@
                   PCPM1,BTM1,DXDCu,XDCa,XDCXRAY,XDCb,XDCc,YAGXRAY,XDCd,&
                   DXDCd,SP0,DSP0,ST1,DST1,BTMST1,DPM1c,PCPM2,BTM2,DPM1d,&
                   BXPM1A,BXPM1B,DPM1,BXPM2A,BXPM2B,DPM2,BXPM3A,BXPM3B,&
-                  DSFT,SFTDMP,DPM2e,BTMSFT,DMPend)
+                  DSFT,SFTDMP,DPM2e,BTMSFT,PDMPend)
 
   LTU     : LINE=(MM1,DOGLG2A,DOGLG2B,MM2,EDMCH,EDSYS,UNMCH)
-  BSYLTU  : LINE=(RWWAKEss,BSY,B12WAL,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
+  BSYLTU  : LINE=(RWWAKEss,BSY,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
 
   LCLS  : LINE=(DL1,L1,BC1,L2,BC2,L3,BSYLTU)
+
+! ==============================================================================
+! cleaned up BSY
+! ------------------------------------------------------------------------------
+
+  K50Q   :=  0.252164058501
+  KQ50Q1 := -K50Q
+  KQ50Q2 :=  K50Q
+  KQ50Q3 := -K50Q
+  KQSM1  :=  0 !skew quad
+  KQ5    := -0.159291446684
+  KQ6    :=  0.234194141524
+  KQA0   := -0.201473658651
+
+  Q50Q1 : QUAD, TYPE="50Q1",       L=0.093671, K1=KQ50Q1, APER=0.010325
+  Q50Q2 : QUAD, TYPE="50Q2",       L=0.162151, K1=KQ50Q2, APER=0.010325
+  Q50Q3 : QUAD, TYPE="50Q3",       L=0.143254, K1=KQ50Q3, APER=0.010325
+  QSM1  : QUAD, TYPE="ETA",        L=LQx/2,    K1=KQSM1,  APER=rQx     , TILT
+  Q5    : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQ5,    APER=rQF
+  Q6    : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQ6,    APER=rQF
+  QA0   : QUAD, TYPE="0.91Q17.72", L=LQF/2,    K1=KQA0,   APER=rQF
+
+  DBSY00 : DRIF, L=4.043785
+  DBSY01 : DRIF, L=0.140208
+  DBSY02 : DRIF, L=1.6236643
+  DBSY03 : DRIF, L=2.5120007
+  DBSY04 : DRIF, L=0.176335
+  DBSY05 : DRIF, L=0.35052
+  DBSY06 : DRIF, L=2.93
+  DBSY07 : DRIF, L=5.109323
+  DBSY08 : DRIF, L=3.084752
+  DBSY09 : DRIF, L=0.128016
+  DBSY10 : DRIF, L=1.609344
+  DBSY11 : DRIF, L=0.331248
+  DBSY12 : DRIF, L=0.566
+  DBSY13 : DRIF, L=0.247
+  DBSY14 : DRIF, L=1.297419
+  DBSY15 : DRIF, L=0.204216
+  DBSY16 : DRIF, L=5.936613
+  DBSY17 : DRIF, L=16.093523
+  DBSY18 : DRIF, L=0.635
+  DBSY19 : DRIF, L=3.429
+  DBSY20 : DRIF, L=3.048
+  DBSY21 : DRIF, L=0.457
+  DBSY22 : DRIF, L=0.153
+  DBSY23 : DRIF, L=0.177
+  DBSY24 : DRIF, L=0.483
+  DBSY25 : DRIF, L=0.483
+  DBSY26 : DRIF, L=3.7129
+  DBSY27 : DRIF, L=0.76875
+  DBSY28 : DRIF, L=0.76875
+  DBSY29 : DRIF, L=0.76875
+  DBSY30 : DRIF, L=0.214731
+  DBSY31 : DRIF, L=0.554019
+  DBSY32 : DRIF, L=0.76875
+  DBSY33 : DRIF, L=0.76875
+  DBSY34 : DRIF, L=0.76875
+  DBSY35 : DRIF, L=0.76875
+  DBSY36 : DRIF, L=0.76875
+  DBSY37 : DRIF, L=2.277723
+  DBSY38 : DRIF, L=5.947428
+  DBSY39 : DRIF, L=58.73108
+  DBSY40 : DRIF, L=3.726638
+  DBSY41 : DRIF, L=1.219201
+  DBSY42 : DRIF, L=1.346515
+  DBSY43 : DRIF, L=0.550794
+  DBSY44 : DRIF, L=0.470278
+  DBSY45 : DRIF, L=0.28438
+  DBSY46 : DRIF, L=0.42545
+  DBSY47 : DRIF, L=0.6477
+  DBSY48 : DRIF, L=0.692658
+  DBSY49 : DRIF, L=0.783164
+  DBSY50 : DRIF, L=0.31
+  DBSY51 : DRIF, L=0.68
+  DBSY52 : DRIF, L=0.561408
+  DBSY53 : DRIF, L=0.1524
+  DBSY54 : DRIF, L=8.622041
+  DBSY55 : DRIF, L=0.31
+  DBSY56 : DRIF, L=0.279421
+  DBSY57 : DRIF, L=0.561379
+  DBSY58 : DRIF, L=0.586638
+  WALL   : DRIF, L=16.764
+
+  BPMBSY1  : MONI, TYPE="10_um_res"
+  BPMBSY29 : MONI, TYPE="10_um_res"
+  BPMBSY39 : MONI, TYPE="10_um_res"
+  BPMBSY61 : MONI, TYPE="10_um_res"
+  BPMBSY63 : MONI, TYPE="10_um_res"
+  BPMBSY83 : MONI, TYPE="10_um_res"
+  BPMBSY85 : MONI, TYPE="10_um_res"
+  BPMBSY88 : MONI, TYPE="10_um_res"
+  BPMBSY92 : MONI, TYPE="10_um_res"
+
+  IMBSY34 : IMON !50I-1A
+
+  XCBSY09 : HKIC
+  XCBSY34 : HKIC
+  XCBSY60 : HKIC
+  XCBSY71 : HKIC,TYPE="pulsed"
+  XC6     : HKIC,TYPE="class-4"
+  XCA0    : HKIC,TYPE="class-4"
+
+  YCBSY10 : VKIC
+  YCBSY35 : VKIC
+  YCBSY62 : VKIC
+  YCBSY72 : VKIC,TYPE="pulsed"
+  YC5     : VKIC,TYPE="class-4"
+  YCA0    : VKIC,TYPE="class-4"
+
+  C50PC20  : ECOL !50PC-20
+  C50PC30  : ECOL !50PC-30
+  C50PC45  : ECOL !50PC-45
+  C50PC119 : ECOL !PC-119
+  C50PC155 : ECOL !PC-155
+  C50PC165 : ECOL !PC-165
+  C50PC175 : ECOL !PC-175
+  C50PC185 : ECOL !PC-185
+  C50PC195 : ECOL !PC-195
+  PC90     : ECOL !PC-90
+
+  D10  : INST, L=4.26
+  D2   : INST, L=1.2192
+  ST60 : INST, L=1.2192
+  ST61 : INST, L=1.2192
+
+  BEGBSY   : MARK
+  BEGCLTH0 : MARK
+  S100     : MARK !station 100
+  WOODDOOR : MARK !start of BSY proper
+  ENDCLTH0 : MARK
+  BEGCLTH1 : MARK
+  ENDCLTH1 : MARK
+  BEGCLTH2 : MARK
+  I_1      : MARK !I-1 (BCS)
+  I_2      : MARK !I-2 (BCS)
+  IV3      : MARK
+  ISP2     : MARK !ISP-2
+  PM1      : MARK !new pulse-stealing kicker
+  PM2      : MARK !original pulsed-magnet ... removed
+  BE_TGT   : MARK !insertable Be target
+  PM4      : MARK !original pulsed-magnet ... removed
+  PM5      : MARK !original pulsed-magnet ... removed
+  ENDCLTH2 : MARK
+  BEGBSYH1 : MARK
+  ENDBSYH1 : MARK
+  BEGBSYH2 : MARK
+  I3       : MARK
+  IV4      : MARK
+  I4       : MARK
+  I5       : MARK
+  I6       : MARK
+  ENDBSYH2 : MARK
+  ENDBSY   : MARK
+
+! "cleaned up" BSY
+
+  BSY : LINE=(BEGBSY,BEGCLTH0,DBSY00,&
+    Q50Q1,Q50Q1,DBSY01,BPMBSY1,DBSY02,S100,ZLIN15,DBSY03,WOODDOOR,ENDCLTH0,&
+      BEGCLTH1,DBSY04,XCBSY09,DBSY05,YCBSY10,DBSY06,C50PC20,DBSY07,&
+      ENDCLTH1,BEGCLTH2,DBSY08,&
+    Q50Q2,Q50Q2,DBSY09,BPMBSY29,DBSY10,C50PC30,DBSY11,IMBSY34,DBSY12,XCBSY34,&
+      DBSY13,YCBSY35,DBSY14,&
+    Q50Q3,Q50Q3,DBSY15,BPMBSY39,DBSY16,C50PC45,DBSY17,I_1,DBSY18,I_2,DBSY19,&
+      IV3,DBSY20,C50PC119,DBSY21,XCBSY60,DBSY22,BPMBSY61,DBSY23,YCBSY62,&
+      DBSY24,BPMBSY63,DBSY25,ISP2,DBSY26,PM1,DBSY27,C50PC155,DBSY28,PM2,&
+      DBSY29,C50PC165,DBSY30,XCBSY71,YCBSY72,DBSY31,BE_TGT,DBSY32,C50PC175,&
+      DBSY33,PM4,DBSY34,C50PC185,DBSY35,PM5,DBSY36,C50PC195,DBSY37,ENDCLTH2,&
+      BEGBSYH1,DBSY38,ENDBSYH1,BEGBSYH2,DBSY39,D10,DBSY40,PC90,DBSY41,I3,&
+      DBSY42,IV4,DBSY43,BPMBSY83,DBSY44,&
+    QSM1,QSM1,DBSY45,&
+    Q5,BPMBSY85,Q5,DBSY46,I4,DBSY47,I5,DBSY48,I6,DBSY49,YC5,DBSY50,XC6,DBSY51,&
+    Q6,BPMBSY88,Q6,DBSY52,D2,DBSY53,ST60,DBSY54,XCA0,DBSY55,YCA0,DBSY56,ST61,&
+      DBSY57,&
+    QA0,BPMBSY92,QA0,DBSY58,WALL,ENDBSYH2,ENDBSY)
 
 ! ------------------------------------------------------------------------------
 ! initial SURVEY coordinates
@@ -4136,6 +4048,9 @@
   Yf     :=  0.009738 !Y near 50Q1 (~2 m upbeam S100) in undulator coordinates (for LTU engineers)
   Zf     := -2.085977 !Z near 50Q1 (~2 m upbeam S100) in undulator coordinates (for LTU engineers)
   PHIf   := 2*AVB     !S100 pitch in undulator coordinates (for LTU engineers)
+
+  SET, YF,  0.0279874 !396848 ! 0.027987396848
+  SET, ZF, -5.9949335 !026481 !-5.994934026481
 
  !VALUE, ADL1,Xi,Zi
 
@@ -4914,8 +4829,8 @@
     VARY, KQUM3  , STEP=1.E-5, UPPER=0.85, LOWER=-0.85
     VARY, KQUM4  , STEP=1.E-5, UPPER=0.85, LOWER=-0.85
     CONSTR, #E, BETX=UBETX, ALFX=UALFX, BETY=UBETY, ALFY=UALFY
-    !LMDIF
-    !MIGRAD
+    !LMDIF, TOL=1.E-20
+    !MIGRAD, TOL=1.E-20
   ENDMATCH
   VALUE, 2.549013E-12   ! =expected penalty function with fitting OFF
   VALUE, KQUM1, KQUM2, KQUM3, KQUM4
@@ -5234,6 +5149,18 @@
     SET, KQVM4,   -0.849449243488 !-8.494490E-01
   ENDSUBROUTINE
 
+! ------------------------------------------------------------------------------
+
+  MXLEAP : SUBROUTINE
+
+  ! rematch to undulators with XLEAP wiggler in
+
+    SET, KQUM1,  0.439094536397
+    SET, KQUM2, -0.386438932643
+    SET, KQUM3,  0.101239519138
+    SET, KQUM4,  0.335807817071
+  ENDSUBROUTINE
+
 ! ==============================================================================
 ! COMMANDs
 ! ------------------------------------------------------------------------------
@@ -5242,14 +5169,21 @@
   SETPLOT, LWIDTH=5, LSCALE=1.5, SSCALE=1.5, RSCALE=1.5
   OPTION, ECHO
 
- !NewBSY  !250 m symmetric betas in BSY
-  NewBSY2 !250 m symmetric betas in BSY, optimized for quad-scans at WSVM2
+! ------------------------------------------------------------------------------
+! configurations
+! ------------------------------------------------------------------------------
+
+ !OTHERDL2 !DL2 optics with DX=DPX=0 between bending units
+ !NewBSY   !250 m symmetric betas in BSY
+  NewBSY2  !250 m symmetric betas in BSY, optimized for quad-scans at WSVM2
+ !MXLEAP   !match XLEAP to undulators (be sure to uncomment the XLEAP beamline!)
 
 ! ------------------------------------------------------------------------------
-! output files for RDB generation
+! output files for RDB or Elegant input generation
 ! ------------------------------------------------------------------------------
 
  !CALL, FILENAME="RDB/makeSymbols.mad8"
+ !CALL, FILENAME="elegant/makeElegant.mad8"
 
 ! ------------------------------------------------------------------------------
 ! Online Modelling Support.
@@ -5308,7 +5242,7 @@
     COMMENT
      !SET, MUX_L3, 36.175/360  !July 13, 2005 - set for n*360 deg BX24A to BX31A (TCAV3 -> 25-2d)
       SET, MUX_L3, 30.175/360  !July 13, 2008 - set for best WS28 45-deg mux phase advances
-      SET, MUY_L3, 30.130/360  !July 13, 2005 - set for 3*90 deg TCAV3[1] to OTR30 (TCAV3 -> 25-2d)
+      SET, MUY_L3, 30.130/360  !July 13, 2005 - set for 3*90 deg TCAV3h[1] to OTR30 (TCAV3 -> 25-2d)
       ML3c
       USE, L3c
       SAVEBETA, TWSSFL3, QFL3[1]
@@ -5364,11 +5298,20 @@
 ! Twiss plots, etc. (Full Machine)
 ! ------------------------------------------------------------------------------
 
-  ASSIGN, PRINT="LCLS25AUG15.print"
+  COMMENT
+    BEAM, ENERGY=E00
+    USE, (GUNL0a,L0b)
+    SAVEBETA, TWSSi, #E
+    TWISS, BETA0=TWSSC
+    VALUE, TWSSi[ENERGY]
+    VALUE, TWSSi[BETX],TWSSi[ALFX],TWSSi[BETY],TWSSi[ALFY]
+    STOP
+  ENDCOMMENT
 
  !COMMENT
     BEAM, ENERGY=E00
     USE, (GUNL0a,L0b,LCLS)
+    PRINT, FULL
     TWISS, BETA0=TWSSC, SAVE, TAPE="LCLS_twiss.tape", RTAPE="LCLS_rmat.tape"
     PLOT, TABLE=TWISS, HAXIS=S, VAXIS=BETX,BETY, &
       STYLE=100, SPLINE=.T., FILE="LCLS", &
@@ -5400,7 +5343,7 @@
       RANGE=L3beg/L3end, TITLE="L3-linac"
     PLOT, TABLE=TWISS, HAXIS=S, VAXIS=BETX,BETY, &
       STYLE=100, SPLINE=.T., FILE="LCLS", &
-      RANGE=BSYbeg/BSYend, TITLE="BSY"
+      RANGE=BEGBSY/ENDBSY, TITLE="BSY"
     PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX,DY, &
       STYLE=100, SPLINE=.T., FILE="LCLS", &
       RANGE=MM1/MM2, TITLE="DL2-dogleg"
@@ -5409,10 +5352,10 @@
       RANGE=MM2/MM3, TITLE="Undulator emittance diagnostics"
     PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX,DY, &
       STYLE=100, SPLINE=.T., FILE="LCLS", &
-      RANGE=BSYend/#E, TITLE="muon-plug-to-DUMP"
+      RANGE=ENDBSY/#E, TITLE="muon-plug-to-DUMP"
     PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX,DY, &
       STYLE=100, SPLINE=.T., FILE="LCLS", &
-      RANGE=BSYend/MM1, TITLE="Vertical Bend System"
+      RANGE=ENDBSY/MM1, TITLE="Vertical Bend System"
     PLOT, TABLE=TWISS, HAXIS=S, VAXIS=BETX,BETY, &
       STYLE=100, SPLINE=.T., FILE="LCLS", &
       RANGE=UNDSTART/UNDTERM, TITLE="undulator"
@@ -5489,48 +5432,33 @@
 
 ! get Twiss at beginning of BSY
 
-  ASSIGN, PRINT="LCLSI.print"
   BEAM, ENERGY=E00
   USE, (GUNL0a,L0b,LCLS)
-  SAVEBETA, TBSY, BSYBEG
+  SAVEBETA, TBSY, BEGBSY
   TWISS, BETA0=TWSSC
-  SET, TBSY[DX], 0
-  SET, TBSY[DPX], 0
-  SET, TBSY[DY], 0
-  SET, TBSY[DPY], 0
+ !SHOW, TBSY
 
 ! BSY to dump
 ! ===========
   ASSIGN, PRINT="BSY-LCLS.print"
   BEAM, ENERGY=Ef
-  USE, (BSY,B12WAL,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
+  USE, (BSY,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
   PRINT, FULL
-  SURVEY, X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf, &
-    TAPE="BSY-LCLS_survey.tape"
- !TWISS, BETA0=TBSY
-
-! BSY to 52-LINE
-! ==============
-  ASSIGN, PRINT="BSY-52LINE.print"
-  BEAM, ENERGY=Ef
-  USE, (BSY,B52LIN)
-  PRINT, FULL
-  SURVEY, X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf, &
-    TAPE="BSY-52LINE_survey.tape"
-  TWISS, BETA0=TBSY, SAVE !, TAPE="BSY-52LINE_twiss.tape"
-  PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
-    STYLE=100, SPLINE=.T., FILE="BSY-52LINE", &
-    RANGE=#S/#E, TITLE="50B1 to SL2"
+  SURVEY, TAPE="BSY-LCLS_survey.tape", &
+    X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf
+  TWISS, TAPE="BSY-LCLS_twiss.tape", &
+    BETX=TBSY[BETX], ALFX=TBSY[ALFX], BETY=TBSY[BETY], ALFY=TBSY[ALFY]
 
 ! BSY to safety dump
 ! ==================
   ASSIGN, PRINT="BSY-SFTDMP.print"
   BEAM, ENERGY=Ef
-  USE, (BSY,B12WAL,VBSYS,LTU,UND,UNDEXIT,PERMDUMP)
+  USE, (BSY,VBSYS,LTU,UND,UNDEXIT,PERMDUMP)
   PRINT, FULL
-  SURVEY, X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf, &
-    TAPE="BSY-SFTDMP_survey.tape"
-  TWISS, BETA0=TBSY, SAVE !, TAPE="BSY-SFTDMP_twiss.tape"
+  SURVEY, TAPE="BSY-SFTDMP_survey.tape", &
+    X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf
+  TWISS, TAPE="BSY-SFTDMP_twiss.tape", &
+    BETX=TBSY[BETX], ALFX=TBSY[ALFX], BETY=TBSY[BETY], ALFY=TBSY[ALFY]
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="BSY-SFTDMP", &
     RANGE=SFTBEG/#E, TITLE="Turned-off BYD1 to Safety Dump"
@@ -5584,7 +5512,7 @@
 
     USE, (L0b,LCLS)
     SAVEBETA, TBC2,  BX24A
-    SAVEBETA, TTCAV, TCAV3[1]
+    SAVEBETA, TTCAV, TCAV3h[1]
     SAVEBETA, TDL2,  BX31A[1]
     SAVEBETA, TOTR30, OTR30
     TWISS, BETA0=TWSS0
@@ -5603,6 +5531,26 @@
 
     VALUE, TOTR30[BETY],TOTR30[BETX],TOTR30[DX],TOTR30[DX]/TOTR30[BETX]
 
+  ENDCOMMENT
+
+! ------------------------------------------------------------------------------
+
+  COMMENT
+    BEAM, ENERGY=E00
+    USE, (GUNL0a,L0b,LCLS)
+    SAVEBETA, TWSSM, DBMARK29
+    TWISS, CHROM, BETA0=TWSSC, TAPE="chrom1.tape"
+    BEAM, ENERGY=TWSSM[ENERGY]
+    USE, BSYLTU
+    PRINT, FULL
+    TWISS, CHROM, SAVE, TAPE="chrom2.tape", &
+      BETX=TWSSM[BETX], ALFX=TWSSM[ALFX], BETY=TWSSM[BETY], ALFY=TWSSM[ALFY]
+    PLOT, TABLE=TWISS, HAXIS=S, VAXIS=WX,WY, &
+      STYLE=100, SPLINE=.F., FILE="LCLS"
+   !PLOT, TABLE=TWISS, HAXIS=S, VAXIS=BETX,BETY, &
+   !  STYLE=100, SPLINE=.T., FILE="LCLS"
+   !  RANGE=DL1beg/#E, TITLE="Cathode to Main Dump"
+    STOP
   ENDCOMMENT
 
 ! ------------------------------------------------------------------------------
