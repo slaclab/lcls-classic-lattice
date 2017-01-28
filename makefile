@@ -57,7 +57,12 @@
 #
 # -------------------------------------------------------------------------
 # Auth: Greg White, SLAC, 26-mar-2014.
-# Mod:  Greg White, SLAC, 12-MAr-2015
+# Mod:  Greg White, SLAC, 25-Jan-17
+#       Added elementdevices_jan2017BSYchanges_addendum.dat to ELEMENTDEVICES
+#       as temporary measure to include BSY changes. Expect that in future
+#       elementdevices.dat will be updated from the database to incorporate
+#       those changed and added devices.
+#       Greg White, SLAC, 12-Mar-2015
 #       Explicity use gawk on Solaris, but awk otherwise. 
 #       Greg White, SLAC, 3-Nov-2014
 #       Make compatible with Solaris; use explicit frame selection in convert 
@@ -75,6 +80,7 @@
 #       Greg White, 27-Mar-2014
 #       Install line files also. Redirect font config warnings to dev null.  
 # =========================================================================
+
 
 # 
 # MACROS
@@ -94,33 +100,49 @@ MAD8=/afs/slac/g/ilc/codes/mad8.52/mad
 #
 INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
 
+
+# Define macros that evaluate to lists of files, mainly for help installing
+#
+MODELLATS:=*.ps *.print *.tape *.echo
+OPTICS:=GSPEC.ps LCLS.ps SPEC.ps
+OPTICSPDFS=$(patsubst %.ps, %.pdf, $(OPTICS)) 
+OPTICSICONS=$(patsubst %.ps, %_opticsicon.png, $(OPTICS))
+
+# Maps and lines files support.
+DOTS:=LCLS.dot GSPEC.dot SPEC.dot
+MAPS=$(patsubst %.dot, %_map.pdf, $(DOTS))
+MAPICONS=$(patsubst %.dot, %_mapicon.png, $(DOTS))
+LINES=$(patsubst %.dot, %_lines.dat, $(DOTS))
+
+# Published to lcls lattice web site
+OPTS:=$(DOTS) $(MAPS) $(MAPICONS) $(OPTICSICONS) $(LINES) 
+WEB:=.htaccess 
+
+# The location of the file defining the association between
+# MAD element names and control system device names, as used
+# in the maps and lines files.
+ELEMENTDEVICES:=../../../script/elementdevices.dat ../../../script/elementdevices_jan2017BSYchanges_addendum.dat 
+
+
+#
+# PATTERN RULES
+#
+
 # To convert Postcript to PDF (of twiss plots), use ps2pdf. 
 %.pdf : %.ps
 	ps2pdf $< 
 
-# To make png icon files from postscript, use convert.
-%_opticsicon.png : %.ps
-	convert -rotate 90 -scale 200x140 $< $@
+# This is wrong, because it says how you make all the opticspdfs from all
+# the $OPTICS. 
+#$(OPTICSPDFS) : $(OPTICS)
+# 	ps2pdf $<
 
-# To make a PDF from a .dot file, use dot. 
+# Map files. To make a PDF from a .dot file, use dot. 
 %_map.pdf : %.dot
 	dot -Tpdf $< -o $@
 
-# Define macros that evaluate to lists of files, mainly for help installing
 #
-MODELLATS=*.ps *.print *.tape *.echo 
-ELEMENTDEVICES=../../../script/elementdevices.dat
-OPTICSPDFS:=$(patsubst %.ps, %.pdf, $(wildcard *.ps)) 
-OPTICSICONS:=$(patsubst %.ps, %_opticsicon.png, $(wildcard *.ps)) 
-DOTS=LCLS.dot GSPEC.dot SPEC.dot
-MAPS:=$(patsubst %.dot, %_map.pdf, $(DOTS))
-MAPICONS:=$(patsubst %.dot, %_mapicon.png, $(DOTS))
-LINES:=$(patsubst %.dot, %_lines.dat, $(DOTS))
-OPTS=$(DOTS) $(MAPS) $(MAPICONS) $(OPTICSICONS) $(LINES) 
-WEB=.htaccess 
-
-#
-# RULES
+# TARGETS
 #
 
 # Lattice is the first target in the makefile, and therefore 
@@ -144,6 +166,7 @@ ifdef OUTPUTDIR
 	rsync $(MODELLATS) $(OUTPUTDIR)
 endif
 
+
 # Beam line device lists and maps
 #
 # There rules assume you have checked out optics/script, as well as 
@@ -158,23 +181,24 @@ SPEC_lines.dat SPEC.dot : SPEC_survey.tape $(ELEMENTDEVICES) SPEC.print
 GSPEC_lines.dat GSPEC.dot : GSPEC_survey.tape $(ELEMENTDEVICES) GSPEC.print
 	$(AWK) -v height=10 -f ../../../script/mad2dot.awk $+ > GSPEC.dot
 
+
+# Device line maps
+#
 LCLS_map.pdf : LCLS.dot
-
 SPEC_map.pdf : SPEC.dot
-
 GSPEC_map.pdf : GSPEC.dot
 
 
 # Icon files for maps on web site (rarely updated)
 #
 LCLS_mapicon.png : LCLS_map.pdf
-	convert -scale 800 $? $@ 
+	convert -scale 300 $? $@ 
 
 SPEC_mapicon.png : SPEC_map.pdf
-	convert -scale 60 $? $@ 
+	convert -scale 40 $? $@ 
 
 GSPEC_mapicon.png : GSPEC_map.pdf
-	convert -scale 40 $? $@ 
+	convert -scale 10 $? $@ 
 
 
 # Create these two optics plot icons by hand because we only want the 
@@ -183,6 +207,12 @@ LCLS_opticsicon.png : LCLS.ps
 	convert -rotate 90 -scale 200x140 'LCLS.ps[0]' $@
 SPEC_opticsicon.png : SPEC.ps
 	convert -rotate 90 -scale 200x140 'SPEC.ps[0]' $@
+GSPEC_opticsicon.png : GSPEC.ps
+	convert -rotate 90 -scale 200x140 'GSPEC.ps[0]' $@
+
+# General rule to make png icon files from postscript, use convert.
+#%_opticsicon.png : %.psA
+#	convert -rotate 90 -scale 200x140 $< $@
 
 
 # Prepare the files to install in a local staging directory. Do this for
@@ -191,7 +221,7 @@ SPEC_opticsicon.png : SPEC.ps
 # no longer wanted, which is only possible if one syncs whole directories as
 # opposed to lists of files.
 #
-stage :
+stage : all
 	mkdir -p .installstage
 	rsync -az $(MODELLATS) $(OPTICSPDFS) $(WEB) .installstage
 	rsync -az $(OPTS) $(WEB) $(ELEMENTDEVICES) .installstage/opt
