@@ -4217,7 +4217,7 @@
     SET, SETAL, 0
     USE, CU_HXR
     PRINT, FULL
-    TWISS, BETA0=TWSSC, SAVE, TAPE="LCLS_twiss.tape", RTAPE="LCLS_rmat.tape"
+    TWISS, BETA0=TWSSC, SAVE
     PLOT, TABLE=TWISS, HAXIS=S, VAXIS=BETX,BETY, &
       STYLE=100, SPLINE=.T., FILE="LCLS", &
       RANGE=DL1beg/#E, TITLE="Cathode to Main Dump"
@@ -4297,7 +4297,7 @@
   USE, CU_HXR
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="LCLS_survey.tape"
-  TWISS, BETA0=TWSSC
+  TWISS, BETA0=TWSSC, TAPE="LCLS_twiss.tape" !, RTAPE="LCLS_rmat.tape"
 
 ! Gun Spectrometer: cathode to 6 MeV spectrometer dump
 ! ====================================================
@@ -4306,8 +4306,7 @@
   USE, CU_GPSEC
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="GSPEC_survey.tape"
-  TWISS, BETA0=TWSSC, SAVE, &
-    TAPE="GSPEC_twiss.tape", RTAPE="GSPEC_rmat.tape"
+  TWISS, BETA0=TWSSC, SAVE, TAPE="GSPEC_twiss.tape" !, RTAPE="GSPEC_rmat.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="GSPEC", &
     RANGE=#S/#E, TITLE="Cathode through 6-MeV Gun Spectrometer"
@@ -4323,8 +4322,7 @@
   USE, CU_SPEC
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="SPEC_survey.tape"
-  TWISS, BETA0=TWSSC, SAVE, &
-    TAPE="SPEC_twiss.tape", RTAPE="SPEC_rmat.tape"
+  TWISS, BETA0=TWSSC, SAVE, TAPE="SPEC_twiss.tape" !, RTAPE="SPEC_rmat.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
     STYLE=100, SPLINE=.T., FILE="SPEC", &
     RANGE=DL1beg/#E, TITLE="Cathode through 135-MeV Spectrometer"
@@ -4341,8 +4339,7 @@
   USE, (CU_ALINE,DPR2) !include drift to PR2
   PRINT, FULL
   SURVEY, THETA0=ADL1, X0=Xi, Z0=Zi, TAPE="LCLSA_survey.tape"
-  TWISS, BETA0=TWSSC, SAVE, &
-    TAPE="LCLSA_twiss.tape", RTAPE="LCLSA_rmat.tape"
+  TWISS, BETA0=TWSSC, SAVE, TAPE="LCLSA_twiss.tape" !, RTAPE="LCLSA_rmat.tape"
   PLOT, TABLE=TWISS, HAXIS=S, VAXIS=BETX,BETY, &
     SPLINE=.T., STYLE=100, FILE="LCLSA", &
     RANGE=BEGCLTH0/#E, TITLE="BSY to A-line"
@@ -4373,8 +4370,6 @@
   PRINT, FULL
   SURVEY, TAPE="BSY-LCLS_survey.tape", &
     X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf
-  TWISS, TAPE="BSY-LCLS_twiss.tape", &
-    BETX=TBSY[BETX], ALFX=TBSY[ALFX], BETY=TBSY[BETY], ALFY=TBSY[ALFY]
 
 ! BSY to safety dump
 ! ==================
@@ -4385,11 +4380,6 @@
   PRINT, FULL
   SURVEY, TAPE="BSY-SFTDMP_survey.tape", &
     X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf
-  TWISS, TAPE="BSY-SFTDMP_twiss.tape", &
-    BETX=TBSY[BETX], ALFX=TBSY[ALFX], BETY=TBSY[BETY], ALFY=TBSY[ALFY]
-  PLOT, TABLE=TWISS, HAXIS=S, VAXIS1=BETX,BETY, VAXIS2=DX, &
-    STYLE=100, SPLINE=.T., FILE="BSY-SFTDMP", &
-    RANGE=SFTBEG/#E, TITLE="Turned-off BYD1 to Safety Dump"
 
 ! BSY to A-line 3PR2
 ! ==================
@@ -4400,8 +4390,6 @@
   PRINT, FULL
   SURVEY, TAPE="BSY-LCLSA_survey.tape", &
     X0=Xf, Y0=Yf, Z0=Zf, THETA0=THETAf, PHI0=PHIf, PSI0=PSIf
-  TWISS, TAPE="BSY-LCLSA_twiss.tape", &
-    BETX=TBSY[BETX], ALFX=TBSY[ALFX], BETY=TBSY[BETY], ALFY=TBSY[ALFY]
 
 ! ==============================================================================
 ! special cross-checks
