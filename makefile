@@ -2,7 +2,7 @@
 # Makefile for making LCLS lattice output files from the deck file. 
 #
 # This makefile helps make the main lattice output files (*.ps, *.print, 
-# *.tape etc) from the input mad (version 8) deck (LCLS_MAIN.mad8). 
+# *.tape etc) from the input mad (version 8) deck (LCLS_main.mad8). 
 # Additionally, it helps make the "lines" files (eg lcls_lines.dat) 
 # used to update the control system of the names of LCLS devices, and 
 # it makes the "subway" maps (pdfs of the elements in the lines).
@@ -16,7 +16,7 @@
 # 
 # Usage examples:
 # 
-#    make                    - (Default) Only run mad8 on LCLS_MAIN.mad8. 
+#    make                    - (Default) Only run mad8 on LCLS_main.mad8. 
 #    make maps               - Make the device lists and maps
 #    make all                - Makes all mad output, maps, device lists and icons.
 #    make INSTALLDIR=<dirname> install 
@@ -104,12 +104,12 @@ INSTALLROOT=/afs/slac/www/grp/ad/model/output/lcls
 # Define macros that evaluate to lists of files, mainly for help installing
 #
 MODELLATS:=*.ps *.print *.tape *.echo
-OPTICS:=GSPEC.ps LCLS.ps SPEC.ps
+OPTICS:=GSPEC.ps LCLS.ps LCLSA.ps SPEC.ps
 OPTICSPDFS=$(patsubst %.ps, %.pdf, $(OPTICS)) 
 OPTICSICONS=$(patsubst %.ps, %_opticsicon.png, $(OPTICS))
 
 # Maps and lines files support.
-DOTS:=LCLS.dot GSPEC.dot SPEC.dot
+DOTS:=LCLS.dot GSPEC.dot SPEC.dot LCLSA.dot
 MAPS=$(patsubst %.dot, %_map.pdf, $(DOTS))
 MAPICONS=$(patsubst %.dot, %_mapicon.png, $(DOTS))
 LINES=$(patsubst %.dot, %_lines.dat, $(DOTS))
@@ -160,7 +160,7 @@ all : lattice opticspdfs opticsicons dots maps mapicons
 
 # LCLS Lattice output
 #
-print : LCLS_MAIN.mad8 *.xsif
+print : LCLS_main.mad8 *.xsif
 	$(MAD8) $<
 ifdef OUTPUTDIR
 	rsync $(MODELLATS) $(OUTPUTDIR)
@@ -181,12 +181,16 @@ SPEC_lines.dat SPEC.dot : SPEC_survey.tape $(ELEMENTDEVICES) SPEC.print
 GSPEC_lines.dat GSPEC.dot : GSPEC_survey.tape $(ELEMENTDEVICES) GSPEC.print
 	$(AWK) -v height=10 -f ../../../script/mad2dot.awk $+ > GSPEC.dot
 
+LCLSA_lines.dat LCLSA.dot : LCLSA_survey.tape $(ELEMENTDEVICES) LCLSA.print  
+	$(AWK) -v width=38 -v height=4  -f ../../../script/mad2dot.awk $+ > LCLSA.dot
+
 
 # Device line maps
 #
 LCLS_map.pdf : LCLS.dot
 SPEC_map.pdf : SPEC.dot
 GSPEC_map.pdf : GSPEC.dot
+LCLSA_map.pdf : LCLSA.dot
 
 
 # Icon files for maps on web site (rarely updated)
@@ -200,8 +204,11 @@ SPEC_mapicon.png : SPEC_map.pdf
 GSPEC_mapicon.png : GSPEC_map.pdf
 	convert -scale 10 $? $@ 
 
+LCLSA_mapicon.png : LCLSA_map.pdf
+	convert -scale 230 $? $@ 
 
-# Create these two optics plot icons by hand because we only want the 
+
+# Create these optics plot icons by hand because we only want the 
 # first frame from the PS. 
 LCLS_opticsicon.png : LCLS.ps
 	convert -rotate 90 -scale 200x140 'LCLS.ps[0]' $@
@@ -209,6 +216,8 @@ SPEC_opticsicon.png : SPEC.ps
 	convert -rotate 90 -scale 200x140 'SPEC.ps[0]' $@
 GSPEC_opticsicon.png : GSPEC.ps
 	convert -rotate 90 -scale 200x140 'GSPEC.ps[0]' $@
+LCLSA_opticsicon.png : LCLSA.ps
+	convert -rotate 90 -scale 200x140 'LCLSA.ps[0]' $@
 
 # General rule to make png icon files from postscript, use convert.
 #%_opticsicon.png : %.psA
@@ -225,7 +234,7 @@ stage : all
 	mkdir -p .installstage
 	rsync -az $(MODELLATS) $(OPTICSPDFS) $(WEB) .installstage
 	rsync -az $(OPTS) $(WEB) $(ELEMENTDEVICES) .installstage/opt
-	rsync -az  LCLS_MAIN.mad8 *.xsif .installstage/src
+	rsync -az  LCLS_main.mad8 *.xsif .installstage/src
 
 # Install output lattice files, beam path device lists and maps in release area
 #

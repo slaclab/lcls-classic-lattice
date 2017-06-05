@@ -55,12 +55,12 @@ Mod:  Greg White, 22-Aug-2014,
    named *.mad8 and *.xsif. Then execute the mad8 command on the mad8 file, e.g.:
 
       $ cd optics/etc/lattice/lcls
-      $ mad8 LCLS2sc_main.mad8
+      $ mad8 LCLS_main.mad8
 
 
 3. Alternatively you can use "make" for running lattice. 
  
-      $ make                   - Run mad8 on LCLS_MAIN.mad8 
+      $ make                   - Run mad8 on LCLS_main.mad8 
 
    This produces all the print, tape and ps files as you'd expect.
 
