@@ -205,7 +205,7 @@ GSPEC_mapicon.png : GSPEC_map.pdf
 	convert -scale 10 $? $@ 
 
 LCLSA_mapicon.png : LCLSA_map.pdf
-	convert -scale 230 $? $@ 
+	convert -scale 300 $? $@ 
 
 
 # Create these optics plot icons by hand because we only want the 
