@@ -46,6 +46,8 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 06-JUN-2017, M. Woodley
+!  * add MIRXL (XLEAP "holey" mirror)
 ! 09-MAY-2017, M. Woodley
 !  * remove SCAPM2 from A-line
 !  * extend A-line to 3PR2
@@ -3162,6 +3164,10 @@
   DUHW3   : DRIFT, L=0.397024
   UHWALL3 : DRIFT, L=9.875*in2m
 
+  DXLM1 : DRIF, L=1.10447
+  MIRXL : INST, TYPE="holey mirror"
+  DXLM2 : DRIF, L=DU2m120cm[L]-DXLM1[L]
+
 ! ------------------------------------------------------------------------------
 ! XLEAP
 ! ------------------------------------------------------------------------------
@@ -4075,7 +4081,7 @@
 
   UNMCH : LINE=(DU1m80cma,DU1m80cmb,DCX37,D32cmc,XCUM1,DUM1A,&
                 QUM1,BPMUM1,QUM1,DUM1B, &
-                D32cm,DU2m120cm,DCY38,D32cma,YCUM2,DUM2A,QUM2, &
+                D32cm,DXLM1,MIRXL,DXLM2,DCY38,D32cma,YCUM2,DUM2A,QUM2, &
                 BPMUM2,QUM2,XLEAP, &
                 QUM3,BPMUM3,QUM3,DUM3B,D40cma,EOBLM,DU4m120cm, &
                 XCUM4,DUM4A,QUM4,BPMUM4,QUM4,DUM4B,RFB07,DU5m80cm, &
