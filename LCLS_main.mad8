@@ -48,6 +48,8 @@
 ! ------------------------------------------------------------------------------
 ! 06-JUN-2017, M. Woodley
 !  * add MIRXL (XLEAP "holey" mirror)
+!  * change wire scanner TYPE to "fast" for WS11, WS12, WS13, WS27644, WS28144,
+!    WS28444, and WS28744 per P. Krejcik
 ! 09-MAY-2017, M. Woodley
 !  * remove SCAPM2 from A-line
 !  * extend A-line to 3PR2
@@ -3264,9 +3266,9 @@
   WS02 : WIRE, TYPE="fast" !DL1- emittance
   WS03 : WIRE, TYPE="fast" !DL1- emittance
   WS04 : WIRE, TYPE="slow" !DL1- energy spread
-  WS11 : WIRE, TYPE="slow" !BC1+ emittance
-  WS12 : WIRE, TYPE="slow" !BC1+ emittance
-  WS13 : WIRE, TYPE="slow" !BC1+ emittance
+  WS11 : WIRE, TYPE="fast" !BC1+ emittance
+  WS12 : WIRE, TYPE="fast" !BC1+ emittance
+  WS13 : WIRE, TYPE="fast" !BC1+ emittance
 !  WS21 : WIRE, TYPE="slow" !LI24 emittance
 !  WS22 : WIRE, TYPE="slow" !LI24 emittance
 !  WS23 : WIRE, TYPE="slow" !LI24 emittance
@@ -3275,10 +3277,10 @@
   DWS22 : MARK !someday will be a wire-scanner again?
   DWS23 : MARK !someday will be a wire-scanner again?
   DWS24 : MARK !someday will be a wire-scanner again?
-  WS27644: WIRE, TYPE="slow" !LI27 emittance (existing; moved)
-  WS28144: WIRE, TYPE="slow" !LI28 emittance
-  WS28444: WIRE, TYPE="slow" !LI28 emittance
-  WS28744: WIRE, TYPE="slow" !LI28 emittance (existing; moved)
+  WS27644: WIRE, TYPE="fast" !LI27 emittance (existing; moved)
+  WS28144: WIRE, TYPE="fast" !LI28 emittance
+  WS28444: WIRE, TYPE="fast" !LI28 emittance
+  WS28744: WIRE, TYPE="fast" !LI28 emittance (existing; moved)
   WSVM2 : WIRE, TYPE="fast" !LTU emittance
   WSDL4 : WIRE, TYPE="slow"
   WS31 : WIRE, TYPE="fast" !LTU emittance
