@@ -2,7 +2,7 @@
 
 ! *** OPTICS=LCLS05JUN17 ***
 
-  OPTION, -INTER, -ECHO, WARN
+  OPTION, -INTER, -ECHO, INFO, VERIFY, WARN
   ASSIGN, ECHO="LCLS.echo"
   ASSIGN, PRINT="LCLS.print"
 
@@ -46,10 +46,17 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 13-JUL-2017, M. Woodley
+!  * relocate OTRDMP per A. Cedillos
+!  * changes for MAD-to-BMAD translator compatability
+!    > comment out VALUE statements
+!    > define parameters before they are used (!)
+!    > move CALL statements to top of file
 ! 06-JUN-2017, M. Woodley
 !  * add MIRXL (XLEAP "holey" mirror)
 !  * change wire scanner TYPE to "fast" for WS11, WS12, WS13, WS27644, WS28144,
 !    WS28444, and WS28744 per P. Krejcik
+!  * remove WSDUMP per K.Luchini
 ! 09-MAY-2017, M. Woodley
 !  * remove SCAPM2 from A-line
 !  * extend A-line to 3PR2
@@ -1063,7 +1070,7 @@
   Z_S100_UNDH := 583.000000                             ! undulator center is defined as 583 m from sta-100 meas. along und. Z-axis (~1/2 und+xtns)
   R_Earth     := 6.372508025E6                          ! total radius of Earth (gaussain sphere) from Catherine LeCocq, Jan. 2004 [m]
 
-  VALUE, S100_PITCH,S100_HEIGHT,Z_S100_UNDH,R_Earth
+ !VALUE, S100_PITCH,S100_HEIGHT,Z_S100_UNDH,R_Earth
 
 ! set up TWSS0, TWSSC, and TWSSU
 
@@ -1136,18 +1143,7 @@
   DBMARK38 : MARK !(UND_DUMP) final undulator dump
 
 ! ==============================================================================
-! Longitudinal misalignments observed after installation and difficult to fix:
-! Added to MAD file (but not drawings) so that optics comes out right (1/11/07).
-! ------------------------------------------------------------------------------
-
-  dz_QA11   := 3.42E-3    !quad is too far downstream when dz>0
-  dz_Q21201 :=-2.39E-3    !quad is too far downstream when dz>0
-  dz_Q21301 := 5.73E-3    !quad is too far downstream when dz>0
-  dz_QM14   := 2.17E-3    !quad is too far downstream when dz>0
-  dz_QM15   := 2.48E-3    !quad is too far downstream when dz>0
-
-! ==============================================================================
-! QUADs
+! global device parameters
 ! ------------------------------------------------------------------------------
 
 ! global QUAD parameters
@@ -1167,19 +1163,19 @@
   LQR := 0.263          !PEPII injection quadrupole (2Q10) effective length (m)
   rQR := 0.0257         !PEPII injection quadrupole (2Q10) pole-tip radius (m)
 
-  dLQA2 := (0.46092 - LQA)/2        !used to adjust LQA adjacent drifts (m)
+  dLQA2 := (0.46092 - LQA)/2 !used to adjust LQA adjacent drifts (m)
 
 ! global LCAV parameters
 
-  SbandF := 2856.0    !rf frequency (MHz)
-  XbandF := SbandF*4  !X-band rf frequency (MHz)
-  DLWLX  := 0.5948    !Xband structure length from input-coupler center to output-coupler center, each with tooling balls (m)
+  SbandF := 2856.0   !rf frequency (MHz)
+  XbandF := SbandF*4 !X-band rf frequency (MHz)
+  DLWLX  := 0.5948   !Xband structure length from input-coupler center to output-coupler center, each with tooling balls (m)
 
-  DLWL10 := 3.0441    !"10  ft" (29 Sband wavelengths; 87 DLWG cavities)
-  DLWL9  := 2.8692    !"9.41 ft" (27 1/3 Sband wavelengths; 82 DLWG cavities)
-  DLWL7  := 2.1694    !"7   ft" (20 2/3 Sband wavelengths; 62 DLWG cavities)
-  P25    := 1         !25% power factor
-  P50    := SQRT(2)   !50% power factor
+  DLWL10 := 3.0441   !"10  ft" (29 Sband wavelengths; 87 DLWG cavities)
+  DLWL9  := 2.8692   !"9.41 ft" (27 1/3 Sband wavelengths; 82 DLWG cavities)
+  DLWL7  := 2.1694   !"7   ft" (20 2/3 Sband wavelengths; 62 DLWG cavities)
+  P25    := 1        !25% power factor
+  P50    := SQRT(2)  !50% power factor
 
 ! L0 energy profile (model the one 3-m L0b section only)
 
@@ -1202,7 +1198,7 @@
   PhiL1X   := L1Xphase/360      !radians/2pi
   gfac1    := P50*DLWL9+P25*DLWL9+P25*DLWL10
   gradL1   := (dEL1-dEL1X*COS(PhiL1X*TWOPI))/(gfac1*COS(PhiL1*TWOPI))
-  VALUE, gradL1
+ !VALUE, gradL1
 
 ! L2 energy profile
 
@@ -1211,7 +1207,7 @@
   PhiL2   := L2phase/360         !radians/2pi
   gfac2   := 110*P25*DLWL10+1*P50*DLWL10
   gradL2  := dEL2/(gfac2*COS(PhiL2*TWOPI))
-  VALUE, gradL2
+ !VALUE, gradL2
 
 ! L3 energy profile
 
@@ -1220,7 +1216,44 @@
   PhiL3   := L3phase/360       !radians/2pi
   gfac3   := 161*P25*DLWL10 + 12*P50*DLWL10 + 3*P25*DLWL9 + 4*P25*DLWL7
   gradL3  := dEL3/(gfac3*COS(PhiL3*TWOPI))
-  VALUE, gradL3
+ !VALUE, gradL3
+
+! ==============================================================================
+! external files
+! ------------------------------------------------------------------------------
+
+! load idealized (design) L1, L2, and L3 lattices ...
+
+ !CALL, FILENAME="LCLS_L1e.xsif"
+ !CALL, FILENAME="LCLS_L2e.xsif"
+ !CALL, FILENAME="LCLS_L3e.xsif"
+
+! ... or actual (as built) L1, L2, and L3 lattices
+
+  CALL, FILENAME="LCLS_L1.xsif"
+  CALL, FILENAME="LCLS_L2.xsif"
+  CALL, FILENAME="LCLS_L3.xsif"
+
+! use LCLS-II model for A-line
+
+  CALL, FILENAME="ALINE.xsif"
+
+! ==============================================================================
+! Longitudinal misalignments observed after installation and difficult to fix:
+! Added to MAD file (but not drawings) so that optics comes out right (1/11/07).
+! ------------------------------------------------------------------------------
+
+  dz_QA11   := 3.42E-3    !quad is too far downstream when dz>0
+  dz_Q21201 :=-2.39E-3    !quad is too far downstream when dz>0
+  dz_Q21301 := 5.73E-3    !quad is too far downstream when dz>0
+  dz_QM14   := 2.17E-3    !quad is too far downstream when dz>0
+  dz_QM15   := 2.48E-3    !quad is too far downstream when dz>0
+
+! ==============================================================================
+! LCAVs
+! ------------------------------------------------------------------------------
+
+! L1X
 
   L1X___1 : LCAV, TYPE="X1_Xband", FREQ=XbandF, L=DLWLX/2,  &
                   DELTAE=dEL1X/2 , PHI0=PhiL1X
@@ -1306,7 +1339,7 @@
   EBXG   := 24.25*RADDEG           ! BXG pole-face rot. edge angle of BXG dipole [deg*RADDEG = rad]
   GBXG   := 0.043                  ! BXG magnet full gap height (m)
   LBXG   := RBXG*ABXG              ! path length of BXG dipole when ON (= R*theta) [m]
-  VALUE, LBXG
+ !VALUE, LBXG
 
   BXGA    : SBEN, L=LBXG/2, ANGLE=ABXG/2, &
                   HGAP=GBXG/2, E1=EBXG, E2=0   , &
@@ -1314,6 +1347,9 @@
   BXGB    : SBEN, L=LBXG/2, ANGLE=ABXG/2, &
                   HGAP=GBXG/2, E1=0   , E2=EBXG, &
                   FINT=0.0 , FINTX=0.492           ! 1st-half of gun spectrometer bend (set to ~zero length and strength, with longitudinal position as the actual bend's center)
+
+  rQGx := 0.020 !QG quadrupole pole-tip radius [m]
+  LQGx := 0.076 !QG quadrupole effective length [m]
 
   DXG0    : DRIF, L=RBXG*SIN(ABXG/2)               ! drift, w/BXG off, from BXG entrance face to its z-projected center
   DXGA    : SBEN, L=1E-9/2, ANGLE=0/2              ! 1st-half of gun-spec bend (set to ~zero length and strength, with longitudinal position as bend's center)
@@ -1327,8 +1363,6 @@
   DGS6    : DRIF, L= 0.0240-0.00402
   DGS7    : DRIF, L= 0.05
 
-  rQGx   := 0.020                  ! QG quadrupole pole-tip radius [m]
-  LQGx   := 0.076                  ! QG quadrupole effective length [m]
   KQG02  := -35.48540
   KQG03  := 80.16051
 
@@ -1524,7 +1558,7 @@
 ! ============================
 
   AVB := (S100_PITCH + ASIN(Z_S100_UNDH/(R_Earth+S100_HEIGHT)))/2 !bend up twice this angle so e- is level in cnt. of und., incl. 30-m ext.
-  VALUE, 2*AVB
+ !VALUE, 2*AVB
 
   BY1A : SBEN, TYPE="3D39", L=LVB/2, ANGLE=AVB/2, HGAP=GVB/2, &
                E1=AVB/2, FINT=0.5, FINTX=0, TILT
@@ -2201,14 +2235,14 @@
   Lbrwm  :=   7.1683E-2                               ! BFW to radiation monitor [m]
   Lbrs   :=   shrt-LRFBu-LQu-Lbr1-Lbr3-Lbr4-Lbrwm;    ! Standard short break length (BPM-to-quad distance) [m]
   LBUVV2 :=   0.2                                     ! drift length after inline vaccum valve
-  LBUVV1 :=   Lbrl - LBUVV2                           ! drift length before inline vaccum valve
   Lbrl   :=   long-LRFBu-LQu-Lbr1-Lbr3-Lbr4-Lbrwm;    ! Standard long break length (BPM-to-quad distance) [m]
+  LBUVV1 :=   Lbrl - LBUVV2                           ! drift length before inline vaccum valve
 
   kqund  := (Kund*2*pi/lamu/sqrt(2)/gamf)^2           ! natural undulator focusing "k" in y-plane [m^-2]
   kQF    := 1E-9*GQF*clight/Ef;                       ! QF undulator quadrupole focusing "k" [m^-2]
   kQD    := 1E-9*GQD*clight/Ef;                       ! QD undulator quadrupole focusing "k" [m^-2]
   kQU33  := -0.304403258403                           ! XTCAV optics
-  VALUE, Lundh,Lbrs,Lbrl,kqund,gamf,kQF,kQD,kQU33
+ !VALUE, Lundh,Lbrs,Lbrl,kqund,gamf,kQF,kQD,kQU33
 
   QU01   : QUAD, TYPE="QUND", L=LQu/2, K1=kQD        ! undulator quad (even numbers are QF's, odd are QD's)
   QU02   : QUAD, TYPE="QUND", L=LQu/2, K1=kQF        ! undulator quad
@@ -2698,8 +2732,8 @@
   DD2a   : DRIFT, L=0.4+0.0634916+0.0115084
   DD2b   : DRIFT, L=8.425460-LQD/2+Ddmpv-0.15-0.0634916-0.049684-0.0115084
   DD3a   : DRIFT, L=0.3+0.049684+0.001583
-  DD3b   : DRIFT, L=0.3-0.001583-0.1447026
-  DD3c   : DRIFT, L=2.580+0.1447026-0.2441932
+  DD3b   : DRIFT, L=0.3-0.001583-0.1447026+0.294802
+  DD3c   : DRIFT, L=2.580+0.1447026-0.2441932-0.294802
   DD3d   : DRIFT, L=0.2441932
   DD3e   : DRIFT, L=0.2857474-0.2441932
   DPM1a  : DRIFT, L=6.851618-0.694995
@@ -2775,6 +2809,8 @@
 
 ! L0
 
+  LSOL1 := 0.200
+
   LOADLOCK : DRIF, L=LGGUN-1.42
   DL00     : DRIF, L=-LOADLOCK[L] !from cathode back to u/s end of loadlock
   DL01a    : DRIF, L=0.19601-LSOL1/2
@@ -2845,7 +2881,7 @@
   K_und := LSRHTR_ON*sqrt(2*(lamr*2*gami^2/lam - 1))  ! undulator K for laser heater und.
   Lhun  := 0.506263                         ! length of laser-heater undulator
   kqlh  := (K_und*2*pi/lam/sqrt(2)/gami)^2  ! natural undulator focusing "k" in y-plane [m^-2]
-  VALUE,gami,kqlh,K_und
+ !VALUE,gami,kqlh,K_und
 
   LHBEG  : MARK
   LHEND  : MARK
@@ -2875,7 +2911,7 @@
 
   LWS01_03 :=  3.827458            ! distance from WS01 to WS03 wire centers [m] (changed 06MAY05 -PE)
   BMIN0 := LWS01_03/SQRT(3)/2      ! betaX=betaY at WS02 where waist is located (12NOV03 -PE)
-  VALUE, BMIN0
+ !VALUE, BMIN0
   MRK0 : MARK
   DE00 : DRIF, L=0.024994
   DE00a: DRIF, L=0.070613-LQx/2
@@ -3156,8 +3192,6 @@
 
   DWSDL31a : DRIFT, L=0.096237 !0.096779-0.000542
   DWSDL31b : DRIFT, L=0.153763 !0.153221+0.000542
-  DWSDUMPa : DRIFT, L=0.44156 !0.5-0.058217-0.000222-0.000001
-  DWSDUMPb : DRIFT, L=2.038949 !1.980509+0.058217+0.000222+0.000001
 
   DUHW1   : DRIFT, L=0.391584
   UHWALL1 : DRIFT, L=9.875*in2m
@@ -3290,7 +3324,7 @@
   WS35 : WIRE, TYPE="unknown" !fast WS prototype
   WS36 : WIRE, TYPE="unknown" !piezo WS prototype
   WSDL31 : WIRE, TYPE="slow"
-  WSDUMP : WIRE, TYPE="special"
+!  WSDUMP : WIRE, TYPE="special" !removed
 
 ! profile monitors
 
@@ -3381,7 +3415,6 @@
 
 ! miscellany
 
-  LSOL1    := 0.200
   L0beg    : MARK
   SOL1BK   : SOLENOID,L=1E-9,KS=0       !gun-bucking-solenoid (set to ~zero length and strength, with longitudinal unknown for now)
   CATHODE  : INST
@@ -3759,6 +3792,10 @@
   DBSY6 : DRIF, L=35.364431
   DBSY7 : DRIF, L=0.586638
 
+! 2" ID BSY collimator -- part of 2-hole copper collimator d/s of A-line pulsed magnets
+
+  PCBSYH : ECOL, TYPE="MPS PC", L=0.45, XSIZE=25.4E-3, YSIZE=25.4E-3
+
   DBSY0a : DRIF, L=0.7286
   DBSY0b : DRIF, L=0.25005 !0.3048-0.05475
   DBSY0c : DRIF, L=0.25005 !0.3048-0.05475
@@ -3829,10 +3866,6 @@
   PC90   : ECOL, TYPE="BCS PC", L=0.453644, XSIZE=9.5E-3, YSIZE=9.5E-3 !existing BCS protection collimator in BSY (3/4" diameter)
   PC119  : ECOL, TYPE="BCS PC", L=0.453644, XSIZE=9.5E-3, YSIZE=9.5E-3 !existing BCS protection collimator in BSY (3/4" diameter)
 
-! 2" ID BSY collimator -- part of 2-hole copper collimator d/s of A-line pulsed magnets
-
-  PCBSYH : ECOL, TYPE="MPS PC", L=0.45, XSIZE=25.4E-3, YSIZE=25.4E-3
-
   D2   : INST, L=1.2192 !PPS stopper
   ST60 : INST, L=1.2192 !backup PPS stopper
   DM60 : INST           !"disaster" burn-through-monitor behind ST60
@@ -3854,26 +3887,6 @@
   MUWALL   : MARK !front face of muon wall for HXR beam
   ENDBSY   : MARK
   ENDBSYH2 : MARK
-
-! ==============================================================================
-! external files
-! ------------------------------------------------------------------------------
-
-! load idealized (design) L1, L2, and L3 lattices ...
-
- !CALL, FILENAME="LCLS_L1e.xsif"
- !CALL, FILENAME="LCLS_L2e.xsif"
- !CALL, FILENAME="LCLS_L3e.xsif"
-
-! ... or actual (as built) L1, L2, and L3 lattices
-
-  CALL, FILENAME="LCLS_L1.xsif"
-  CALL, FILENAME="LCLS_L2.xsif"
-  CALL, FILENAME="LCLS_L3.xsif"
-
-! use LCLS-II model for A-line
-
-  CALL, FILENAME="ALINE.xsif"
 
 ! ==============================================================================
 ! BEAMLINEs
@@ -4111,8 +4124,7 @@
                   BYD3A,BYD3B,DSc,PCPM1L,BTM1L,DD1a,IMDUMP,DD1b,YCDD,&
                   DD1f,PCPM2L,BTM2L,DD1c,QDmp1,QDmp1,DD1d,BPMQD,DD1e,&
                   QDmp2,QDmp2,DD2a,XCDD,DD2b,IMBCS4,DD3a,BPMDD,DD3b,&
-                  OTRDMP,DWSDUMPa,WSDUMP,DWSDUMPb,&
-                  DUMPFACE,DMPend,DD3d,EOL,DD3e,BTMDUMP,&
+                  OTRDMP,DD3c,DUMPFACE,DMPend,DD3d,EOL,DD3e,BTMDUMP,&
                   DBMARK38)
 
   PERMDUMP: LINE=(SFTBEG,DYD1,DSS1,DYD2,DSS2,DYD3,DScS1,VV38,DScS2,&
@@ -4151,15 +4163,14 @@
 
 ! set initial BSY survey coordinates
 
-  Xf     :=  0        !hor. position is on linac axis, which is zero here [m]
-  THETAf :=  0        !no yaw at S100
-  PSIf   :=  0        !no roll at S100
-  Yf     :=  0.009738 !Y near 50Q1 (~2 m upbeam S100) in undulator coordinates (for LTU engineers)
-  Zf     := -2.085977 !Z near 50Q1 (~2 m upbeam S100) in undulator coordinates (for LTU engineers)
-  PHIf   := 2*AVB     !S100 pitch in undulator coordinates (for LTU engineers)
-
-  SET, YF,  0.0279874 !396848 ! 0.027987396848
-  SET, ZF, -5.9949335 !026481 !-5.994934026481
+  Xf     :=  0         !hor. position is on linac axis, which is zero here [m]
+ !Yf     :=  0.009738  !Y near 50Q1 (~2 m upbeam S100) in undulator coordinates (for LTU engineers)
+ !Zf     := -2.085977  !Z near 50Q1 (~2 m upbeam S100) in undulator coordinates (for LTU engineers)
+  Yf     :=  0.0279874 !Y at end of L3 (~6 m upbeam S100) in BSY coordinates
+  Zf     := -5.9949335 !Z at end of L3 (~6 m upbeam S100) in BSY coordinates
+  THETAf :=  0         !no yaw at S100
+  PHIf   := 2*AVB      !S100 pitch in undulator coordinates (for LTU engineers)
+  PSIf   :=  0         !no roll at S100
 
 ! ------------------------------------------------------------------------------
 ! SUBROUTINEs

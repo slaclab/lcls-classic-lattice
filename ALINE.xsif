@@ -17,6 +17,10 @@
 !  * A-line R56 = -0.442 m
 ! ------------------------------------------------------------------------------
 
+  SETAL :=  0.0 !deflector switch for A-line (set to ALON or ALOFF)
+  ALON  :=  1.0 !deflector switch ON for Cu-linac to A-line
+  ALOFF :=  0.0 !deflector switch OFF for Cu-linac to HXR
+
 ! NOTE: these parameters are defined for DASEL ... they are redefined here
 !       to avoid "undefined parameter" errors
 
@@ -92,10 +96,10 @@
 
 ! A-bends
 
-  AARC  := -24*RADDEG              !total arc bend angle (24 degrees)
-  Nbend := 12                      !number of arc bends
-  ABA   := AARC/Nbend              !arc bend angle
-  SET, ABA, -1.999526617334*RADDEG !arc bend angle per Transport deck
+  AARC  := -24*RADDEG             !total arc bend angle (24 degrees)
+  Nbend := 12                     !number of arc bends
+ !ABA   := AARC/Nbend             !arc bend angle
+  ABA   := -1.999526617334*RADDEG !arc bend angle per Transport deck
 
   LBA := 3.024
   GBA := 0.06  !Blue Book value
