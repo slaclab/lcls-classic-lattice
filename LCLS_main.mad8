@@ -9,6 +9,8 @@
 ! ==============================================================================
 ! Modification History
 ! ------------------------------------------------------------------------------
+! 16-JAN-2018, M. Woodley
+!  * move IMUNDI 7.55" u/s per M. Carrasco
 ! 22-DEC-2017, M. Woodley
 !  * structural changes in deck to accomodate MAD-to-BMAD
 !  * add XLEAP self-seeding chicane between QUM3 and QUM4 per G. Kraft
@@ -1069,10 +1071,10 @@
 ! ------------------------------------------------------------------------------
 
  !CALL, FILENAME="LCLS_match.mad8"
- !CALL, FILENAME="RDB/makeSymbols.mad8"
+  CALL, FILENAME="RDB/makeSymbols.mad8"
  !CALL, FILENAME="elegant/makeElegant.mad8"
 
- !STOP
+  STOP
 
 ! ------------------------------------------------------------------------------
 ! Online Modelling Support.
