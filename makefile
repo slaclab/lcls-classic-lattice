@@ -125,23 +125,6 @@ ELEMENTDEVICES:=../../../script/elementdevices.dat ../../../script/elementdevice
 
 
 #
-# PATTERN RULES
-#
-
-# To convert Postcript to PDF (of twiss plots), use ps2pdf. 
-%.pdf : %.ps
-	ps2pdf $< 
-
-# This is wrong, because it says how you make all the opticspdfs from all
-# the $OPTICS. 
-#$(OPTICSPDFS) : $(OPTICS)
-# 	ps2pdf $<
-
-# Map files. To make a PDF from a .dot file, use dot. 
-%_map.pdf : %.dot
-	dot -Tpdf $< -o $@
-
-#
 # TARGETS
 #
 
@@ -149,22 +132,48 @@ ELEMENTDEVICES:=../../../script/elementdevices.dat ../../../script/elementdevice
 # the default. To make other things, give argument. To make all, 
 # issue "make all".
 #
-lattice : print
-opticspdfs : $(OPTICSPDFS)
-opticsicons : $(OPTICSICONS)
+## lattice : print
+lattice : cu
+cu : lcls spec gspec aline
+lcls : LCLS.ps LCLS.print LCLS_twiss.tape LCLS_survey.tape bsycoords
+spec : SPEC.ps SPEC.print SPEC_twiss.tape 
+gspec : GSPEC.ps GSPEC.print GSPEC_twiss.tape 
+aline : LCLSA.ps LCLSA.print BSY-LCLSA.print LCLSA_twiss.tape BSY-LCLSA_survey.tape 
+bsycoords : BSY-LCLS.print BSY-SFTDMP.print  BSY-LCLS_survey.tape BSY-SFTDMP_survey.tape
+
 lines : $(LINES)
 dots : $(DOTS)
 maps : $(MAPS)
 mapicons : $(MAPICONS)
+opticspdfs : $(OPTICSPDFS)
+opticsicons : $(OPTICSICONS)
+
+# Special target to make everything - all MAD output, control system support
+# and web related things.
 all : lattice opticspdfs opticsicons dots maps mapicons
 
-# LCLS Lattice output
 #
-print : LCLS_main.mad8 *.xsif
+# RULES
+#
+FORCE :
+	clean
+	make all
+
+# LCLS lattice 
+#
+%.ps %.print %_twiss.tape %_survey.tape : LCLS_main.mad8 LCLS_match.mad8 *.xsif 
 	$(MAD8) $<
-ifdef OUTPUTDIR
-	rsync $(MODELLATS) $(OUTPUTDIR)
-endif
+
+#print : LCLS_main.mad8 *.xsif
+#	$(MAD8) $<
+#ifdef OUTPUTDIR
+#	rsync $(MODELLATS) $(OUTPUTDIR)
+#endif
+
+# Convert Postcript to PDF (of twiss plots)
+#
+%.pdf : %.ps
+	ps2pdf $<
 
 
 # Beam line device lists and maps
@@ -187,10 +196,14 @@ LCLSA_lines.dat LCLSA.dot : LCLSA_survey.tape $(ELEMENTDEVICES) LCLSA.print
 
 # Device line maps
 #
-LCLS_map.pdf : LCLS.dot
-SPEC_map.pdf : SPEC.dot
-GSPEC_map.pdf : GSPEC.dot
-LCLSA_map.pdf : LCLSA.dot
+# To make a PDF from a .dot file, use dot -T facility
+%_map.pdf : %.dot
+	dot -Tpdf $< -o $@
+
+# LCLS_map.pdf : LCLS.dot
+# SPEC_map.pdf : SPEC.dot
+# GSPEC_map.pdf : GSPEC.dot
+# LCLSA_map.pdf : LCLSA.dot
 
 
 # Icon files for maps on web site (rarely updated)
@@ -218,10 +231,6 @@ GSPEC_opticsicon.png : GSPEC.ps
 	convert -rotate 90 -scale 200x140 'GSPEC.ps[0]' $@
 LCLSA_opticsicon.png : LCLSA.ps
 	convert -rotate 90 -scale 200x140 'LCLSA.ps[0]' $@
-
-# General rule to make png icon files from postscript, use convert.
-#%_opticsicon.png : %.psA
-#	convert -rotate 90 -scale 200x140 $< $@
 
 
 # Prepare the files to install in a local staging directory. Do this for
@@ -257,3 +266,4 @@ installlatest : stage
 clean :
 	rm -f $(MODELLATS) *.pdf *.png *.dot print
 	rm -fr .installstage
+
