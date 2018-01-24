@@ -1071,10 +1071,10 @@
 ! ------------------------------------------------------------------------------
 
  !CALL, FILENAME="LCLS_match.mad8"
-  CALL, FILENAME="RDB/makeSymbols.mad8"
+ !CALL, FILENAME="RDB/makeSymbols.mad8"
  !CALL, FILENAME="elegant/makeElegant.mad8"
 
-  STOP
+ !STOP
 
 ! ------------------------------------------------------------------------------
 ! Online Modelling Support.
