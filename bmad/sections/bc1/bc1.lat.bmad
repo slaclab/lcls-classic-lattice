@@ -1,0 +1,7 @@
+call, file = ../../model/lcls.lat.bmad
+
+call, file = ../../beginning/beginning_BC1MRK.bmad
+
+mylat: line = (BC1)
+
+use, mylat

@@ -1,0 +1,15 @@
+! Beginning for ele: L1BEG
+beginning[x_position] = -4.874969528550317e-06
+beginning[y_position] = 0.0
+beginning[z_position] = 2035.0351279346849
+beginning[theta_position] = 2.2204460492503136e-16
+beginning[phi_position] = 0.0
+beginning[psi_position] = 0.0
+beginning[s] = 20.333213930728995
+beginning[e_tot] = 139000000.00000003
+beginning[beta_a] = 9.947220208402216
+beginning[alpha_a] = 1.960078281381587
+beginning[beta_b] = 2.4108492267483754
+beginning[alpha_b] = -0.5493723256207572
+beginning[eta_x] = -1.667479375641741e-11
+beginning[etap_x] = 8.261656516716985e-12

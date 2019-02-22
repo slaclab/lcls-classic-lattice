@@ -1,0 +1,15 @@
+! Beginning for ele: MM1
+beginning[x_position] = -4.8765307883475945e-06
+beginning[y_position] = 0.07242358961033665
+beginning[z_position] = 3255.288763450805
+beginning[theta_position] = -1.999781138976572e-12
+beginning[phi_position] = 0.004668514372167866
+beginning[psi_position] = 0.0
+beginning[s] = 1240.6186914113032
+beginning[e_tot] = 13789317230.79759
+beginning[beta_a] = 48.98154746302522
+beginning[alpha_a] = 3.1476742048835686
+beginning[beta_b] = 97.0320953896073
+beginning[alpha_b] = 3.638153602602715
+beginning[eta_x] = 1.1917857590001418e-10
+beginning[etap_x] = -5.334267525316236e-12

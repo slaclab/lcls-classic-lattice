@@ -1,0 +1,419 @@
+parameter[geometry] = Open            
+
+parameter[p0c]                    = 1.3789317221329E10
+parameter[particle]               = Electron
+parameter[absolute_time_tracking]    = F
+beginning[x_position]     = -4.8765307883476E-6
+beginning[y_position]     = 0.072423589610337
+beginning[z_position]     = 3255.2887634508
+beginning[theta_position] = -1.9997811389766E-12
+beginning[phi_position]   = 4.6685143721679E-3
+beginning[s]        = 1240.6186914113
+
+beginning[beta_a]   = 48.981547463025
+beginning[alpha_a]  = 3.1476742048836
+beginning[eta_x]    = 1.1917857590001E-10
+beginning[etap_x]   = -5.3342675253162E-12
+beginning[beta_b]   = 97.032095389607
+beginning[alpha_b]  = 3.6381536026027
+beam_start[spin_z] = 0
+
+
+!-------------------------------------------------------
+
+MM1: Marker
+DBMARK34: Marker
+BX31A: Sbend, type = "4D102.36T", L = 1.3115041615274, G = 3.3269609491015E-3,
+   FRINGE_TYPE = Full, E1 = 4.3633231299858E-3, FINT = 0.5, FINTX = 0, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+BX31B: Sbend, type = "4D102.36T", L = 1.3115041615274, G = 3.3269609491015E-3,
+   FRINGE_TYPE = Full, E2 = 4.3633231299858E-3, FINTX = 0.5, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+DDL10W: Drift, type = "CSR", L = 10.712205, DS_STEP = 10.712205
+DBYW1A: Drift, L = 0.1168405, DS_STEP = 0.1168405
+DBYW1B: Drift, L = 0.1168405, DS_STEP = 0.1168405
+DW1O: Drift, type = "CSR", L = 0.1737368249448, DS_STEP = 0.1737368249448
+DBYW2A: Drift, L = 0.233681, DS_STEP = 0.233681
+DBYW2B: Drift, L = 0.233681, DS_STEP = 0.233681
+DBYW3A: Drift, L = 0.1168405, DS_STEP = 0.1168405
+DBYW3B: Drift, L = 0.1168405, DS_STEP = 0.1168405
+CNTW: Marker
+DWSDL31A: Drift, L = 0.096237, DS_STEP = 0.096237
+WSDL31: Marker, type = "slow"
+DWSDL31B: Drift, L = 0.153763, DS_STEP = 0.153763
+DDL10X: Drift, type = "CSR", L = 0.126314, DS_STEP = 0.126314
+XCDL1: Kicker, type = "class-4"
+D31A: Drift, L = 0.562465, DS_STEP = 0.562465
+QDL31: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.44267670105, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMDL1: Instrument, type = "05_um_res"
+D31B: Drift, L = 0.5624381, DS_STEP = 0.5624381
+YCDL1: Kicker, type = "class-4"
+D32CMB: Drift, L = 0.6638034, DS_STEP = 0.6638034
+CEDL1: Rcollimator, L = 0.08, DS_STEP = 0.08, x_limit = 2.5E-3, y_limit = 0.02
+DDL10EM80CM: Drift, type = "CSR", L = 11.626937, DS_STEP = 11.626937
+BX32A: Sbend, type = "4D102.36T", L = 1.3115041615274, G = 3.3269609491015E-3,
+   FRINGE_TYPE = Full, E1 = 4.3633231299858E-3, FINT = 0.5, FINTX = 0, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+BX32B: Sbend, type = "4D102.36T", L = 1.3115041615274, G = 3.3269609491015E-3,
+   FRINGE_TYPE = Full, E2 = 4.3633231299858E-3, FINTX = 0.5, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+CNT3A: Marker
+DDL20E: Drift, type = "CSR", L = 0.5, DS_STEP = 0.5
+QT11: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+DDL30EM40CM: Drift, type = "CSR", L = 0.509987, DS_STEP = 0.509987
+XCQT12: Kicker, type = "class-5"
+D40CMB: Drift, L = 0.490013, DS_STEP = 0.490013
+QT12: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = 0.839614778043,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+BPMT12: Instrument, type = "05_um_res"
+YCQT12: Kicker, type = "class-5"
+QT13: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+SS1: Marker
+DX33A: Drift, L = 1.3115, DS_STEP = 1.3115
+DX33B: Drift, L = 1.3115, DS_STEP = 1.3115
+DDL1A: Drift, L = 5.290576, DS_STEP = 5.290576
+BYKIK1A: Sbend, type = "YPULSED", L = 0.53005, REF_TILT = 1.5707963267949,
+   G = 9.4330723516649E-13, FRINGE_TYPE = Full, FINT = 0.5, FINTX = 0, HGAP = 0.0254,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.53005
+BYKIK1B: Sbend, type = "YPULSED", L = 0.53005, REF_TILT = 1.5707963267949,
+   G = 9.4330723516649E-13, FRINGE_TYPE = Full, FINTX = 0.5, HGAP = 0.0254,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.53005
+DDL1C: Drift, L = 0.079176, DS_STEP = 0.079176
+BYKIK2A: Sbend, type = "YPULSED", L = 0.53005, REF_TILT = 1.5707963267949,
+   G = 9.4330723516649E-13, FRINGE_TYPE = Full, FINT = 0.5, FINTX = 0, HGAP = 0.0254,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.53005
+BYKIK2B: Sbend, type = "YPULSED", L = 0.53005, REF_TILT = 1.5707963267949,
+   G = 9.4330723516649E-13, FRINGE_TYPE = Full, FINTX = 0.5, HGAP = 0.0254,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.53005
+DDL1B: Drift, L = 4.891592, DS_STEP = 4.891592
+XCDL2: Kicker, type = "class-4"
+D32A: Drift, L = 0.47246, DS_STEP = 0.47246
+QDL32: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.44267670105, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMDL2: Instrument, type = "05_um_res"
+D32B: Drift, L = 0.47246, DS_STEP = 0.47246
+YCDL2: Kicker, type = "class-4"
+DSPLR: Drift, L = 0.43036, DS_STEP = 0.43036
+SPOILER: Instrument
+DDL1CM40CM: Drift, L = 5.2952, DS_STEP = 5.2952
+TDKIK: Instrument, L = 0.6096, DS_STEP = 0.6096
+D30CMA: Drift, L = 0.257426, DS_STEP = 0.257426
+PCTDKIK1: Ecollimator, L = 0.8128, DS_STEP = 0.8128, aperture = 0.0111125
+DPC1: Drift, L = 0.266697, DS_STEP = 0.266697
+PCTDKIK2: Ecollimator, L = 0.8128, DS_STEP = 0.8128, aperture = 0.0111125
+DPC2: Drift, L = 0.266697, DS_STEP = 0.266697
+PCTDKIK3: Ecollimator, L = 0.8128, DS_STEP = 0.8128, aperture = 0.0111125
+DPC3: Drift, L = 0.266697, DS_STEP = 0.266697
+PCTDKIK4: Ecollimator, L = 0.8128, DS_STEP = 0.8128, aperture = 0.0111125
+DPC4: Drift, L = 0.19991, DS_STEP = 0.19991
+SPONTUA: Drift, L = 0.75, DS_STEP = 0.75
+SPONTUB: Drift, L = 0.75, DS_STEP = 0.75
+DDL1DM30CM: Drift, L = 0.116932, DS_STEP = 0.116932
+DX34A: Drift, L = 1.3115, DS_STEP = 1.3115
+DX34B: Drift, L = 1.3115, DS_STEP = 1.3115
+DDL20: Drift, L = 0.5, DS_STEP = 0.5
+QT21: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+XCQT22: Kicker, type = "class-5"
+QT22: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = 0.839614778043,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+BPMT22: Instrument, type = "05_um_res"
+YCQT22: Kicker, type = "class-5"
+QT23: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+BX35A: Sbend, type = "4D102.36T", L = 1.3115041615274, G = -3.3269609491015E-3,
+   FRINGE_TYPE = Full, E1 = -4.3633231299858E-3, FINT = 0.5, FINTX = 0, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+BX35B: Sbend, type = "4D102.36T", L = 1.3115041615274, G = -3.3269609491015E-3,
+   FRINGE_TYPE = Full, E2 = -4.3633231299858E-3, FINTX = 0.5, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+DCQ31A: Drift, type = "CSR", L = 6.037182, DS_STEP = 6.037182
+CQ31: Quadrupole, type = "ETA", L = 0.054, INTEGRATOR_ORDER = 2, DS_STEP = 0.054,
+   aperture = 0.016
+DCQ31B: Drift, type = "CSR", L = 5.811658, DS_STEP = 5.811658
+OTR30: Instrument, type = "OTR"
+D29CMA: Drift, L = 0.584342, DS_STEP = 0.584342
+XCDL3: Kicker, type = "class-4"
+D33A: Drift, L = 0.392, DS_STEP = 0.392
+QDL33: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.44267670105, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMDL3: Instrument, type = "05_um_res"
+D33B: Drift, L = 0.322, DS_STEP = 0.322
+YCDL3: Kicker, type = "class-4"
+D32CMD: Drift, L = 0.9042415, DS_STEP = 0.9042415
+CEDL3: Rcollimator, L = 0.08, DS_STEP = 0.08, x_limit = 2.5E-3, y_limit = 0.02
+DCQ32A: Drift, type = "CSR", L = 5.4817585, DS_STEP = 5.4817585
+CQ32: Quadrupole, type = "ETA", L = 0.054, INTEGRATOR_ORDER = 2, DS_STEP = 0.054,
+   aperture = 0.016
+DCQ32B: Drift, type = "CSR", L = 6.0371785, DS_STEP = 6.0371785
+BX36A: Sbend, type = "4D102.36T", L = 1.3115041615274, G = -3.3269609491015E-3,
+   FRINGE_TYPE = Full, E1 = -4.3633231299858E-3, FINT = 0.5, FINTX = 0, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+BX36B: Sbend, type = "4D102.36T", L = 1.3115041615274, G = -3.3269609491015E-3,
+   FRINGE_TYPE = Full, E2 = -4.3633231299858E-3, FINTX = 0.5, HGAP = 0.0115,
+   INTEGRATOR_ORDER = 4, DS_STEP = 1.3115041615274
+CNT3B: Marker
+QT31: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+DDL30EM40CMA: Drift, type = "CSR", L = 0.51046, DS_STEP = 0.51046
+XCQT32: Kicker, type = "class-5f"
+D40CMD: Drift, L = 0.48954, DS_STEP = 0.48954
+QT32: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = 0.839614778043,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+BPMT32: Instrument, type = "05_um_res"
+D40CME: Drift, L = 0.50046, DS_STEP = 0.50046
+YCQT32: Kicker, type = "class-5f"
+DDL30EM40CMB: Drift, type = "CSR", L = 0.49954, DS_STEP = 0.49954
+QT33: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+SS3: Marker
+D37A: Drift, L = 2.923, DS_STEP = 2.923
+IMBCS2: Marker
+D37B: Drift, L = 9.02398, DS_STEP = 9.02398
+WSDL4: Marker, type = "slow"
+D37C: Drift, L = 1.0975, DS_STEP = 1.0975
+DCHIRPV: Instrument, L = 1, DS_STEP = 1
+MDCHIRPV: Marker
+D37D: Drift, L = 0.5117, DS_STEP = 0.5117
+QDL34: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.44267670105, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMDL4: Instrument, type = "05_um_res"
+D38A: Drift, L = 0.5124, DS_STEP = 0.5124
+DCHIRPH: Instrument, L = 1, DS_STEP = 1
+MDCHIRPH: Marker
+D38B: Drift, L = 0.6091, DS_STEP = 0.6091
+XCDL4: Kicker, type = "class-5f"
+D38C: Drift, L = 0.5407, DS_STEP = 0.5407
+YCDL4: Kicker, type = "class-4"
+D38D: Drift, L = 11.89398, DS_STEP = 11.89398
+QT41: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+DDL30EM40CMC: Drift, type = "CSR", L = 0.575, DS_STEP = 0.575
+XCQT42: Kicker, type = "class-5"
+D40CMF: Drift, L = 0.425, DS_STEP = 0.425
+QT42: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = 0.839614778043,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+BPMT42: Instrument, type = "05_um_res"
+YCQT42: Kicker, type = "class-5f"
+QT43: Quadrupole, type = "0.91Q17.72", L = 0.23046, K1 = -0.420937827343,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.23046, aperture = 0.0115
+MM2: Marker
+D25CMB: Drift, L = 0.2627, DS_STEP = 0.2627
+IM36: Marker
+D25CMC: Drift, L = 0.2373, DS_STEP = 0.2373
+DMM1M90CM: Drift, L = 1.20046, DS_STEP = 1.20046
+YCEM1: Kicker, type = "class-4"
+DEM1A: Drift, L = 0.372, DS_STEP = 0.372
+QEM1: Quadrupole, type = "Q150kG", L = 0.158, K1 = -0.3948193191, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMEM1: Instrument, type = "05_um_res"
+DEM1B: Drift, L = 4.14492, DS_STEP = 4.14492
+QEM2: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.437029374266, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMEM2: Instrument, type = "05_um_res"
+DEM2B: Drift, L = 0.502, DS_STEP = 0.502
+XCEM2: Kicker, type = "class-4"
+DMM3M80CM: Drift, L = 11.27092, DS_STEP = 11.27092
+YCEM3: Kicker, type = "class-4"
+DEM3A: Drift, L = 0.372, DS_STEP = 0.372
+QEM3: Quadrupole, type = "Q150kG", L = 0.158, K1 = -0.601204901993, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMEM3: Instrument, type = "05_um_res"
+DEM3B: Drift, L = 0.775299, DS_STEP = 0.775299
+QEM3V: Quadrupole, type = "ETA", L = 0.054, INTEGRATOR_ORDER = 2, DS_STEP = 0.054,
+   aperture = 0.016
+DMM4M90CM: Drift, L = 2.759621, DS_STEP = 2.759621
+XCEM4: Kicker, type = "class-4"
+DEM4A: Drift, L = 0.502, DS_STEP = 0.502
+QEM4: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.425609607536, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMEM4: Instrument, type = "05_um_res"
+DMM5: Drift, L = 2.07246, DS_STEP = 2.07246
+DBMARK36: Marker
+WS31: Marker, type = "fast"
+D40CM: Drift, L = 0.4, DS_STEP = 0.4
+DE3M80CMA: Drift, L = 7.9358766666667, DS_STEP = 7.9358766666667
+XCE31: Kicker, type = "class-4"
+DQEA: Drift, L = 0.426, DS_STEP = 0.426
+QE31: Quadrupole, type = "ETA", L = 0.054, K1 = 0.402753198232, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.054, aperture = 0.016
+BPME31: Instrument, type = "05_um_res"
+DQEBX: Drift, L = 0.7961435, DS_STEP = 0.7961435
+CX31: Rcollimator, L = 0.08, DS_STEP = 0.08, x_limit = 2.2E-3, y_limit = 0.02
+DQEBX2: Drift, L = 7.4857331666667, DS_STEP = 7.4857331666667
+DE3A: Drift, L = 8.7258766666667, DS_STEP = 8.7258766666667
+YCE32: Kicker, type = "class-4"
+DQEAA: Drift, L = 0.436, DS_STEP = 0.436
+QE32: Quadrupole, type = "ETA", L = 0.054, K1 = -0.402753198232, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.054, aperture = 0.016
+BPME32: Instrument, type = "05_um_res"
+DQEBY: Drift, L = 0.7961435, DS_STEP = 0.7961435
+CY32: Rcollimator, L = 0.08, DS_STEP = 0.08, x_limit = 0.02, y_limit = 2.2E-3
+DQEBY2: Drift, L = 7.8857331666667, DS_STEP = 7.8857331666667
+WS32: Marker, type = "fast"
+DE3M80CMB: Drift, L = 7.9058766666667, DS_STEP = 7.9058766666667
+XCE33: Kicker, type = "class-4"
+DQEAB: Drift, L = 0.456, DS_STEP = 0.456
+QE33: Quadrupole, type = "ETA", L = 0.054, K1 = 0.402753198232, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.054, aperture = 0.016
+BPME33: Instrument, type = "05_um_res"
+DQECA: Drift, L = 7.950716, DS_STEP = 7.950716
+YAGPSI: Instrument, type = "YAG-PAL"
+DQECB: Drift, L = 0.81116066666667, DS_STEP = 0.81116066666667
+OTR33: Instrument, type = "OTR"
+DE3M40CM: Drift, L = 8.3358766666667, DS_STEP = 8.3358766666667
+YCE34: Kicker, type = "class-4"
+QE34: Quadrupole, type = "ETA", L = 0.054, K1 = -0.402753198232, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.054, aperture = 0.016
+BPME34: Instrument, type = "05_um_res"
+DQEC: Drift, L = 8.7618766666667, DS_STEP = 8.7618766666667
+WS33: Marker, type = "fast"
+DE3M80CM: Drift, L = 7.7558766666667, DS_STEP = 7.7558766666667
+XCE35: Kicker, type = "class-4"
+DQEAC: Drift, L = 0.606, DS_STEP = 0.606
+QE35: Quadrupole, type = "ETA", L = 0.054, K1 = 0.402753198232, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.054, aperture = 0.016
+BPME35: Instrument, type = "05_um_res"
+CX35: Rcollimator, L = 0.08, DS_STEP = 0.08, x_limit = 2.2E-3, y_limit = 0.02
+DE3: Drift, L = 8.7358766666667, DS_STEP = 8.7358766666667
+YCE36: Kicker, type = "class-4"
+QE36: Quadrupole, type = "ETA", L = 0.054, K1 = -0.402753198232, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.054, aperture = 0.016
+BPME36: Instrument, type = "05_um_res"
+CY36: Rcollimator, L = 0.08, DS_STEP = 0.08, x_limit = 0.02, y_limit = 2.2E-3
+WS34: Marker, type = "fast"
+D40CMG: Drift, L = 0.3683, DS_STEP = 0.3683
+D40CMH: Drift, L = 0.0317, DS_STEP = 0.0317
+DU1M80CMA: Drift, L = 0.16515, DS_STEP = 0.16515
+DU1M80CMB: Drift, L = 4.38485, DS_STEP = 4.38485
+DCX37: Drift, L = 0.08, DS_STEP = 0.08
+D32CMC: Drift, L = 0.30046, DS_STEP = 0.30046
+XCUM1: Kicker, type = "class-4f"
+DUM1A: Drift, L = 0.492, DS_STEP = 0.492
+QUM1: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.438152708498, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMUM1: Instrument, type = "05_um_res"
+DUM1B: Drift, L = 0.47246, DS_STEP = 0.47246
+D32CM: Drift, L = 0.32, DS_STEP = 0.32
+DXLM1: Drift, L = 1.10447, DS_STEP = 1.10447
+MIRXL: Instrument, type = "holey mirror"
+DXLM2: Drift, L = 3.62553, DS_STEP = 3.62553
+DCY38: Drift, L = 0.08, DS_STEP = 0.08
+D32CMA: Drift, L = 0.42046, DS_STEP = 0.42046
+YCUM2: Kicker, type = "class-4f"
+DUM2A: Drift, L = 0.372, DS_STEP = 0.372
+QUM2: Quadrupole, type = "Q150kG", L = 0.158, K1 = -0.38712201717, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMUM2: Instrument, type = "05_um_res"
+DXL0: Drift, L = 0.59371, DS_STEP = 0.59371
+XCXL1: Kicker, type = "class-4"
+DXL1: Drift, L = 0.5183, DS_STEP = 0.5183
+YCXL1: Kicker, type = "class-4"
+DXL2: Drift, L = 0.4818, DS_STEP = 0.4818
+PRXL1: Instrument, type = "YAG"
+DXL3: Drift, L = 0.7947, DS_STEP = 0.7947
+WIGXL: Taylor, type = "variable gap", L = 1.19, DELTA_REF_TIME = 3.9694127355836E-9,
+   {1: 1.19 | 2}, {3: 1.19 | 4}
+DXL4: Drift, L = 0.6134, DS_STEP = 0.6134
+PRXL2: Instrument, type = "YAG"
+DXL5: Drift, L = 0.4318, DS_STEP = 0.4318
+YCXL2: Kicker, type = "class-4"
+DXL6: Drift, L = 0.508, DS_STEP = 0.508
+XCXL2: Kicker, type = "class-4"
+DXL7: Drift, L = 1.0922, DS_STEP = 1.0922
+PRXL3: Instrument, type = "OTR"
+DXL8: Drift, L = 0.34901, DS_STEP = 0.34901
+YCUM3: Kicker, type = "class-4f"
+DXL9: Drift, L = 0.382, DS_STEP = 0.382
+QUM3: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.092751923581, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMUM3: Instrument, type = "05_um_res"
+DUM34A: Drift, L = 0.254, DS_STEP = 0.254
+BCXLSSBEG: Marker
+BCXXL1A: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINT = 0.5, FINTX = 0,
+   HGAP = 4E-3, INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+BCXXL1B: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINTX = 0.5, HGAP = 4E-3,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+DXLO: Drift, L = 0.682, DS_STEP = 0.682
+BCXXL2A: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINT = 0.5, FINTX = 0,
+   HGAP = 4E-3, INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+BCXXL2B: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINTX = 0.5, HGAP = 4E-3,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+DXLI: Drift, L = 0.078, DS_STEP = 0.078
+BCXLSSMID: Marker
+BCXXL3A: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINT = 0.5, FINTX = 0,
+   HGAP = 4E-3, INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+BCXXL3B: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINTX = 0.5, HGAP = 4E-3,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+BCXXL4A: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINT = 0.5, FINTX = 0,
+   HGAP = 4E-3, INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+BCXXL4B: Sbend, type = "0.3D14", L = 0.182, FRINGE_TYPE = Full, FINTX = 0.5, HGAP = 4E-3,
+   INTEGRATOR_ORDER = 2, DS_STEP = 0.182
+BCXLSSEND: Marker
+DUM34B: Drift, L = 0.41292, DS_STEP = 0.41292
+XCUM4: Kicker, type = "class-4f"
+DUM4A: Drift, L = 0.502, DS_STEP = 0.502
+QUM4: Quadrupole, type = "Q150kG", L = 0.158, K1 = 0.340037095214, INTEGRATOR_ORDER = 2,
+   DS_STEP = 0.158, aperture = 0.016
+BPMUM4: Instrument, type = "05_um_res"
+DUM4B: Drift, L = 0.59946, DS_STEP = 0.59946
+RFB07: Instrument, type = "01_um_res"
+DU5M80CM: Drift, L = 0.5, DS_STEP = 0.5
+IMUNDI: Marker
+DUHW1A: Drift, L = 0.251544, DS_STEP = 0.251544
+BLTOF: Instrument
+DUHW1B: Drift, L = 0.14004, DS_STEP = 0.14004
+RWWAKEAL: Marker
+UHWALL1: Drift, L = 0.250825, DS_STEP = 0.250825
+DMUON2: Drift, L = 1.164391, DS_STEP = 1.164391
+DVV35: Drift, L = 0.441293, DS_STEP = 0.441293
+RFB08: Instrument, type = "01_um_res"
+DUHW2: Drift, L = 0.403491, DS_STEP = 0.403491
+UHWALL2: Drift, L = 0.250825, DS_STEP = 0.250825
+DTDUND1: Drift, L = 1.057391, DS_STEP = 1.057391
+TDUND: Instrument
+DTDUND2: Drift, L = 0.37935, DS_STEP = 0.37935
+PCMUON: Ecollimator, L = 1.1684, DS_STEP = 1.1684, x_limit = 4.32E-3, y_limit = 2.16E-3
+DMUON1: Drift, L = 0.154859, DS_STEP = 0.154859
+VV999: Marker
+DMUON3: Drift, L = 0.310592, DS_STEP = 0.310592
+MM3: Marker
+PFILT1: Marker
+DBMARK37: Marker
+
+MYLAT: line = ( MM1, DBMARK34, BX31A, BX31B, DDL10W, DBYW1A, DBYW1B, DW1O, DBYW2A, DBYW2B,
+   DW1O, DBYW3A, DBYW3B, CNTW, DWSDL31A, WSDL31, DWSDL31B, DDL10X, XCDL1, D31A, QDL31,
+   BPMDL1, QDL31, D31B, YCDL1, D32CMB, CEDL1, DDL10EM80CM, BX32A, BX32B, CNT3A, DDL20E,
+   QT11, QT11, DDL30EM40CM, XCQT12, D40CMB, QT12, BPMT12, QT12, D40CMB, YCQT12, DDL30EM40CM,
+   QT13, QT13, DDL20E, SS1, DX33A, DX33B, DDL1A, BYKIK1A, BYKIK1B, DDL1C, DDL1C, BYKIK2A,
+   BYKIK2B, DDL1B, XCDL2, D32A, QDL32, BPMDL2, QDL32, D32B, YCDL2, DSPLR, SPOILER,
+   DDL1CM40CM, TDKIK, D30CMA, PCTDKIK1, DPC1, PCTDKIK2, DPC2, PCTDKIK3, DPC3, PCTDKIK4,
+   DPC4, SPONTUA, SPONTUB, DDL1DM30CM, DX34A, DX34B, DDL20, QT21, QT21, DDL30EM40CM, XCQT22,
+   D40CMB, QT22, BPMT22, QT22, D40CMB, YCQT22, DDL30EM40CM, QT23, QT23, DDL20, BX35A, BX35B,
+   DCQ31A, CQ31, CQ31, DCQ31B, OTR30, D29CMA, XCDL3, D33A, QDL33, BPMDL3, QDL33, D33B,
+   YCDL3, D32CMD, CEDL3, DCQ32A, CQ32, CQ32, DCQ32B, BX36A, BX36B, CNT3B, DDL20E, QT31,
+   QT31, DDL30EM40CMA, XCQT32, D40CMD, QT32, BPMT32, QT32, D40CME, YCQT32, DDL30EM40CMB,
+   QT33, QT33, DDL20E, SS3, D37A, IMBCS2, D37B, WSDL4, D37C, DCHIRPV, MDCHIRPV, DCHIRPV,
+   D37D, QDL34, BPMDL4, QDL34, D38A, DCHIRPH, MDCHIRPH, DCHIRPH, D38B, XCDL4, D38C, YCDL4,
+   D38D, DDL20, QT41, QT41, DDL30EM40CMC, XCQT42, D40CMF, QT42, BPMT42, QT42, D40CMB,
+   YCQT42, DDL30EM40CM, QT43, QT43, DDL20, MM2, D25CMB, IM36, D25CMC, DMM1M90CM, YCEM1,
+   DEM1A, QEM1, BPMEM1, QEM1, DEM1B, QEM2, BPMEM2, QEM2, DEM2B, XCEM2, DMM3M80CM, YCEM3,
+   DEM3A, QEM3, BPMEM3, QEM3, DEM3B, QEM3V, QEM3V, DMM4M90CM, XCEM4, DEM4A, QEM4, BPMEM4,
+   QEM4, DMM5, DBMARK36, WS31, D40CM, DE3M80CMA, XCE31, DQEA, QE31, BPME31, QE31, DQEBX,
+   CX31, DQEBX2, DE3A, YCE32, DQEAA, QE32, BPME32, QE32, DQEBY, CY32, DQEBY2, WS32, D40CM,
+   DE3M80CMB, XCE33, DQEAB, QE33, BPME33, QE33, DQECA, YAGPSI, DQECB, OTR33, DE3M40CM,
+   YCE34, DQEA, QE34, BPME34, QE34, DQEC, WS33, D40CM, DE3M80CM, XCE35, DQEAC, QE35, BPME35,
+   QE35, DQEBX, CX35, DQEBX2, DE3, YCE36, DQEA, QE36, BPME36, QE36, DQEBY, CY36, DQEBY2,
+   WS34, D40CMG, D40CMH, DU1M80CMA, DU1M80CMB, DCX37, D32CMC, XCUM1, DUM1A, QUM1, BPMUM1,
+   QUM1, DUM1B, D32CM, DXLM1, MIRXL, DXLM2, DCY38, D32CMA, YCUM2, DUM2A, QUM2, BPMUM2, QUM2,
+   DXL0, XCXL1, DXL1, YCXL1, DXL2, PRXL1, DXL3, WIGXL, WIGXL, DXL4, PRXL2, DXL5, YCXL2,
+   DXL6, XCXL2, DXL7, PRXL3, DXL8, YCUM3, DXL9, QUM3, BPMUM3, QUM3, DUM34A, BCXLSSBEG,
+   BCXXL1A, BCXXL1B, DXLO, BCXXL2A, BCXXL2B, DXLI, BCXLSSMID, DXLI, BCXXL3A, BCXXL3B, DXLO,
+   BCXXL4A, BCXXL4B, BCXLSSEND, DUM34B, XCUM4, DUM4A, QUM4, BPMUM4, QUM4, DUM4B, RFB07,
+   DU5M80CM, IMUNDI, DUHW1A, BLTOF, DUHW1B, RWWAKEAL, UHWALL1, DMUON2, DVV35, RFB08, DUHW2,
+   UHWALL2, DTDUND1, TDUND, DTDUND2, PCMUON, DMUON1, VV999, DMUON3, MM3, PFILT1, DBMARK37)
+
+use, MYLAT

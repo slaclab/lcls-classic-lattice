@@ -1,0 +1,15 @@
+! Beginning for ele: BC1MRK
+beginning[x_position] = -4.874969526522539e-06
+beginning[y_position] = 0.0
+beginning[z_position] = 2044.167427934685
+beginning[theta_position] = 2.2204460492503136e-16
+beginning[phi_position] = 0.0
+beginning[psi_position] = 0.0
+beginning[s] = 29.46551393072899
+beginning[e_tot] = 271854159.79039013
+beginning[beta_a] = 10.850464730238517
+beginning[alpha_a] = -0.2548983510329651
+beginning[beta_b] = 6.3780283650255125
+beginning[alpha_b] = -1.3028219124828622
+beginning[eta_x] = -8.615386575185942e-11
+beginning[etap_x] = -4.373209347338888e-12
