@@ -9,7 +9,7 @@ Bmad model:
 bmad/
 
 Some files depend on the LCLS_LATTICE environmental variable, which should point to the root of this repository.
-export $LCLS_LATTICE=<root>/lcls-lattice
+`export $LCLS_LATTICE=<root>/lcls-lattice`
   
   
 
