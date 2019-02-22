@@ -12,6 +12,12 @@ Some files depend on the LCLS_LATTICE environmental variable, which should point
 
 `export $LCLS_LATTICE=<root>/lcls-lattice`
   
+Run tao on the LCLS model:
+cd $LCLS_LATTICE/bmad/model/tao.init
+tao
+
+
+  
   
 
 
