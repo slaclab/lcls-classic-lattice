@@ -14,9 +14,8 @@ Some files depend on the LCLS_LATTICE environmental variable, which should point
   
 Run tao on the LCLS model:
 
-`cd $LCLS_LATTICE/bmad/model/tao.init`
+`tao -init $LCLS_LATTICE/bmad/model/tao.init`
 
-`tao`
 
 
   
