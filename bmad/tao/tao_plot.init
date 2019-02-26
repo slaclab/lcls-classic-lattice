@@ -2942,38 +2942,6 @@ curve(2)%legend_text = 'Y'
 /
 
 
-!--------floor4----------------------------------------
-&tao_template_plot
-  plot%name = 'floor4'
-  plot%x%min =   0
-  plot%x%max = 4000
-  !plot%x%major_div = 10
-  plot%x%label = 'Z (m)'
-  plot%n_graph = 1
-/
-
-&tao_template_graph
-  graph_index = 1
-  graph%name = 'plan'
-  graph%type = 'floor_plan'
-  graph%floor_plan_draw_only_first_pass  = F
-  graph%correct_xy_distortion = F
-  graph%floor_plan_size_is_absolute = T
-  graph%box = 1, 1, 1, 1
-  graph%title = 'floor_plan'
-  graph%margin =  0.15, 0.06, 0.12, 0.12, '%BOX'
-  graph%y%label = 'X (m)'
-  graph%y%max = 0.1
-  graph%y%min = -0.1
-  graph%y%major_div = 4
-  ! Multiple floor plans
-  graph%floor_plan_orbit_scale = 1
-  graph%floor_plan_view  = 'zx'
-  graph%floor_plan_orbit_color = 'Purple'
-  graph%ix_universe = -2
-/
-
-
 
 
 !--------floor----------------------------------------
