@@ -33,12 +33,12 @@
 
 &tao_beam_init
 
-beam_init%use_lattice_center = T
+!beam_init%use_lattice_center = T
 beam_init%random_engine = 'quasi'
 ix_universe = 1
 beam_saved_at =  "MARKER::*"
 track_start = 'OTR2'
-beam0_file = '$LCLS_LATTICE/bmad/beam/OTR2_250pC_rescaleto540um_solGTF1M_flat_scattered_20keV_100k.beam0'
+beam_init%file_name = '$LCLS_LATTICE/bmad/beam/OTR2_250pC_rescaleto540um_solGTF1M_flat_scattered_20keV_100k.beam0'
 beam_init%center(1) = 0.0
 beam_init%center(2) = 0.0
 beam_init%center(3) = 0.0
