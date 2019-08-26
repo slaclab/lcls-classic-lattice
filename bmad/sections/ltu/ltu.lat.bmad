@@ -1,6 +1,6 @@
-call, file = ../../model/lcls.lat.bmad
+call, file = $LCLS_LATTICE/bmad/model/lcls.lat.bmad
 
-call, file = ../../beginning/beginning_MM1.bmad
+call, file = $LCLS_LATTICE/beginning/beginning_MM1.bmad
 
 mylat: line = (LTU)
 
