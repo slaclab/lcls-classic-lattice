@@ -32,13 +32,11 @@
 
 
 &tao_beam_init
-
-!beam_init%use_lattice_center = T
 beam_init%random_engine = 'quasi'
 ix_universe = 1
 beam_saved_at =  "MARKER::*"
 track_start = 'OTR2'
-beam_init%file_name = '$LCLS_LATTICE/bmad/beam/OTR2_250pC_rescaleto540um_solGTF1M_flat_scattered_20keV_100k.beam0'
+beam_init%position_file = '$LCLS_LATTICE/bmad/beam/OTR2_250pC_rescaleto540um_solGTF1M_flat_scattered_20keV_100k.beam0'
 beam_init%center(1) = 0.0
 beam_init%center(2) = 0.0
 beam_init%center(3) = 0.0
@@ -148,7 +146,7 @@ beam_init%center(6) = 0.0
         ix_d1_data = 2
         default_weight = 1
         d1_data%name = 'energy'
-        datum( 1) =  'e_tot_ref'           '' '' 'BC1BEG'   'target'  0   
+        datum( 1) =  'e_tot_ref'           '' '' 'BC1BEG'   'target'  250e6 1e-9
         datum( 2) =  'e_tot_ref'           '' '' 'BC1END'   'target'  0   
         datum( 3) =  'orbit.e_tot'     '' '' 'BC1BEG'   'target'  0   
         datum( 4) =  'orbit.e_tot'     '' '' 'BC1END'   'target'  0   
@@ -157,7 +155,7 @@ beam_init%center(6) = 0.0
         ix_d1_data = 3
         default_weight = 1
         d1_data%name = 'offset'
-        datum( 1) =  'rel_floor.x'     'BC1BEG' '' 'BX12B'   'target' 0     1e1
+        datum( 1) =  'rel_floor.x'     'BC1BEG' '' 'BX12B'   'target'   2.29407161E-01     1e1
    
  / 
  &tao_d1_data
@@ -189,7 +187,7 @@ beam_init%center(6) = 0.0
         ix_d1_data = 2
         default_weight = 1
         d1_data%name = 'energy'
-        datum( 1) =  'e_tot_ref'           '' '' 'BC2BEG'   'target'  0   
+        datum( 1) =  'e_tot_ref'           '' '' 'BC2BEG'   'target'  4.44531723E+09   1e-9  
         datum( 2) =  'e_tot_ref'           '' '' 'BC2END'   'target'  0   
         datum( 3) =  'orbit.e_tot'     '' '' 'BC2BEG'   'target'  0   
         datum( 4) =  'orbit.e_tot'     '' '' 'BC2END'   'target'  0   
@@ -198,7 +196,7 @@ beam_init%center(6) = 0.0
         ix_d1_data = 3
         default_weight = 1
         d1_data%name = 'offset'
-        datum( 1) =  'rel_floor.x'     'BC2BEG' '' 'BX22B'   'target' 0     1e1
+        datum( 1) =  'rel_floor.x'     'BC2BEG' '' 'BX22B'   'target'   3.61624634E-01    1e1
    
  / 
 
@@ -213,7 +211,7 @@ beam_init%center(6) = 0.0
         default_weight = 1
         d1_data%name = 'energy'
         datum( 1) =  'e_tot_ref'           '' '' 'L3BEG'   'target'  0   
-        datum( 2) =  'e_tot_ref'           '' '' 'L3END'   'target'  0   
+        datum( 2) =  'e_tot_ref'           '' '' 'L3END'   'target'   1.37853172E+10   1e-9
         datum( 3) =  'orbit.e_tot'     '' '' 'L3BEG'   'target'  0   
         datum( 4) =  'orbit.e_tot'     '' '' 'L3END'   'target'  0   
  / 

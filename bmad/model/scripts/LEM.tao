@@ -1,0 +1,12 @@
+set global plot_on = F
+veto dat *
+veto var *
+use dat BC1.energy[1]
+use dat BC2.energy[1]
+use dat L3.energy[2]
+use var linac_fudge
+scycles 20
+olmdif
+run
+
+set global plot_on = T
