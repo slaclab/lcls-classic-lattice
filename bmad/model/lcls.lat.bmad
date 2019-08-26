@@ -12,12 +12,12 @@ beginning[theta_position] = -35*pi/180
 Beginning[z_position] = 3050.512000 - 1032.60052
 Beginning[x_position] = 10.44893
 
-call, file = ../master/LCLS_master.bmad
+call, file = $LCLS_LATTICE/bmad/master/LCLS_master.bmad
 
 
 ! Bunch Compressor overlays
-call, file = overlays/bc1_overlays.bmad
-call, file = overlays/bc2_overlays.bmad
+call, file = $LCLS_LATTICE/bmad/overlays/bc1_overlays.bmad
+call, file = $LCLS_LATTICE/bmad/overlays/bc2_overlays.bmad
 
 !  BSYLTU  : LINE=(BSY,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
 !  BSYSFT  : LINE=(BSY,VBSYS,LTU,UND,UNDEXIT,PERMDUMP)
@@ -83,17 +83,17 @@ use, lat
 !use, LCLS
 
 ! Cavity wakefields, traveling wave, full sbend
-lcavity::K*[sr_wake_file]   = '../wakefields/longitudinal_wakes_sband.bmad'
-lcavity::L1X*[sr_wake_file] = '../wakefields/longitudinal_wakes_xband.bmad'
+lcavity::K*[sr_wake_file]   = '$LCLS_LATTICE/bmad/wakefields/longitudinal_wakes_sband.bmad'
+lcavity::L1X*[sr_wake_file] = '$LCLS_LATTICE/bmad/wakefields/longitudinal_wakes_xband.bmad'
 lcavity::*[cavity_type] = traveling_wave
 sbend::*[fringe_type] = full
 
 ! 
-call, file = overlays/klystrons.bmad
-call, file = overlays/klystron_design_settings.bmad
-call, file = overlays/linac_phase_overlays.bmad 
+call, file = $LCLS_LATTICE/bmad/overlays/klystrons.bmad
+call, file = $LCLS_LATTICE/bmad/overlays/klystron_design_settings.bmad
+call, file = $LCLS_LATTICE/bmad/overlays/linac_phase_overlays.bmad 
 
-call, file = overlays/linac_phase_defaults.bmad 
+call, file = $LCLS_LATTICE/bmad/overlays/linac_phase_defaults.bmad 
 
 ! Live settings
 !call, file = settings/quad_settings.bmad
@@ -101,7 +101,7 @@ call, file = overlays/linac_phase_defaults.bmad
 !call, file = settings/linac_settings.bmad
 
 !Overall fudge
-call, file = overlays/linac_fudge_overlays.bmad
+call, file = $LCLS_LATTICE/bmad/overlays/linac_fudge_overlays.bmad
 
 
 
