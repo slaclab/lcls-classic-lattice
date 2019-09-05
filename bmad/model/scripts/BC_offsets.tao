@@ -1,9 +1,10 @@
-set global plot_on = F
+!set global plot_on = F
 veto dat *
 veto var *
 use dat BC1.offset[1]
 use dat BC2.offset[1]
 use var BC_angle
-scycles 10
+set global n_opti_cycles = 10
+set global optimizer = lmdif
 run
-set global plot_on = T
+!set global plot_on = T

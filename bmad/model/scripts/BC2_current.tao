@@ -1,0 +1,13 @@
+veto var *
+veto dat *
+set beam_init beam_track_end = BC2end
+use var linac_phase[2]
+use dat BC2.beam[1]
+
+! Low number of particles for this quick optimization
+set beam_init n_particle = 100
+set global n_opti_cycles = 1
+! Use DE optimizer. lmdif derivatives are too noisy
+set global optimizer = de
+
+

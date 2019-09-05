@@ -88,6 +88,17 @@ lcavity::L1X*[sr_wake_file] = '$LCLS_LATTICE/bmad/wakefields/longitudinal_wakes_
 lcavity::*[cavity_type] = traveling_wave
 sbend::*[fringe_type] = full
 
+
+! Resistive wall, instantaneous
+RWWAKECU[sr_wake_file] = '$LCLS_LATTICE/bmad/wakefields/wakefield_Cu_17.4mmR.bmad'
+RWWAKECU[sr_wake_scale_with_length] = F
+RWWAKECU[wake_amp_scale] = 339.0
+
+RWWAKEU[sr_wake_file] = '$LCLS_LATTICE/bmad/wakefields/wakefield_Al_5mm_gap_flat.bmad'
+RWWAKEU[sr_wake_scale_with_length] = F
+RWWAKEU[wake_amp_scale] = 130
+
+
 ! 
 call, file = $LCLS_LATTICE/bmad/overlays/klystrons.bmad
 call, file = $LCLS_LATTICE/bmad/overlays/klystron_design_settings.bmad

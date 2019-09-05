@@ -1,7 +1,7 @@
 &tao_start
   n_universes = 1
   plot_file   ='$LCLS_LATTICE/bmad/tao/tao_plot.init '
-  startup_file='$LCLS_LATTICE/bmad/tao/tao.startup'
+  startup_file='tao.startup'
 /
 
 
@@ -129,7 +129,7 @@ beam_init%center(6) = 0.0
 &tao_d2_data
         d2_data%name = 'BC1'
         universe = 1
-        n_d1_data = 4
+        n_d1_data = 5
 /
 &tao_d1_data
         ix_d1_data = 1
@@ -163,6 +163,14 @@ beam_init%center(6) = 0.0
         default_weight = 1
         d1_data%name = 'r56'
         datum( 1) =  'momentum_compaction'        'BC1BEG'  '' 'BC1END'   'target'  0   
+/
+ &tao_d1_data
+        ix_d1_data = 5
+        default_weight = 1
+        d1_data%name = 'beam'
+        default_data_source = 'beam'
+        datum( 1) =  'sigma.z'        ''  '' 'BC1END'   'target'  85e-6   1e6
+        datum( 2) =  'charge_live.total'        ''  '' 'BC2END'   'target'    180e-6 1e12
 / 
 
  
@@ -170,7 +178,7 @@ beam_init%center(6) = 0.0
 &tao_d2_data
         d2_data%name = 'BC2'
         universe = 1
-        n_d1_data = 3
+        n_d1_data = 5
 /
 &tao_d1_data
         ix_d1_data = 1
@@ -196,9 +204,25 @@ beam_init%center(6) = 0.0
         ix_d1_data = 3
         default_weight = 1
         d1_data%name = 'offset'
+        
         datum( 1) =  'rel_floor.x'     'BC2BEG' '' 'BX22B'   'target'   3.61624634E-01    1e1
    
  / 
+  &tao_d1_data
+        ix_d1_data = 4
+        default_weight = 1
+        d1_data%name = 'r56'
+        datum( 1) =  'momentum_compaction'        'BC2BEG'  '' 'BC2END'   'target'  0   
+/
+ &tao_d1_data
+        ix_d1_data = 5
+        default_weight = 1
+        d1_data%name = 'beam'
+        default_data_source = 'beam'
+        datum( 1) =  'sigma.z'        ''  '' 'BC2END'   'target'    4e-6 1e6
+       
+/ 
+
 
 
 &tao_d2_data
@@ -282,8 +306,21 @@ beam_init%center(6) = 0.0
     v1_var%name = 'linac_fudge'
 	default_step = 1e-4
 	default_attribute = 'f'
+	default_low_lim = 0.01
+	default_high_lim = 1.5
 	var(1:)%ele_name =  'O_L1_fudge', 'O_L2_fudge', 'O_L3_fudge'
 /
+
+
+&tao_var
+    v1_var%name = 'linac_phase'
+	default_step = 1e-2
+	default_attribute = 'phase_deg'
+	default_low_lim = -180
+	default_high_lim = 180
+	var(1:)%ele_name =  'O_L1', 'O_L2', 'O_L3'
+/
+
 
 
 

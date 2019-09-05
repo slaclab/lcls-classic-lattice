@@ -2,8 +2,8 @@
 
 !set global track_type = single
 
-set global plot_on = false
-set global lattice_calc_on=false
+!set global plot_on = false
+!set global lattice_calc_on=false
 
 !---Turn on ISR fluctuations
 set bmad_com radiation_fluctuations_on = T
@@ -17,7 +17,7 @@ set csr_param particle_bin_span = 2
 set csr_param sigma_cutoff = 0.1 ! Cutoff for the lsc calc. If a bin sigma is < cutoff * sigma_ave then ignore.
 
 !---------------------------------------------
-set global lattice_calc_on=true
+!set global lattice_calc_on=true
 
 alias csrstep set csr_param ds_track_step = [[1]]
 
@@ -33,6 +33,9 @@ set ele * space_charge_method = off
 set ele * CSR_METHOD  = off
 set ele BC1BEG:BC1END CSR_METHOD  = 1_Dim
 set ele BC2BEG:BC2END CSR_METHOD  = 1_Dim
+! Dogleg, two areas
+set ele MM1:SS1 CSR_METHOD  = 1_Dim
+set ele BPMT22:SS3 CSR_METHOD  = 1_Dim
 !set ele L3END:END CSR_METHOD  = 1_Dim
 
 

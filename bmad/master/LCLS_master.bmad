@@ -2535,7 +2535,9 @@ cntv: marker !ELEGANT will correct the orbit here for CSR-steering
 cntw: marker !ELEGANT will correct the orbit here for CSR-steering
 cnt3a: marker !ELEGANT will correct the orbit here for CSR-steering
 cnt3b: marker !ELEGANT will correct the orbit here for CSR-steering
-rwwakeal: marker !will be resistive wall wake of aluminum in ELEGANT
+!!! This is not aluminum! It's copper. Old line:
+!!! rwwakeal: marker !will be resistive wall wake of aluminum in ELEGANT
+rwwakecu: marker
 rwwakeu: marker !will be resistive wall wake of undulator in ELEGANT
 pfilt1: marker
 
@@ -3095,7 +3097,7 @@ xleap: line = (dxl0, xcxl1, dxl1, ycxl1, dxl2, prxl1, dxl3, wigxl, wigxl, dxl4, 
 !-!                BPMUM2,QUM2,XLEAP, &
 !-!                QUM3,BPMUM3,QUM3,DUM3B,D40cma,EOBLM,DU4m120cm, &
 !-!                XCUM4,DUM4A,QUM4,BPMUM4,QUM4,DUM4B,RFB07,DU5m80cm, &
-!-!                IMUNDI,DUHW1,RWWAKEAl,UHWALL1,DMUON2,DVV35,RFB08,&
+!-!                IMUNDI,DUHW1,RWWAKECu,UHWALL1,DMUON2,DVV35,RFB08,&
 !-!                DUHW2,UHWALL2,DTDUND1,&
 !-!                TDUND,DTDUND2,PCMUON,DMUON1,VV999,DMUON3,MM3,PFILT1,&
 !-!                DBMARK37)
@@ -3104,7 +3106,7 @@ xleap: line = (dxl0, xcxl1, dxl1, ycxl1, dxl2, prxl1, dxl3, wigxl, wigxl, dxl4, 
 unmch: line = (du1m80cma, du1m80cmb, dcx37, d32cmc, xcum1, dum1a, qum1, bpmum1, qum1, dum1b,  &
         d32cm, dxlm1, mirxl, dxlm2, dcy38, d32cma, ycum2, dum2a, qum2, bpmum2, qum2, xleap, qum3 &
         , bpmum3, qum3, dum34a, bcxlss, dum34b, xcum4, dum4a, qum4, bpmum4, qum4, dum4b, rfb07,  &
-        du5m80cm, imundi, duhw1a, bltof, duhw1b, rwwakeal, uhwall1, dmuon2, dvv35, rfb08, duhw2,  &
+        du5m80cm, imundi, duhw1a, bltof, duhw1b, rwwakecu, uhwall1, dmuon2, dvv35, rfb08, duhw2,  &
         uhwall2, dtdund1, tdund, dtdund2, pcmuon, dmuon1, vv999, dmuon3, mm3, pfilt1, dbmark37)
 
 ltu: line = (mm1, doglg2a, doglg2b, mm2, edmch, edsys, unmch)
