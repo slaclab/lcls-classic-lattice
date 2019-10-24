@@ -1,7 +1,8 @@
 &tao_start
   n_universes = 1
-  plot_file   ='$LCLS_LATTICE/bmad/tao/tao_plot.init '
+  plot_file   ='$LCLS_CLASSIC_LATTICE/bmad/tao/tao_plot.init '
   startup_file='tao.startup'
+
 /
 
 
@@ -34,9 +35,9 @@
 &tao_beam_init
 beam_init%random_engine = 'quasi'
 ix_universe = 1
-beam_saved_at =  "MARKER::*"
+beam_saved_at =  "MARKER::*, CE11"
 track_start = 'OTR2'
-beam_init%position_file = '$LCLS_LATTICE/bmad/beam/OTR2_250pC_rescaleto540um_solGTF1M_flat_scattered_20keV_100k.beam0'
+beam_init%position_file = '$LCLS_CLASSIC_LATTICE/bmad/beam/OTR2_250pC_rescaleto540um_solGTF1M_flat_scattered_20keV_100k.beam0'
 beam_init%center(1) = 0.0
 beam_init%center(2) = 0.0
 beam_init%center(3) = 0.0
@@ -107,6 +108,45 @@ beam_init%center(6) = 0.0
         datum( 6) =  'etap.x'     '' '' 'OTR2'   'target'   0   1e2
 / 
 
+
+&tao_d2_data
+        d2_data%name = 'L1'
+        universe = 1
+        n_d1_data = 1
+/
+
+&tao_d1_data
+        ix_d1_data = 1
+        default_weight = 1
+        d1_data%name = 'begtwiss'
+        datum( 1) =  'beta.a'     '' '' 'L1BEG'   'target'  9.94722021    1e1
+        datum( 2) =  'alpha.a'    '' '' 'L1BEG'   'target'    1.96007828  1e2
+        datum( 3) =  'beta.b'     '' '' 'L1BEG'   'target'       2.41084923     1e1
+        datum( 4) =  'alpha.b'    '' '' 'L1BEG'   'target' -0.54937233  1e2
+        datum( 5) =  'eta.x'      '' '' 'L1BEG'   'target'   0  1e1
+        datum( 6) =  'etap.x'     '' '' 'L1BEG'   'target'   0   1e2
+/ 
+
+&tao_d2_data
+        d2_data%name = 'L2'
+        universe = 1
+        n_d1_data = 1
+/
+
+&tao_d1_data
+        ix_d1_data = 1
+        default_weight = 1
+        d1_data%name = 'begtwiss'
+        datum( 1) =  'beta.a'     '' '' 'L2BEG'   'target'  6.60382519    1e1
+        datum( 2) =  'alpha.a'    '' '' 'L2BEG'   'target'   -0.91763041  1e2
+        datum( 3) =  'beta.b'     '' '' 'L2BEG'   'target'   27.51080224     1e1
+        datum( 4) =  'alpha.b'    '' '' 'L2BEG'   'target'  1.55001293    1e2
+        datum( 5) =  'eta.x'      '' '' 'L2BEG'   'target'   0  1e1
+        datum( 6) =  'etap.x'     '' '' 'L2BEG'   'target'   0   1e2
+/ 
+
+
+
 &tao_d2_data
         d2_data%name = 'LI22'
         universe = 1
@@ -129,7 +169,7 @@ beam_init%center(6) = 0.0
 &tao_d2_data
         d2_data%name = 'BC1'
         universe = 1
-        n_d1_data = 5
+        n_d1_data = 4
 /
 &tao_d1_data
         ix_d1_data = 1
@@ -163,14 +203,6 @@ beam_init%center(6) = 0.0
         default_weight = 1
         d1_data%name = 'r56'
         datum( 1) =  'momentum_compaction'        'BC1BEG'  '' 'BC1END'   'target'  0   
-/
- &tao_d1_data
-        ix_d1_data = 5
-        default_weight = 1
-        d1_data%name = 'beam'
-        default_data_source = 'beam'
-        datum( 1) =  'sigma.z'        ''  '' 'BC1END'   'target'  85e-6   1e6
-        datum( 2) =  'charge_live.total'        ''  '' 'BC2END'   'target'    180e-6 1e12
 / 
 
  
@@ -178,7 +210,7 @@ beam_init%center(6) = 0.0
 &tao_d2_data
         d2_data%name = 'BC2'
         universe = 1
-        n_d1_data = 5
+        n_d1_data = 3
 /
 &tao_d1_data
         ix_d1_data = 1
@@ -204,25 +236,9 @@ beam_init%center(6) = 0.0
         ix_d1_data = 3
         default_weight = 1
         d1_data%name = 'offset'
-        
         datum( 1) =  'rel_floor.x'     'BC2BEG' '' 'BX22B'   'target'   3.61624634E-01    1e1
    
  / 
-  &tao_d1_data
-        ix_d1_data = 4
-        default_weight = 1
-        d1_data%name = 'r56'
-        datum( 1) =  'momentum_compaction'        'BC2BEG'  '' 'BC2END'   'target'  0   
-/
- &tao_d1_data
-        ix_d1_data = 5
-        default_weight = 1
-        d1_data%name = 'beam'
-        default_data_source = 'beam'
-        datum( 1) =  'sigma.z'        ''  '' 'BC2END'   'target'    4e-6 1e6
-       
-/ 
-
 
 
 &tao_d2_data
@@ -254,6 +270,61 @@ beam_init%center(6) = 0.0
         datum( 1) =  'r56_compaction'     'LHBEG' '' 'LHEND' 
         datum( 2) =  'r56_compaction'     'BC1BEG' '' 'BC1END' 
         datum( 3) =  'r56_compaction'     'BC2BEG' '' 'BC2END'    
+/
+
+
+
+!----------------------------------------
+!-------- Data for Simulacrum -----------
+&tao_d2_data
+    d2_data%name = "orbit"
+    universe = 1
+    n_d1_data = 5
+/
+
+&tao_d1_data
+    ix_d1_data = 1
+    default_weight = 1
+    d1_data%name = 'x'
+    default_data_type = 'bpm_orbit.x'
+    default_data_source = 'lat'
+    search_for_lat_eles = "Instrument::BPM*,Instrument::RFB*"
+/
+
+&tao_d1_data
+    ix_d1_data = 2
+    default_weight = 1
+    d1_data%name = 'y'
+    default_data_type = 'bpm_orbit.y'
+    default_data_source = 'lat'
+    search_for_lat_eles = "Instrument::BPM*,Instrument::RFB*"
+/
+
+&tao_d1_data
+    ix_d1_data = 3
+    default_weight = 1
+    d1_data%name = 'profx'
+    default_data_type = 'orbit.x'
+    default_data_source = 'lat'
+    search_for_lat_eles = "Instrument::YAG*,Instrument::OTR*"
+/
+
+&tao_d1_data
+    ix_d1_data = 4
+    default_weight = 1
+    d1_data%name = 'profy'
+    default_data_type = 'orbit.y'
+    default_data_source = 'lat'
+    search_for_lat_eles = "Instrument::YAG*,Instrument::OTR*"
+/
+
+&tao_d1_data
+    ix_d1_data = 5
+    default_weight = 1
+    d1_data%name = 'e'
+    default_data_type = 'orbit.e_tot'
+    default_data_source = 'lat'
+    search_for_lat_eles = "Instrument::BPM*,Instrument::RFB*"
 /
 
 
@@ -306,21 +377,8 @@ beam_init%center(6) = 0.0
     v1_var%name = 'linac_fudge'
 	default_step = 1e-4
 	default_attribute = 'f'
-	default_low_lim = 0.01
-	default_high_lim = 1.5
 	var(1:)%ele_name =  'O_L1_fudge', 'O_L2_fudge', 'O_L3_fudge'
 /
-
-
-&tao_var
-    v1_var%name = 'linac_phase'
-	default_step = 1e-2
-	default_attribute = 'phase_deg'
-	default_low_lim = -180
-	default_high_lim = 180
-	var(1:)%ele_name =  'O_L1', 'O_L2', 'O_L3'
-/
-
 
 
 

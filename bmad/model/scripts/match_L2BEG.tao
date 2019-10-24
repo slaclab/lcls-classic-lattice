@@ -1,0 +1,6 @@
+vv
+vd
+use dat L2
+use var begtwiss
+scycles 100
+run

@@ -12,12 +12,12 @@ beginning[theta_position] = -35*pi/180
 Beginning[z_position] = 3050.512000 - 1032.60052
 Beginning[x_position] = 10.44893
 
-call, file = $LCLS_LATTICE/bmad/master/LCLS_master.bmad
+call, file = $LCLS_CLASSIC_LATTICE/bmad/master/LCLS_master.bmad
 
 
 ! Bunch Compressor overlays
-call, file = $LCLS_LATTICE/bmad/overlays/bc1_overlays.bmad
-call, file = $LCLS_LATTICE/bmad/overlays/bc2_overlays.bmad
+call, file = $LCLS_CLASSIC_LATTICE/bmad/overlays/bc1_overlays.bmad
+call, file = $LCLS_CLASSIC_LATTICE/bmad/overlays/bc2_overlays.bmad
 
 !  BSYLTU  : LINE=(BSY,VBSYS,LTU,UND,UNDEXIT,DUMPLINE)
 !  BSYSFT  : LINE=(BSY,VBSYS,LTU,UND,UNDEXIT,PERMDUMP)
@@ -83,28 +83,30 @@ use, lat
 !use, LCLS
 
 ! Cavity wakefields, traveling wave, full sbend
-lcavity::K*[sr_wake_file]   = '$LCLS_LATTICE/bmad/wakefields/longitudinal_wakes_sband.bmad'
-lcavity::L1X*[sr_wake_file] = '$LCLS_LATTICE/bmad/wakefields/longitudinal_wakes_xband.bmad'
+lcavity::L0*[sr_wake]  = call::$LCLS_CLASSIC_LATTICE/bmad/wakefields/longitudinal_wakes_sband.bmad
+lcavity::K*[sr_wake]    = call::$LCLS_CLASSIC_LATTICE/bmad/wakefields/longitudinal_wakes_sband.bmad
+lcavity::L1X*[sr_wake]  = call::$LCLS_CLASSIC_LATTICE/bmad/wakefields/longitudinal_wakes_xband.bmad
 lcavity::*[cavity_type] = traveling_wave
 sbend::*[fringe_type] = full
 
 
-! Resistive wall, instantaneous
-RWWAKECU[sr_wake_file] = '$LCLS_LATTICE/bmad/wakefields/wakefield_Cu_17.4mmR.bmad'
-RWWAKECU[sr_wake_scale_with_length] = F
-RWWAKECU[wake_amp_scale] = 339.0
 
-RWWAKEU[sr_wake_file] = '$LCLS_LATTICE/bmad/wakefields/wakefield_Al_5mm_gap_flat.bmad'
-RWWAKEU[sr_wake_scale_with_length] = F
-RWWAKEU[wake_amp_scale] = 130
+! Resistive wall, instantaneous
+RWWAKECU[sr_wake] = call::$LCLS_CLASSIC_LATTICE/bmad/wakefields/wakefield_Cu_17.4mmR.bmad
+RWWAKECU[sr_wake%scale_with_length] = F
+RWWAKECU[sr_wake%amp_scale] = 339.0
+
+RWWAKEU[sr_wake] = call::$LCLS_CLASSIC_LATTICE/bmad/wakefields/wakefield_Al_5mm_gap_flat.bmad
+RWWAKEU[sr_wake%scale_with_length] = F
+RWWAKEU[sr_wake%amp_scale] = 130
 
 
 ! 
-call, file = $LCLS_LATTICE/bmad/overlays/klystrons.bmad
-call, file = $LCLS_LATTICE/bmad/overlays/klystron_design_settings.bmad
-call, file = $LCLS_LATTICE/bmad/overlays/linac_phase_overlays.bmad 
+call, file = $LCLS_CLASSIC_LATTICE/bmad/overlays/klystrons.bmad
+call, file = $LCLS_CLASSIC_LATTICE/bmad/overlays/klystron_design_settings.bmad
+call, file = $LCLS_CLASSIC_LATTICE/bmad/overlays/linac_phase_overlays.bmad 
 
-call, file = $LCLS_LATTICE/bmad/overlays/linac_phase_defaults.bmad 
+call, file = $LCLS_CLASSIC_LATTICE/bmad/overlays/linac_phase_defaults.bmad 
 
 ! Live settings
 !call, file = settings/quad_settings.bmad
@@ -112,7 +114,7 @@ call, file = $LCLS_LATTICE/bmad/overlays/linac_phase_defaults.bmad
 !call, file = settings/linac_settings.bmad
 
 !Overall fudge
-call, file = $LCLS_LATTICE/bmad/overlays/linac_fudge_overlays.bmad
+call, file = $LCLS_CLASSIC_LATTICE/bmad/overlays/linac_fudge_overlays.bmad
 
 
 
