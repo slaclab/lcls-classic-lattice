@@ -9,4 +9,4 @@ scycles 20
 olmdif
 run
 
-set global plot_on = T
+!set global plot_on = T

@@ -6,4 +6,4 @@ use dat BC2.offset[1]
 use var BC_angle
 scycles 10
 run
-set global plot_on = T
+!set global plot_on = T

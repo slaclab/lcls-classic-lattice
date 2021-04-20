@@ -90,6 +90,8 @@ lcavity::*[cavity_type] = traveling_wave
 sbend::*[fringe_type] = full
 
 
+TCAV0[rf_frequency] = 1
+TCAV3[rf_frequency] = 1
 
 ! Resistive wall, instantaneous
 RWWAKECU[sr_wake] = call::$LCLS_CLASSIC_LATTICE/bmad/wakefields/wakefield_Cu_17.4mmR.bmad
