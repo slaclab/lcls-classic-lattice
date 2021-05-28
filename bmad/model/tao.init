@@ -170,7 +170,7 @@ beam_init%center(6) = 0.0
 &tao_d2_data
         d2_data%name = 'BC1'
         universe = 1
-        n_d1_data = 4
+        n_d1_data = 5
 /
 &tao_d1_data
         ix_d1_data = 1
@@ -205,13 +205,20 @@ beam_init%center(6) = 0.0
         d1_data%name = 'r56'
         datum( 1) =  'momentum_compaction'        'BC1BEG'  '' 'BC1END'   'target'  0   
 / 
+&tao_d1_data
+        ix_d1_data = 5
+        default_weight = 1
+        d1_data%name = 'beam'
+        datum( 1) =  'sigma.z'        ''  '' 'BC1END'   'target'  0   
+/ 
+
 
  
 
 &tao_d2_data
         d2_data%name = 'BC2'
         universe = 1
-        n_d1_data = 3
+        n_d1_data = 4
 /
 &tao_d1_data
         ix_d1_data = 1
@@ -240,6 +247,14 @@ beam_init%center(6) = 0.0
         datum( 1) =  'rel_floor.x'     'BC2BEG' '' 'BX22B'   'target'   3.61624634E-01    1e1
    
  / 
+&tao_d1_data
+        ix_d1_data = 4
+        default_weight = 1
+        d1_data%name = 'beam'
+        datum( 1) =  'sigma.z'        ''  '' 'BC1END'   'target'  0   
+/ 
+
+
 
 
 &tao_d2_data
